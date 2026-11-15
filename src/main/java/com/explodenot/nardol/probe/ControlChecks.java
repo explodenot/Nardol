@@ -19,10 +19,23 @@ public final class ControlChecks {
 
     public static Diagnostic run() {
         boolean dnsOk = false;
-        try {
-            InetAddress addr = InetAddress.getByName("one.one.one.one");
-            dnsOk = (addr != null);
-        } catch (Exception ignored) {}
+        // Check DNS resolution across multiple major public DNS resolver domains:
+        // Cloudflare (one.one.one.one), Google (dns.google), Quad9 (dns.quad9.net), Cisco Umbrella (dns.umbrella.com)
+        String[] resolverCheckHosts = {
+            "one.one.one.one",
+            "dns.google",
+            "dns.quad9.net",
+            "dns.umbrella.com"
+        };
+        for (String resolverHost : resolverCheckHosts) {
+            try {
+                InetAddress addr = InetAddress.getByName(resolverHost);
+                if (addr != null) {
+                    dnsOk = true;
+                    break;
+                }
+            } catch (Exception ignored) {}
+        }
 
         boolean rawIpOk = false;
         // Probe raw IP endpoints across multiple providers (Cloudflare, Google, Quad9, Cisco Umbrella)
