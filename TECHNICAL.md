@@ -664,11 +664,27 @@ In automated workflows that sign updated target lists, pass the secret as an env
 ```
 `SignListTool` automatically detects `NARDOL_ED25519_PRIVATE_KEY` if present in the environment and decodes the PKCS#8 key directly in memory without writing it to disk.
 
-#### 3. Summary of Required GitHub Secrets
-| Secret Name | Purpose | Required For |
-|---|---|---|
-| `NARDOL_ED25519_PRIVATE_KEY` | Base64-encoded Ed25519 PKCS#8 private key | Target list update/signing scripts |
-| `GITHUB_TOKEN` | Built-in GitHub Actions token (automatic) | Publishing releases in `release.yml` |
+#### 3. Summary of Required GitHub Secrets & Environment Variables
+
+| Secret / Env Var | Where to Set | Purpose | Required For |
+|---|---|---|---|
+| `NARDOL_ED25519_PRIVATE_KEY` | GitHub Repo Secret & Local Env (optional) | Base64-encoded Ed25519 PKCS#8 private key | Target list update/signing scripts |
+| `GITHUB_TOKEN` | Automatically provided by GitHub Actions | GitHub API release creation permissions | `release.yml` automated release tagging |
+
+> [!NOTE]
+> `GITHUB_TOKEN` is automatically provisioned and rotated by GitHub Actions for every workflow run. You do **not** need to create or copy `GITHUB_TOKEN` manually in repository settings.
+
+#### 4. Local Signing via Environment Variable
+
+If you prefer not to keep `tools/keys/ed25519-private.key` on disk locally, you can export `NARDOL_ED25519_PRIVATE_KEY` directly in your shell session:
+```bash
+# Export secret key in memory (replace with your key if regenerated)
+export NARDOL_ED25519_PRIVATE_KEY="MC4CAQAwBQYDK2VwBCIEIE/cC2SaekOkgAnSCR6MRALdmjvEdI+YY43tyGadXuPc"
+
+# Run the signing tool directly
+java tools/SignListTool.java src/main/resources/targets.tsv
+```
+`SignListTool` inspects the environment first; if `NARDOL_ED25519_PRIVATE_KEY` is present, it signs entirely in memory without writing any private key files to disk.
 
 ---
 
