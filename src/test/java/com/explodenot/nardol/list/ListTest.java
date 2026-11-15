@@ -46,6 +46,19 @@ class ListTest {
     }
 
     @Test
+    void testValidationRejectsBogonIpLiterals() throws IOException {
+        String bogon = """
+            reg-local\tNorth America\tUS\tAshburn\taws\t127.0.0.1\t443\t39.04\t-77.49\tprimary
+            reg-priv\tNorth America\tUS\tAshburn\taws\t10.0.0.1\t443\t39.04\t-77.49\tprimary
+            reg-meta\tNorth America\tUS\tAshburn\taws\t169.254.169.254\t443\t39.04\t-77.49\tprimary
+            """;
+
+        TsvParser.ParseResult res = TsvParser.parse(bogon);
+        assertThat(res.validTargets()).isEqualTo(0);
+        assertThat(res.invalidLines()).isEqualTo(3);
+    }
+
+    @Test
     void testJsonParser() throws IOException {
         String json = """
             [

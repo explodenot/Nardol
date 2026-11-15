@@ -28,6 +28,7 @@ na-us-central-il	North America	US	Chicago	edu	www.uchicago.edu	443	41.88	-87.63	
 na-us-west-ca-n	North America	US	Fremont	aws	dynamodb.us-west-1.amazonaws.com	443	37.55	-121.99	primary
 na-us-west-ca-n	North America	US	Fremont	linode	speedtest.fremont.linode.com	443	37.55	-121.99	fallback
 na-us-west-ca-n	North America	US	Fremont	digitalocean	speedtest-sfo3.digitalocean.com	443	37.55	-121.99	fallback
+na-us-west-ca-n	North America	US	Fremont	cisco	dns.umbrella.com	443	37.55	-121.99	fallback
 na-us-west-ca-s	North America	US	Los Angeles	vultr	lax-ca-us-ping.vultr.com	443	34.05	-118.24	primary
 na-us-west-ca-s	North America	US	Los Angeles	edu	www.ucla.edu	443	34.05	-118.24	fallback
 na-us-west-az	North America	US	Phoenix	oci	objectstorage.us-phoenix-1.oraclecloud.com	443	33.45	-112.07	primary
@@ -86,6 +87,7 @@ eu-nl-amsterdam	Europe	NL	Amsterdam	digitalocean	speedtest-ams3.digitalocean.com
 eu-nl-amsterdam	Europe	NL	Amsterdam	edu	www.uva.nl	443	52.37	4.90	fallback
 eu-ch-zurich	Europe	CH	Zurich	aws	dynamodb.eu-central-2.amazonaws.com	443	47.37	8.54	primary
 eu-ch-zurich	Europe	CH	Zurich	oci	objectstorage.eu-zurich-1.oraclecloud.com	443	47.37	8.54	fallback
+eu-ch-zurich	Europe	CH	Zurich	quad9	dns.quad9.net	443	47.37	8.54	fallback
 eu-ch-zurich	Europe	CH	Zurich	edu	www.ethz.ch	443	47.37	8.54	fallback
 eu-it-milan	Europe	IT	Milan	aws	dynamodb.eu-south-1.amazonaws.com	443	45.46	9.19	primary
 eu-it-milan	Europe	IT	Milan	oci	objectstorage.eu-milan-1.oraclecloud.com	443	45.46	9.19	fallback

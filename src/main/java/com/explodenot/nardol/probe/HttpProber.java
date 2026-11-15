@@ -45,6 +45,14 @@ public final class HttpProber implements Prober {
 
     @Override
     public ProbeOutcome probe(Target target, Duration timeout, AddressFamily addressFamily) {
+        // Validate against private/bogon destinations before sending HTTP requests
+        FailureClassifier.ResolvedTarget resolved;
+        try {
+            resolved = FailureClassifier.resolve(target.host(), addressFamily);
+        } catch (Throwable t) {
+            return FailureClassifier.classify(t);
+        }
+
         String scheme = (target.port() == 80 || target.port() == 8080 || target.port() != 443 && target.host().equals("127.0.0.1")) ? "http" : "https";
         String url = scheme + "://" + target.host() + ":" + target.port() + "/";
 

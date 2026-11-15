@@ -48,4 +48,26 @@ class FailureClassifierTest {
         ControlChecks.Diagnostic d = ControlChecks.run();
         assertThat(d).isNotNull();
     }
+
+    @Test
+    void testBogonAndPrivateDetection() throws Exception {
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("127.0.0.1"))).isTrue();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("10.1.2.3"))).isTrue();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("192.168.1.1"))).isTrue();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("169.254.169.254"))).isTrue();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("172.16.0.1"))).isTrue();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("::1"))).isTrue();
+
+        // Public IPs should not be bogon/private
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("1.1.1.1"))).isFalse();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("8.8.8.8"))).isFalse();
+        assertThat(FailureClassifier.isBogonOrPrivate(java.net.InetAddress.getByName("9.9.9.9"))).isFalse();
+    }
+
+    @Test
+    void testClassifyBlocked() {
+        ProbeOutcome.Failure f = FailureClassifier.classify(new SecurityException("Destination resolves to private/bogon IP address: 127.0.0.1"));
+        assertThat(f).isInstanceOf(ProbeOutcome.Failure.Blocked.class);
+        assertThat(f.message()).contains("private/bogon");
+    }
 }

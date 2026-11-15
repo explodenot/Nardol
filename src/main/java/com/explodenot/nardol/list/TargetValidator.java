@@ -70,6 +70,31 @@ public final class TargetValidator {
             return ValidationResult.fail("Host contains invalid characters: " + host);
         }
 
+        // Validate that IP literals are not private or bogon
+        if (isIpLiteral(host.trim())) {
+            try {
+                java.net.InetAddress addr = java.net.InetAddress.getByName(host.trim());
+                if (com.explodenot.nardol.probe.FailureClassifier.isBogonOrPrivate(addr)) {
+                    return ValidationResult.fail("Target host cannot be a private or bogon IP literal: " + host);
+                }
+            } catch (Exception ignored) {}
+        }
+
         return ValidationResult.ok();
+    }
+
+    private static boolean isIpLiteral(String host) {
+        if (host.contains(":")) return true; // IPv6
+        String[] parts = host.split("\\.");
+        if (parts.length != 4) return false;
+        for (String p : parts) {
+            try {
+                int n = Integer.parseInt(p);
+                if (n < 0 || n > 255) return false;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
     }
 }

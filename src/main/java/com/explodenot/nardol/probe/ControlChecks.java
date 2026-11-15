@@ -25,16 +25,30 @@ public final class ControlChecks {
         } catch (Exception ignored) {}
 
         boolean rawIpOk = false;
-        // Probe raw IP 1.1.1.1 on port 53 or 80 with short timeout (no DNS needed)
-        try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress("1.1.1.1", 53), 1500);
-            rawIpOk = true;
-        } catch (Exception ignored) {
-            // Try 8.8.8.8:53
+        // Probe raw IP endpoints across multiple providers (Cloudflare, Google, Quad9, Cisco Umbrella)
+        // on port 53 (DNS) and port 443 (HTTPS) across IPv4 and IPv6
+        record RawTarget(String host, int port) {}
+        RawTarget[] rawTargets = new RawTarget[]{
+            new RawTarget("1.1.1.1", 53),
+            new RawTarget("1.1.1.1", 443),
+            new RawTarget("8.8.8.8", 53),
+            new RawTarget("8.8.8.8", 443),
+            new RawTarget("9.9.9.9", 53),
+            new RawTarget("9.9.9.9", 443),
+            new RawTarget("208.67.222.222", 53),
+            new RawTarget("208.67.222.222", 443),
+            new RawTarget("2606:4700:4700::1111", 53),
+            new RawTarget("2001:4860:4860::8888", 53),
+            new RawTarget("2620:fe::fe", 53),
+            new RawTarget("2620:119:35::35", 53)
+        };
+
+        for (RawTarget target : rawTargets) {
             try (Socket socket = new Socket()) {
-                socket.connect(new InetSocketAddress("8.8.8.8", 53), 1500);
+                socket.connect(new InetSocketAddress(target.host(), target.port()), 1500);
                 rawIpOk = true;
-            } catch (Exception ignored2) {}
+                break;
+            } catch (Exception ignored) {}
         }
 
         // Check proxy variables

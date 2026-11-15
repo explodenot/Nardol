@@ -20,6 +20,7 @@ public sealed interface ProbeOutcome permits ProbeOutcome.Success, ProbeOutcome.
         Failure.Unreachable,
         Failure.TlsFailure,
         Failure.HttpFailure,
+        Failure.Blocked,
         Failure.Other {
 
         String message();
@@ -30,6 +31,7 @@ public sealed interface ProbeOutcome permits ProbeOutcome.Success, ProbeOutcome.
         record Unreachable(String message) implements Failure {}
         record TlsFailure(String message) implements Failure {}
         record HttpFailure(String message, int statusCode) implements Failure {}
+        record Blocked(String message) implements Failure {}
         record Other(String message) implements Failure {}
     }
 }

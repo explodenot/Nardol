@@ -66,6 +66,9 @@ public final class ReportRenderer {
         String targetInfo = "";
         if (r.winningTarget() != null) {
             targetInfo = r.winningTarget().provider() + " (" + r.winningTarget().host() + ")";
+            if (r.candidateSwitched() && r.primaryFailureMessage() != null) {
+                targetInfo += " [switched from primary: " + r.primaryFailureMessage() + "]";
+            }
         } else if (r.primaryFailureMessage() != null) {
             targetInfo = r.primaryFailureMessage();
         }

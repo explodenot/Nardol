@@ -51,7 +51,7 @@ public class DoctorCommand implements Callable<Integer> {
         System.out.println("\nChecking network connectivity:");
         ControlChecks.Diagnostic diag = ControlChecks.run();
         System.out.printf("  DNS resolution (one.one.one.one): %s%n", diag.dnsOk() ? ansi.color(Rgb.GREEN, "OK") : ansi.color(Rgb.RED, "FAILED"));
-        System.out.printf("  Raw IP reachability (1.1.1.1:53 / 8.8.8.8:53): %s%n", diag.rawIpOk() ? ansi.color(Rgb.GREEN, "OK") : ansi.color(Rgb.RED, "FAILED"));
+        System.out.printf("  Raw IP reachability (1.1.1.1, 8.8.8.8, Quad9 9.9.9.9, Cisco Umbrella 208.67.222.222 on 53/443, plus IPv6): %s%n", diag.rawIpOk() ? ansi.color(Rgb.GREEN, "OK") : ansi.color(Rgb.RED, "FAILED"));
 
         if (diag.proxyDetected()) {
             System.out.println(ansi.color(Rgb.YELLOW, "  Proxy warning: " + diag.proxyWarning()));
