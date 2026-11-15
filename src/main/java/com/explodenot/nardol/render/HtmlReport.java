@@ -133,7 +133,8 @@ public final class HtmlReport {
               <div class="container">
                 <header>
                   <h1>Nardol Reachability Report</h1>
-                  <div class="subtitle">Generated: """);
+                  <div class="subtitle">Generated: \
+""");
         sb.append(escapeHtml(report.timestamp().toString()));
         sb.append(" · Mode: ").append(escapeHtml(report.probeMode()));
         sb.append(" · Tool: ").append(escapeHtml(report.toolVersion()));
@@ -181,7 +182,7 @@ public final class HtmlReport {
                     <line x1="0" y1="250" x2="1000" y2="250" stroke="#21262d" stroke-width="1" stroke-dasharray="4" />
                     <line x1="500" y1="0" x2="500" y2="500" stroke="#21262d" stroke-width="1" stroke-dasharray="4" />
                     <!-- Region Markers -->
-            """);
+""");
         sb.append(svgMarkers);
         sb.append("""
                   </svg>
@@ -203,7 +204,7 @@ public final class HtmlReport {
                       </tr>
                     </thead>
                     <tbody>
-            """);
+""");
         sb.append(rows);
         sb.append("""
                     </tbody>
@@ -212,13 +213,13 @@ public final class HtmlReport {
               </div>
 
               <script type="application/json" id="nardol-raw-json">
-            """);
+""");
         sb.append(json);
         sb.append("""
               </script>
             </body>
             </html>
-            """);
+""");
 
         return sb.toString();
     }

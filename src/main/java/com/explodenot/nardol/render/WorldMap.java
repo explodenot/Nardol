@@ -113,12 +113,12 @@ public final class WorldMap {
     private int lonToX(double lon, int width) {
         // -180..180 -> 0..width-1
         double norm = (lon + 180.0) / 360.0;
-        return (int) Math.clamp(Math.round(norm * (width - 1)), 0, width - 1);
+        return Math.clamp((int) Math.round(norm * (width - 1)), 0, width - 1);
     }
 
     private int latToY(double lat, int height) {
         // 90..-90 -> 0..height-1
         double norm = (90.0 - lat) / 180.0;
-        return (int) Math.clamp(Math.round(norm * (height - 1)), 0, height - 1);
+        return Math.clamp((int) Math.round(norm * (height - 1)), 0, height - 1);
     }
 }

@@ -82,7 +82,7 @@ public final class ReportRenderer {
             row.append(ansi.color(Rgb.forLatency(r.medianMs()), med)).append(" ");
 
             // Latency Bar (e.g. 10 chars max)
-            int barLen = (int) Math.clamp(Math.round(r.medianMs() / 25.0), 1, 12);
+            int barLen = Math.clamp((int) Math.round(r.medianMs() / 25.0), 1, 12);
             String bar = "█".repeat(barLen);
             row.append(ansi.color(Rgb.forLatency(r.medianMs()), TextWidth.padRight(bar, 13)));
 
