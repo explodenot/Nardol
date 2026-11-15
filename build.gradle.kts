@@ -65,7 +65,8 @@ tasks.shadowJar {
         attributes(
             "Main-Class" to "com.explodenot.gli.Main",
             "Implementation-Title" to "nardol",
-            "Implementation-Version" to project.version
+            "Implementation-Version" to project.version,
+            "Enable-Native-Access" to "ALL-UNNAMED"
         )
     }
     mergeServiceFiles()

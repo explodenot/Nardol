@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.cli.CliTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:46.830Z" hostname="Viruchiths-Mac-mini.local" time="1.183">
+<testsuite name="com.explodenot.gli.cli.CliTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:44:21.125Z" hostname="Viruchiths-Mac-mini.local" time="0.922">
   <properties/>
-  <testcase name="testListSourcesSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.013"/>
-  <testcase name="testListValidateSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.011"/>
-  <testcase name="testVersionOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.007"/>
-  <testcase name="testJsonOutputPipeClean()" classname="com.explodenot.gli.cli.CliTest" time="0.643"/>
-  <testcase name="testCompletionGeneration()" classname="com.explodenot.gli.cli.CliTest" time="0.029"/>
+  <testcase name="testListSourcesSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.015"/>
+  <testcase name="testListValidateSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.014"/>
+  <testcase name="testVersionOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.01"/>
+  <testcase name="testJsonOutputPipeClean()" classname="com.explodenot.gli.cli.CliTest" time="0.392"/>
+  <testcase name="testCompletionGeneration()" classname="com.explodenot.gli.cli.CliTest" time="0.027"/>
   <testcase name="testHelpOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.02"/>
-  <testcase name="testHtmlReportGenerationOffline()" classname="com.explodenot.gli.cli.CliTest" time="0.438"/>
-  <testcase name="testDoctorCommand()" classname="com.explodenot.gli.cli.CliTest" time="0.02"/>
+  <testcase name="testHtmlReportGenerationOffline()" classname="com.explodenot.gli.cli.CliTest" time="0.424"/>
+  <testcase name="testDoctorCommand()" classname="com.explodenot.gli.cli.CliTest" time="0.018"/>
   <system-out><![CDATA[Default remote URL: https://raw.githubusercontent.com/nardol/targets/main/targets.tsv
 Cache location:     /Users/viruchith/Library/Caches/nardol
 Bundled resource:   /targets.tsv (Ed25519 signed)
@@ -316,10 +316,73 @@ function _picocli_nardol() {
 function _picocli_nardol_run() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
+  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-  local flag_opts="-h --help -V --version"
-  local arg_opts=""
+  local flag_opts="--ipv4 --ipv6 --prefer-ipv6 --dual-stack --all-candidates --json --ndjson --csv --compact --verbose -v --quiet -q --no-history --force --debug --no-color --ascii --no-update --offline --insecure-skip-verify --allow-insecure-list -h --help -V --version"
+  local arg_opts="--region --exclude --provider --samples --timeout --concurrency --port --mode --lat --lon --sort --watch --count --color --theme --color-depth --list-file --list-url --list-mirror"
+
+  type compopt &>/dev/null && compopt +o default
+
+  case ${prev_word} in
+    --region)
+      return
+      ;;
+    --exclude)
+      return
+      ;;
+    --provider)
+      return
+      ;;
+    --samples)
+      return
+      ;;
+    --timeout)
+      return
+      ;;
+    --concurrency)
+      return
+      ;;
+    --port)
+      return
+      ;;
+    --mode)
+      return
+      ;;
+    --lat)
+      return
+      ;;
+    --lon)
+      return
+      ;;
+    --sort)
+      return
+      ;;
+    --watch)
+      return
+      ;;
+    --count)
+      return
+      ;;
+    --color)
+      return
+      ;;
+    --theme)
+      return
+      ;;
+    --color-depth)
+      return
+      ;;
+    --list-file)
+      return
+      ;;
+    --list-url)
+      return
+      ;;
+    --list-mirror)
+      return
+      ;;
+  esac
 
   if [[ "${curr_word}" == -* ]]; then
     COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
@@ -638,7 +701,7 @@ complete -F _complete_nardol -o default nardol nardol.sh nardol.bash
 |_|\_/_/ \_\_|_\___/ \___/|____| 
 Light the beacons, see who answers.?[0m?[0m
 
-?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report4461299514379321329.html
+?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report6846746089299418568.html
 ?[1m=== Nardol Environment Doctor ===?[0m
 Java Runtime: 21.0.13 (Amazon.com Inc.)
 Operating System: mac os x (aarch64)

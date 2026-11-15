@@ -455,9 +455,169 @@ public class NardolCommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
         NardolCommand parent;
 
+        @Option(names = {"--region"}, description = "Filter by region ID or continent (repeatable)")
+        List<String> regions;
+
+        @Option(names = {"--exclude"}, description = "Exclude region ID or continent (repeatable)")
+        List<String> excludes;
+
+        @Option(names = {"--provider"}, description = "Filter by provider name (aws, oci, vultr, etc.)")
+        String provider;
+
+        @Option(names = {"--samples"}, description = "Number of probe samples per target (default: 3)")
+        Integer samples;
+
+        @Option(names = {"--timeout"}, description = "Per-probe timeout in milliseconds (default: 3000)")
+        Integer timeoutMs;
+
+        @Option(names = {"--concurrency"}, description = "Max concurrent probes (default: 64)")
+        Integer concurrency;
+
+        @Option(names = {"--port"}, description = "Override target port")
+        Integer portOverride;
+
+        @Option(names = {"--mode"}, description = "Probe mode: tcp, tls, http (default: tcp)")
+        String mode;
+
+        @Option(names = {"--ipv4"}, description = "Probe using IPv4 only")
+        boolean ipv4;
+
+        @Option(names = {"--ipv6"}, description = "Probe using IPv6 only")
+        boolean ipv6;
+
+        @Option(names = {"--prefer-ipv6"}, description = "Prefer IPv6 addresses when resolving")
+        boolean preferIpv6;
+
+        @Option(names = {"--dual-stack"}, description = "Probe both IPv4 and IPv6 and compare results")
+        boolean dualStack;
+
+        @Option(names = {"--all-candidates"}, description = "Probe all fallback candidates in each group")
+        boolean allCandidates;
+
+        @Option(names = {"--lat"}, description = "User latitude for physics floor efficiency")
+        Double userLat;
+
+        @Option(names = {"--lon"}, description = "User longitude for physics floor efficiency")
+        Double userLon;
+
+        @Option(names = {"--json"}, description = "Output full report in JSON format to stdout")
+        boolean jsonOutput;
+
+        @Option(names = {"--ndjson"}, description = "Output newline-delimited JSON per region to stdout")
+        boolean ndjsonOutput;
+
+        @Option(names = {"--csv"}, description = "Output results in CSV format to stdout")
+        boolean csvOutput;
+
+        @Option(names = {"--compact"}, description = "Compact terminal report")
+        boolean compact;
+
+        @Option(names = {"--verbose", "-v"}, description = "Verbose terminal output (p95, loss, cipher)")
+        boolean verbose;
+
+        @Option(names = {"--quiet", "-q"}, description = "Quiet mode (no progress animation, suppresses banner)")
+        boolean quiet;
+
+        @Option(names = {"--sort"}, description = "Sort by: name, latency, delta, efficiency")
+        String sortOrder;
+
+        @Option(names = {"--watch"}, description = "Watch mode: repeat probe every N seconds")
+        Integer watchIntervalSeconds;
+
+        @Option(names = {"--count"}, description = "Number of probe iterations in watch mode")
+        Integer watchCount;
+
+        @Option(names = {"--no-history"}, description = "Do not append this run to local history")
+        boolean noHistory;
+
+        @Option(names = {"--force"}, description = "Force probing even if control checks fail")
+        boolean force;
+
+        @Option(names = {"--debug"}, description = "Print debug diagnostics and stack traces")
+        boolean debug;
+
+        @Option(names = {"--color"}, description = "Color mode: auto, always, never (default: auto)")
+        String colorMode;
+
+        @Option(names = {"--no-color"}, description = "Disable ANSI color output")
+        boolean noColor;
+
+        @Option(names = {"--theme"}, description = "Color theme: default, beacon, mono, high-contrast, solarized, nord")
+        String themeName;
+
+        @Option(names = {"--ascii"}, description = "Force ASCII glyphs instead of Unicode")
+        boolean ascii;
+
+        @Option(names = {"--color-depth"}, description = "Force color depth: 16, 256, truecolor")
+        String explicitColorDepth;
+
+        @Option(names = {"--list-file"}, description = "Path to local target list file")
+        String listFile;
+
+        @Option(names = {"--list-url"}, description = "Custom remote target list URL")
+        String listUrl;
+
+        @Option(names = {"--list-mirror"}, description = "Mirror URLs for list update (repeatable)")
+        List<String> listMirrors;
+
+        @Option(names = {"--no-update"}, description = "Do not fetch remote target list updates")
+        boolean noUpdate;
+
+        @Option(names = {"--offline"}, description = "Operate purely offline (cached/bundled list only)")
+        boolean offline;
+
+        @Option(names = {"--insecure-skip-verify"}, description = "Skip Ed25519 signature / sha256 checksum verification")
+        boolean insecureSkipVerify;
+
+        @Option(names = {"--allow-insecure-list"}, description = "Allow non-HTTPS target list URLs")
+        boolean allowInsecureList;
+
         @Override
         public Integer call() throws Exception {
+            mergeIntoParent();
             return parent.runProbes(false, false, null);
+        }
+
+        private void mergeIntoParent() {
+            if (regions != null) parent.regions = regions;
+            if (excludes != null) parent.excludes = excludes;
+            if (provider != null) parent.provider = provider;
+            if (samples != null) parent.samples = samples;
+            if (timeoutMs != null) parent.timeoutMs = timeoutMs;
+            if (concurrency != null) parent.concurrency = concurrency;
+            if (portOverride != null) parent.portOverride = portOverride;
+            if (mode != null) parent.mode = mode;
+            if (ipv4) parent.ipv4 = true;
+            if (ipv6) parent.ipv6 = true;
+            if (preferIpv6) parent.preferIpv6 = true;
+            if (dualStack) parent.dualStack = true;
+            if (allCandidates) parent.allCandidates = true;
+            if (userLat != null) parent.userLat = userLat;
+            if (userLon != null) parent.userLon = userLon;
+            if (jsonOutput) parent.jsonOutput = true;
+            if (ndjsonOutput) parent.ndjsonOutput = true;
+            if (csvOutput) parent.csvOutput = true;
+            if (compact) parent.compact = true;
+            if (verbose) parent.verbose = true;
+            if (quiet) parent.quiet = true;
+            if (sortOrder != null) parent.sortOrder = sortOrder;
+            if (watchIntervalSeconds != null) parent.watchIntervalSeconds = watchIntervalSeconds;
+            if (watchCount != null) parent.watchCount = watchCount;
+            if (noHistory) parent.noHistory = true;
+            if (force) parent.force = true;
+            if (debug) parent.debug = true;
+            if (colorMode != null) parent.colorMode = colorMode;
+            if (noColor) parent.noColor = true;
+            if (themeName != null) parent.themeName = themeName;
+            if (ascii) parent.ascii = true;
+            if (explicitColorDepth != null) parent.explicitColorDepth = explicitColorDepth;
+            if (listFile != null) parent.listFile = listFile;
+            if (listUrl != null) parent.listUrl = listUrl;
+            if (listMirrors != null) parent.listMirrors = listMirrors;
+            if (noUpdate) parent.noUpdate = true;
+            if (offline) parent.offline = true;
+            if (insecureSkipVerify) parent.insecureSkipVerify = true;
+            if (allowInsecureList) parent.allowInsecureList = true;
         }
     }
 

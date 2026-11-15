@@ -113,8 +113,22 @@ public final class ReportRenderer {
 
             if (verbose) {
                 String p95 = String.format(" p95:%4.0fms", r.p95Ms());
+                String jitter = String.format(" jit:%3.0fms", r.jitterMs());
                 String loss = String.format(" loss:%2.0f%%", r.lossPercent());
-                row.append(ansi.dim()).append(p95).append(loss).append(ansi.reset());
+                row.append(ansi.dim()).append(p95).append(jitter).append(loss).append(ansi.reset());
+
+                // Protocol & Cipher if TLS mode or protocol reported
+                if (r.samples() != null && !r.samples().isEmpty()) {
+                    var outcome = r.samples().get(0).outcome();
+                    if (outcome instanceof com.explodenot.gli.model.ProbeOutcome.Success succ) {
+                        if (succ.protocol() != null || succ.cipher() != null) {
+                            String tlsInfo = " [" + (succ.protocol() != null ? succ.protocol() : "") +
+                                             (succ.cipher() != null ? "/" + succ.cipher() : "") + "]";
+                            row.append(ansi.color(Rgb.CYAN, tlsInfo));
+                        }
+                    }
+                }
+
                 row.append(" ").append(ansi.dim()).append(targetInfo).append(ansi.reset());
             } else if (!compact) {
                 row.append(" ").append(ansi.dim()).append(TextWidth.truncate(targetInfo, 25)).append(ansi.reset());

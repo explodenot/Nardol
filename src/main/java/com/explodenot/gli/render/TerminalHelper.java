@@ -9,6 +9,10 @@ public final class TerminalHelper {
     private static Terminal jlineTerminal;
     private static boolean jlineFailed = false;
 
+    static {
+        System.setProperty("org.jline.terminal.disableDeprecatedProviderWarning", "true");
+    }
+
     private TerminalHelper() {}
 
     public static synchronized Terminal getTerminal() {
@@ -17,14 +21,24 @@ public final class TerminalHelper {
 
         try {
             jlineTerminal = TerminalBuilder.builder()
+                .jansi(false)
+                .jni(true)
                 .system(true)
                 .dumb(true)
                 .build();
             return jlineTerminal;
         } catch (Throwable t) {
-            jlineFailed = true;
-            System.err.println("Notice: JLine terminal provider unavailable (" + t.getMessage() + "), falling back to plain terminal mode.");
-            return null;
+            try {
+                jlineTerminal = TerminalBuilder.builder()
+                    .system(true)
+                    .dumb(true)
+                    .build();
+                return jlineTerminal;
+            } catch (Throwable t2) {
+                jlineFailed = true;
+                System.err.println("Notice: JLine terminal provider unavailable (" + t2.getMessage() + "), falling back to plain terminal mode.");
+                return null;
+            }
         }
     }
 

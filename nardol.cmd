@@ -11,4 +11,4 @@ for /f "delims=" %%I in ('dir /b /s "%DIR%build\libs\nardol-*-all.jar" 2^>nul') 
     goto :run
 )
 :run
-java -jar "%JAR%" %*
+java --enable-native-access=ALL-UNNAMED -Dorg.jline.terminal.disableDeprecatedProviderWarning=true -jar "%JAR%" %*

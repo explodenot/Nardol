@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.probe.ProbeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:48.069Z" hostname="Viruchiths-Mac-mini.local" time="0.156">
+<testsuite name="com.explodenot.gli.probe.ProbeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:44:22.115Z" hostname="Viruchiths-Mac-mini.local" time="0.161">
   <properties/>
-  <testcase name="testHttpProberSuccess()" classname="com.explodenot.gli.probe.ProbeTest" time="0.04"/>
+  <testcase name="testHttpProberSuccess()" classname="com.explodenot.gli.probe.ProbeTest" time="0.045"/>
   <testcase name="testDnsFailure()" classname="com.explodenot.gli.probe.ProbeTest" time="0.001"/>
-  <testcase name="testTcpProberRefused()" classname="com.explodenot.gli.probe.ProbeTest" time="0.001"/>
+  <testcase name="testTcpProberRefused()" classname="com.explodenot.gli.probe.ProbeTest" time="0.0"/>
   <testcase name="testTcpProberSuccess()" classname="com.explodenot.gli.probe.ProbeTest" time="0.0"/>
-  <testcase name="testProbeRunnerFallbackGroup()" classname="com.explodenot.gli.probe.ProbeTest" time="0.113"/>
+  <testcase name="testProbeRunnerFallbackGroup()" classname="com.explodenot.gli.probe.ProbeTest" time="0.112"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

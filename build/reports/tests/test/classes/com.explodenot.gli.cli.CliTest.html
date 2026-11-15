@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.181s</div>
+<div class="counter">0.920s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,12 +79,12 @@
 </thead>
 <tr>
 <td class="success">testCompletionGeneration()</td>
-<td class="success">0.029s</td>
+<td class="success">0.027s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testDoctorCommand()</td>
-<td class="success">0.020s</td>
+<td class="success">0.018s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -94,27 +94,27 @@
 </tr>
 <tr>
 <td class="success">testHtmlReportGenerationOffline()</td>
-<td class="success">0.438s</td>
+<td class="success">0.424s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testJsonOutputPipeClean()</td>
-<td class="success">0.643s</td>
+<td class="success">0.392s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testListSourcesSubcommand()</td>
-<td class="success">0.013s</td>
+<td class="success">0.015s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testListValidateSubcommand()</td>
-<td class="success">0.011s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testVersionOutput()</td>
-<td class="success">0.007s</td>
+<td class="success">0.010s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -429,10 +429,73 @@ function _picocli_nardol() {
 function _picocli_nardol_run() {
   # Get completion data
   local curr_word=${COMP_WORDS[COMP_CWORD]}
+  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=&quot;&quot;
-  local flag_opts=&quot;-h --help -V --version&quot;
-  local arg_opts=&quot;&quot;
+  local flag_opts=&quot;--ipv4 --ipv6 --prefer-ipv6 --dual-stack --all-candidates --json --ndjson --csv --compact --verbose -v --quiet -q --no-history --force --debug --no-color --ascii --no-update --offline --insecure-skip-verify --allow-insecure-list -h --help -V --version&quot;
+  local arg_opts=&quot;--region --exclude --provider --samples --timeout --concurrency --port --mode --lat --lon --sort --watch --count --color --theme --color-depth --list-file --list-url --list-mirror&quot;
+
+  type compopt &amp;&gt;/dev/null &amp;&amp; compopt +o default
+
+  case ${prev_word} in
+    --region)
+      return
+      ;;
+    --exclude)
+      return
+      ;;
+    --provider)
+      return
+      ;;
+    --samples)
+      return
+      ;;
+    --timeout)
+      return
+      ;;
+    --concurrency)
+      return
+      ;;
+    --port)
+      return
+      ;;
+    --mode)
+      return
+      ;;
+    --lat)
+      return
+      ;;
+    --lon)
+      return
+      ;;
+    --sort)
+      return
+      ;;
+    --watch)
+      return
+      ;;
+    --count)
+      return
+      ;;
+    --color)
+      return
+      ;;
+    --theme)
+      return
+      ;;
+    --color-depth)
+      return
+      ;;
+    --list-file)
+      return
+      ;;
+    --list-url)
+      return
+      ;;
+    --list-mirror)
+      return
+      ;;
+  esac
 
   if [[ &quot;${curr_word}&quot; == -* ]]; then
     COMPREPLY=( $(compgen -W &quot;${flag_opts} ${arg_opts}&quot; -- &quot;${curr_word}&quot;) )
@@ -751,7 +814,7 @@ complete -F _complete_nardol -o default nardol nardol.sh nardol.bash
 |_|\_/_/ \_\_|_\___/ \___/|____| 
 Light the beacons, see who answers.?[0m?[0m
 
-?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report4461299514379321329.html
+?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report6846746089299418568.html
 ?[1m=== Nardol Environment Doctor ===?[0m
 Java Runtime: 21.0.13 (Amazon.com Inc.)
 Operating System: mac os x (aarch64)
@@ -776,7 +839,7 @@ All environment checks passed cleanly!?[0m
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.5</a> at 15-Nov-2026, 7:05:48 pm</p>
+<a href="https://www.gradle.org">Gradle 8.14.5</a> at 15-Nov-2026, 7:14:22 pm</p>
 </div>
 </div>
 </body>

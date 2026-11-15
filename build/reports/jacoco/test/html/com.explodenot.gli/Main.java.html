@@ -5,18 +5,23 @@ import com.explodenot.gli.cli.NardolCommand;
 import picocli.CommandLine;
 
 <span class="nc" id="L7">public final class Main {</span>
+    static {
+        // Suppress JLine deprecated terminal provider warning
+<span class="nc" id="L10">        System.setProperty(&quot;org.jline.terminal.disableDeprecatedProviderWarning&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L11">    }</span>
+
     public static void main(String[] args) {
-<span class="nc" id="L9">        CommandLine cmd = new CommandLine(new NardolCommand());</span>
-<span class="nc" id="L10">        cmd.setExecutionExceptionHandler((ex, commandLine, parseResult) -&gt; {</span>
-<span class="nc" id="L11">            System.err.println(&quot;Error: &quot; + ex.getMessage());</span>
-<span class="nc bnc" id="L12" title="All 2 branches missed.">            if (parseResult.hasMatchedOption(&quot;--debug&quot;)) {</span>
-<span class="nc" id="L13">                ex.printStackTrace();</span>
+<span class="nc" id="L14">        CommandLine cmd = new CommandLine(new NardolCommand());</span>
+<span class="nc" id="L15">        cmd.setExecutionExceptionHandler((ex, commandLine, parseResult) -&gt; {</span>
+<span class="nc" id="L16">            System.err.println(&quot;Error: &quot; + ex.getMessage());</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            if (parseResult.hasMatchedOption(&quot;--debug&quot;)) {</span>
+<span class="nc" id="L18">                ex.printStackTrace();</span>
             }
-<span class="nc" id="L15">            return ExitCodes.INTERNAL_ERROR;</span>
+<span class="nc" id="L20">            return ExitCodes.INTERNAL_ERROR;</span>
         });
 
-<span class="nc" id="L18">        int exitCode = cmd.execute(args);</span>
-<span class="nc" id="L19">        System.exit(exitCode);</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L23">        int exitCode = cmd.execute(args);</span>
+<span class="nc" id="L24">        System.exit(exitCode);</span>
+<span class="nc" id="L25">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

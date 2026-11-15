@@ -2,4 +2,5 @@ Manifest-Version: 1.0
 Main-Class: com.explodenot.gli.Main
 Implementation-Title: nardol
 Implementation-Version: 2.0.0
+Enable-Native-Access: ALL-UNNAMED
 

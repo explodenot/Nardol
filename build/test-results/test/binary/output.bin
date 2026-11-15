@@ -306,10 +306,73 @@
 !function _picocli_nardol_run() {
   # Get completion data
 ,  local curr_word=${COMP_WORDS[COMP_CWORD]}
+.  local prev_word=${COMP_WORDS[COMP_CWORD-1]}
 
   local commands=""
-+  local flag_opts="-h --help -V --version"
-  local arg_opts=""
+�  local flag_opts="--ipv4 --ipv6 --prefer-ipv6 --dual-stack --all-candidates --json --ndjson --csv --compact --verbose -v --quiet -q --no-history --force --debug --no-color --ascii --no-update --offline --insecure-skip-verify --allow-insecure-list -h --help -V --version"
+�  local arg_opts="--region --exclude --provider --samples --timeout --concurrency --port --mode --lat --lon --sort --watch --count --color --theme --color-depth --list-file --list-url --list-mirror"
+
+1  type compopt &>/dev/null && compopt +o default
+
+  case ${prev_word} in
+    --region)
+      return
+	      ;;
+    --exclude)
+      return
+	      ;;
+    --provider)
+      return
+	      ;;
+    --samples)
+      return
+	      ;;
+    --timeout)
+      return
+	      ;;
+    --concurrency)
+      return
+	      ;;
+    --port)
+      return
+	      ;;
+    --mode)
+      return
+	      ;;
+    --lat)
+      return
+	      ;;
+    --lon)
+      return
+	      ;;
+    --sort)
+      return
+	      ;;
+    --watch)
+      return
+	      ;;
+    --count)
+      return
+	      ;;
+    --color)
+      return
+	      ;;
+    --theme)
+      return
+	      ;;
+    --color-depth)
+      return
+	      ;;
+    --list-file)
+      return
+	      ;;
+    --list-url)
+      return
+	      ;;
+    --list-mirror)
+      return
+	      ;;
+  esac
 
 &  if [[ "${curr_word}" == -* ]]; then
 M    COMPREPLY=( $(compgen -W "${flag_opts} ${arg_opts}" -- "${curr_word}") )
@@ -629,7 +692,7 @@
 ,Light the beacons, see who answers.[0m[0m
 
 [?25l�[38;2;52;152;219m⠋[0m [1mProbing regions:[0m 0/1 (0%)  [38;2;46;204;113m✔ 0[0m  [38;2;241;196;15m▲ 0[0m  [38;2;231;76;60m✖ 0[0m  [0s]�[38;2;52;152;219m⠙[0m [1mProbing regions:[0m 0/1 (0%)  [38;2;46;204;113m✔ 0[0m  [38;2;241;196;15m▲ 0[0m  [38;2;231;76;60m✖ 0[0m  [0s]�[38;2;52;152;219m⠹[0m [1mProbing regions:[0m 0/1 (0%)  [38;2;46;204;113m✔ 0[0m  [38;2;241;196;15m▲ 0[0m  [38;2;231;76;60m✖ 0[0m  [0s]�[38;2;52;152;219m⠸[0m [1mProbing regions:[0m 0/1 (0%)  [38;2;46;204;113m✔ 0[0m  [38;2;241;196;15m▲ 0[0m  [38;2;231;76;60m✖ 0[0m  [0s]
-[K[?25hxGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report4461299514379321329.html
+[K[?25hxGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report6846746089299418568.html
 *[1m=== Nardol Environment Doctor ===[0m
 (Java Runtime: 21.0.13 (Amazon.com Inc.)
 %Operating System: mac os x (aarch64)
@@ -643,19 +706,32 @@
 ,  Proxies: none detected in environment/JVM
 [38;2;46;204;113m
 +All environment checks passed cleanly![0m
-3[1m=== History Records (12 total samples) ===[0m
+3[1m=== History Records (81 total samples) ===[0m
 VTimestamp            Region           Host                          Median     Status
-l2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    279.7 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    502.5 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    265.0 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    301.5 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:33:46  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.4 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:33:18  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.0 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:33:01  na-us-east-va    dynamodb.us-east-1.amazonaws.com    276.6 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:33:00  na-us-east-va    dynamodb.us-east-1.amazonaws.com    285.5 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:32:48  na-us-east-va    dynamodb.us-east-1.amazonaws.com    295.3 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:32:48  na-us-east-va    dynamodb.us-east-1.amazonaws.com    312.4 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:32:19  na-us-east-va    dynamodb.us-east-1.amazonaws.com    278.3 ms [38;2;46;204;113mOK[0m
-l2026-11-15T13:32:19  na-us-east-va    dynamodb.us-east-1.amazonaws.com    583.2 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:44:22  na-us-east-va    dynamodb.us-east-1.amazonaws.com    274.8 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:44:21  na-us-east-va    dynamodb.us-east-1.amazonaws.com    250.3 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:44:13  na-us-east-va    dynamodb.us-east-1.amazonaws.com    554.0 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:44:07  na-us-east-va    dynamodb.us-east-1.amazonaws.com    272.7 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:42:29  na-us-east-va    dynamodb.us-east-1.amazonaws.com    279.4 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  oc-nz-auckland   www.auckland.ac.nz            11.7 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  oc-au-perth      www.uwa.edu.au                 9.6 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  oc-au-melbourne  dynamodb.ap-southeast-4.amazonaws.com    267.1 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  oc-au-sydney     dynamodb.ap-southeast-2.amazonaws.com    241.3 ms [38;2;46;204;113mOK[0m
+x2026-11-15T13:38:57  as-kr-chuncheon  objectstorage.ap-chuncheon-1.oraclecloud.com    146.5 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  as-kr-seoul      dynamodb.ap-northeast-2.amazonaws.com    111.5 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  as-jp-osaka      dynamodb.ap-northeast-3.amazonaws.com    119.5 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  as-jp-tokyo      dynamodb.ap-northeast-1.amazonaws.com    111.5 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-tw-taipei     www.ntu.edu.tw               121.3 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-cn-beijing    www.tsinghua.edu.cn          116.7 ms [38;2;46;204;113mOK[0m
+l2026-11-15T13:38:57  as-hk-hongkong   dynamodb.ap-east-1.amazonaws.com     94.2 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-th-bangkok    www.chula.ac.th               37.2 ms [38;2;46;204;113mOK[0m
+r2026-11-15T13:38:57  as-my-kualalumpur dynamodb.ap-southeast-5.amazonaws.com     63.2 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  as-id-jakarta    dynamodb.ap-southeast-3.amazonaws.com     63.7 ms [38;2;46;204;113mOK[0m
+q2026-11-15T13:38:57  as-sg-singapore  dynamodb.ap-southeast-1.amazonaws.com     45.9 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-in-chennai    www.iitm.ac.in                10.7 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-in-bangalore  blr-in-ping.vultr.com         22.2 ms [38;2;46;204;113mOK[0m
+e2026-11-15T13:38:57  as-in-delhi      del-in-ping.vultr.com         49.7 ms [38;2;46;204;113mOK[0m
+m2026-11-15T13:38:57  as-in-hyderabad  dynamodb.ap-south-2.amazonaws.com     22.8 ms [38;2;46;204;113mOK[0m
+m2026-11-15T13:38:57  as-in-mumbai     dynamodb.ap-south-1.amazonaws.com     31.4 ms [38;2;46;204;113mOK[0m
 Updated samples = 5
 !Configuration reset to defaults.

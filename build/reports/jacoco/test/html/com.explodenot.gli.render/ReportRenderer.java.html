@@ -113,52 +113,66 @@ public final class ReportRenderer {
 
 <span class="nc bnc" id="L114" title="All 2 branches missed.">            if (verbose) {</span>
 <span class="nc" id="L115">                String p95 = String.format(&quot; p95:%4.0fms&quot;, r.p95Ms());</span>
-<span class="nc" id="L116">                String loss = String.format(&quot; loss:%2.0f%%&quot;, r.lossPercent());</span>
-<span class="nc" id="L117">                row.append(ansi.dim()).append(p95).append(loss).append(ansi.reset());</span>
-<span class="nc" id="L118">                row.append(&quot; &quot;).append(ansi.dim()).append(targetInfo).append(ansi.reset());</span>
-<span class="nc bnc" id="L119" title="All 2 branches missed.">            } else if (!compact) {</span>
-<span class="nc" id="L120">                row.append(&quot; &quot;).append(ansi.dim()).append(TextWidth.truncate(targetInfo, 25)).append(ansi.reset());</span>
+<span class="nc" id="L116">                String jitter = String.format(&quot; jit:%3.0fms&quot;, r.jitterMs());</span>
+<span class="nc" id="L117">                String loss = String.format(&quot; loss:%2.0f%%&quot;, r.lossPercent());</span>
+<span class="nc" id="L118">                row.append(ansi.dim()).append(p95).append(jitter).append(loss).append(ansi.reset());</span>
+
+                // Protocol &amp; Cipher if TLS mode or protocol reported
+<span class="nc bnc" id="L121" title="All 4 branches missed.">                if (r.samples() != null &amp;&amp; !r.samples().isEmpty()) {</span>
+<span class="nc" id="L122">                    var outcome = r.samples().get(0).outcome();</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                    if (outcome instanceof com.explodenot.gli.model.ProbeOutcome.Success succ) {</span>
+<span class="nc bnc" id="L124" title="All 4 branches missed.">                        if (succ.protocol() != null || succ.cipher() != null) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                            String tlsInfo = &quot; [&quot; + (succ.protocol() != null ? succ.protocol() : &quot;&quot;) +</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                                             (succ.cipher() != null ? &quot;/&quot; + succ.cipher() : &quot;&quot;) + &quot;]&quot;;</span>
+<span class="nc" id="L127">                            row.append(ansi.color(Rgb.CYAN, tlsInfo));</span>
+                        }
+                    }
+                }
+
+<span class="nc" id="L132">                row.append(&quot; &quot;).append(ansi.dim()).append(targetInfo).append(ansi.reset());</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">            } else if (!compact) {</span>
+<span class="nc" id="L134">                row.append(&quot; &quot;).append(ansi.dim()).append(TextWidth.truncate(targetInfo, 25)).append(ansi.reset());</span>
             }
-<span class="nc" id="L122">        } else {</span>
-<span class="nc" id="L123">            row.append(ansi.color(Rgb.RED, &quot;     DOWN   &quot;));</span>
-<span class="nc" id="L124">            row.append(ansi.dim()).append(TextWidth.truncate(targetInfo, 35)).append(ansi.reset());</span>
+<span class="nc" id="L136">        } else {</span>
+<span class="nc" id="L137">            row.append(ansi.color(Rgb.RED, &quot;     DOWN   &quot;));</span>
+<span class="nc" id="L138">            row.append(ansi.dim()).append(TextWidth.truncate(targetInfo, 35)).append(ansi.reset());</span>
         }
 
-<span class="nc" id="L127">        out.println(TextWidth.truncate(row.toString(), termWidth));</span>
-<span class="nc" id="L128">    }</span>
+<span class="nc" id="L141">        out.println(TextWidth.truncate(row.toString(), termWidth));</span>
+<span class="nc" id="L142">    }</span>
 
     private void renderSummary(RunReport rep, int termWidth) {
-<span class="nc" id="L131">        out.println(ansi.bold() + &quot;╭──────────────────────────────── Summary ────────────────────────────────╮&quot; + ansi.reset());</span>
-<span class="nc" id="L132">        String statLine = String.format(</span>
+<span class="nc" id="L145">        out.println(ansi.bold() + &quot;╭──────────────────────────────── Summary ────────────────────────────────╮&quot; + ansi.reset());</span>
+<span class="nc" id="L146">        String statLine = String.format(</span>
             &quot;│ Reachability: %s reachable · %s degraded · %s down&quot;,
-<span class="nc" id="L134">            ansi.color(Rgb.GREEN, rep.reachableRegions() + &quot;/&quot; + rep.totalRegions()),</span>
-<span class="nc" id="L135">            ansi.color(Rgb.YELLOW, String.valueOf(rep.degradedRegions())),</span>
-<span class="nc" id="L136">            ansi.color(Rgb.RED, String.valueOf(rep.unreachableRegions()))</span>
+<span class="nc" id="L148">            ansi.color(Rgb.GREEN, rep.reachableRegions() + &quot;/&quot; + rep.totalRegions()),</span>
+<span class="nc" id="L149">            ansi.color(Rgb.YELLOW, String.valueOf(rep.degradedRegions())),</span>
+<span class="nc" id="L150">            ansi.color(Rgb.RED, String.valueOf(rep.unreachableRegions()))</span>
         );
-<span class="nc" id="L138">        out.println(statLine);</span>
+<span class="nc" id="L152">        out.println(statLine);</span>
 
-<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (rep.fastestMedianMs() != null) {</span>
-<span class="nc" id="L141">            out.printf(</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (rep.fastestMedianMs() != null) {</span>
+<span class="nc" id="L155">            out.printf(</span>
                 &quot;│ Fastest: %s (%.1f ms)   Slowest: %s (%.1f ms)   Median of Medians: %.1f ms%n&quot;,
-<span class="nc" id="L143">                rep.fastestRegionId(), rep.fastestMedianMs(),</span>
-<span class="nc" id="L144">                rep.slowestRegionId(), rep.slowestMedianMs(),</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">                rep.medianOfMediansMs() != null ? rep.medianOfMediansMs() : 0.0</span>
+<span class="nc" id="L157">                rep.fastestRegionId(), rep.fastestMedianMs(),</span>
+<span class="nc" id="L158">                rep.slowestRegionId(), rep.slowestMedianMs(),</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                rep.medianOfMediansMs() != null ? rep.medianOfMediansMs() : 0.0</span>
             );
         }
 
-<span class="nc" id="L149">        out.printf(</span>
+<span class="nc" id="L163">        out.printf(</span>
             &quot;│ List: %s (%s) · Total probe time: %d ms%n&quot;,
-<span class="nc" id="L151">            rep.listSource(), rep.listAge(), rep.durationMs()</span>
+<span class="nc" id="L165">            rep.listSource(), rep.listAge(), rep.durationMs()</span>
         );
 
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (!rep.correlatedDegradationAlerts().isEmpty()) {</span>
-<span class="nc" id="L155">            out.println(&quot;│ &quot; + ansi.color(Rgb.ORANGE, &quot;Correlated Degradation Warnings:&quot;));</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">            for (String alert : rep.correlatedDegradationAlerts()) {</span>
-<span class="nc" id="L157">                out.println(&quot;│   &quot; + ansi.color(Rgb.YELLOW, glyphs.warning() + &quot; &quot; + alert));</span>
-<span class="nc" id="L158">            }</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (!rep.correlatedDegradationAlerts().isEmpty()) {</span>
+<span class="nc" id="L169">            out.println(&quot;│ &quot; + ansi.color(Rgb.ORANGE, &quot;Correlated Degradation Warnings:&quot;));</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            for (String alert : rep.correlatedDegradationAlerts()) {</span>
+<span class="nc" id="L171">                out.println(&quot;│   &quot; + ansi.color(Rgb.YELLOW, glyphs.warning() + &quot; &quot; + alert));</span>
+<span class="nc" id="L172">            }</span>
         }
 
-<span class="nc" id="L161">        out.println(ansi.bold() + &quot;╰─────────────────────────────────────────────────────────────────────────╯&quot; + ansi.reset());</span>
-<span class="nc" id="L162">    }</span>
+<span class="nc" id="L175">        out.println(ansi.bold() + &quot;╰─────────────────────────────────────────────────────────────────────────╯&quot; + ansi.reset());</span>
+<span class="nc" id="L176">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

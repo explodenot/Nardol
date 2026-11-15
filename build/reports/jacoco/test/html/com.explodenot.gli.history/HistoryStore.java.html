@@ -111,7 +111,7 @@ public final class HistoryStore {
     public synchronized Baseline.Comparison compareWithBaseline(String regionId, String currentHost, double currentMedian) {
 <span class="fc" id="L112">        List&lt;HistoryEntry&gt; all = loadEntries();</span>
 <span class="fc" id="L113">        List&lt;Baseline.HistoryRecord&gt; records = all.stream()</span>
-<span class="pc bpc" id="L114" title="2 of 4 branches missed.">            .filter(e -&gt; regionId.equals(e.regionId()) &amp;&amp; e.reachable())</span>
+<span class="pc bpc" id="L114" title="1 of 4 branches missed.">            .filter(e -&gt; regionId.equals(e.regionId()) &amp;&amp; e.reachable())</span>
 <span class="fc" id="L115">            .map(e -&gt; new Baseline.HistoryRecord(e.winningHost(), e.medianMs()))</span>
 <span class="fc" id="L116">            .toList();</span>
 

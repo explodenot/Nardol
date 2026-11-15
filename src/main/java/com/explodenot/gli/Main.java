@@ -5,6 +5,11 @@ import com.explodenot.gli.cli.NardolCommand;
 import picocli.CommandLine;
 
 public final class Main {
+    static {
+        // Suppress JLine deprecated terminal provider warning
+        System.setProperty("org.jline.terminal.disableDeprecatedProviderWarning", "true");
+    }
+
     public static void main(String[] args) {
         CommandLine cmd = new CommandLine(new NardolCommand());
         cmd.setExecutionExceptionHandler((ex, commandLine, parseResult) -> {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.list.ListTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:48.033Z" hostname="Viruchiths-Mac-mini.local" time="0.014">
+<testsuite name="com.explodenot.gli.list.ListTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:44:22.076Z" hostname="Viruchiths-Mac-mini.local" time="0.014">
   <properties/>
   <testcase name="testValidationRejectsInjectionAttempts()" classname="com.explodenot.gli.list.ListTest" time="0.001"/>
-  <testcase name="testEd25519Verification()" classname="com.explodenot.gli.list.ListTest" time="0.008"/>
-  <testcase name="testJsonParser()" classname="com.explodenot.gli.list.ListTest" time="0.002"/>
-  <testcase name="testTsvParserValid()" classname="com.explodenot.gli.list.ListTest" time="0.001"/>
-  <testcase name="testSha256Verification()" classname="com.explodenot.gli.list.ListTest" time="0.001"/>
+  <testcase name="testEd25519Verification()" classname="com.explodenot.gli.list.ListTest" time="0.01"/>
+  <testcase name="testJsonParser()" classname="com.explodenot.gli.list.ListTest" time="0.003"/>
+  <testcase name="testTsvParserValid()" classname="com.explodenot.gli.list.ListTest" time="0.0"/>
+  <testcase name="testSha256Verification()" classname="com.explodenot.gli.list.ListTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

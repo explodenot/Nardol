@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.cli.ConfigAndHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:48.014Z" hostname="Viruchiths-Mac-mini.local" time="0.012">
+<testsuite name="com.explodenot.gli.cli.ConfigAndHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:44:22.048Z" hostname="Viruchiths-Mac-mini.local" time="0.016">
   <properties/>
-  <testcase name="testHistoryCommandExecution()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.006"/>
-  <testcase name="testConfigSetAndShow()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.005"/>
-  <system-out><![CDATA[?[1m=== History Records (12 total samples) ===?[0m
+  <testcase name="testHistoryCommandExecution()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.01"/>
+  <testcase name="testConfigSetAndShow()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.006"/>
+  <system-out><![CDATA[?[1m=== History Records (81 total samples) ===?[0m
 Timestamp            Region           Host                          Median     Status
-2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    279.7 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    502.5 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    265.0 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    301.5 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:33:46  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.4 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:33:18  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.0 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:33:01  na-us-east-va    dynamodb.us-east-1.amazonaws.com    276.6 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:33:00  na-us-east-va    dynamodb.us-east-1.amazonaws.com    285.5 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:32:48  na-us-east-va    dynamodb.us-east-1.amazonaws.com    295.3 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:32:48  na-us-east-va    dynamodb.us-east-1.amazonaws.com    312.4 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:32:19  na-us-east-va    dynamodb.us-east-1.amazonaws.com    278.3 ms ?[38;2;46;204;113mOK?[0m
-2026-11-15T13:32:19  na-us-east-va    dynamodb.us-east-1.amazonaws.com    583.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:44:22  na-us-east-va    dynamodb.us-east-1.amazonaws.com    274.8 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:44:21  na-us-east-va    dynamodb.us-east-1.amazonaws.com    250.3 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:44:13  na-us-east-va    dynamodb.us-east-1.amazonaws.com    554.0 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:44:07  na-us-east-va    dynamodb.us-east-1.amazonaws.com    272.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:42:29  na-us-east-va    dynamodb.us-east-1.amazonaws.com    279.4 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  oc-nz-auckland   www.auckland.ac.nz            11.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  oc-au-perth      www.uwa.edu.au                 9.6 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  oc-au-melbourne  dynamodb.ap-southeast-4.amazonaws.com    267.1 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  oc-au-sydney     dynamodb.ap-southeast-2.amazonaws.com    241.3 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-kr-chuncheon  objectstorage.ap-chuncheon-1.oraclecloud.com    146.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-kr-seoul      dynamodb.ap-northeast-2.amazonaws.com    111.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-jp-osaka      dynamodb.ap-northeast-3.amazonaws.com    119.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-jp-tokyo      dynamodb.ap-northeast-1.amazonaws.com    111.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-tw-taipei     www.ntu.edu.tw               121.3 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-cn-beijing    www.tsinghua.edu.cn          116.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-hk-hongkong   dynamodb.ap-east-1.amazonaws.com     94.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-th-bangkok    www.chula.ac.th               37.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-my-kualalumpur dynamodb.ap-southeast-5.amazonaws.com     63.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-id-jakarta    dynamodb.ap-southeast-3.amazonaws.com     63.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-sg-singapore  dynamodb.ap-southeast-1.amazonaws.com     45.9 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-in-chennai    www.iitm.ac.in                10.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-in-bangalore  blr-in-ping.vultr.com         22.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-in-delhi      del-in-ping.vultr.com         49.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-in-hyderabad  dynamodb.ap-south-2.amazonaws.com     22.8 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:38:57  as-in-mumbai     dynamodb.ap-south-1.amazonaws.com     31.4 ms ?[38;2;46;204;113mOK?[0m
 Updated samples = 5
 Configuration reset to defaults.
 ]]></system-out>
