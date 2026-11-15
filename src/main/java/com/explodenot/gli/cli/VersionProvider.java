@@ -6,7 +6,7 @@ import java.util.Properties;
 public final class VersionProvider implements picocli.CommandLine.IVersionProvider {
     @Override
     public String[] getVersion() {
-        String ver = "2.0.0";
+        String ver = "2.1.0";
         try (InputStream in = getClass().getResourceAsStream("/version.properties")) {
             if (in != null) {
                 Properties props = new Properties();

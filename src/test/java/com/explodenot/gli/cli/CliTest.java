@@ -23,7 +23,7 @@ class CliTest {
 
         int code = cmd.execute("--version");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
-        assertThat(sw.toString()).contains("Nardol v2.0.0");
+        assertThat(sw.toString()).contains("Nardol v2.1.0");
     }
 
     @Test

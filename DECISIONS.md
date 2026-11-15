@@ -20,3 +20,14 @@ As the project is unreleased prior to v2.0.0, no backward-compatibility shims or
 
 ## 5. Security and List Verification
 Target lists are parsed strictly as pure data with length, character-set, port, and latitude/longitude validation. Remote list downloads are signed via Ed25519 (`targets.tsv.sig`) against a bundled public key, with SHA-256 fallback and `--insecure-skip-verify` for local testing. All HTML output escapes user/remote strings to prevent injection.
+
+## 6. Remote Target Update Strategy & Source Fallbacks (v2.1.0)
+To ensure long-term availability and flexibility without requiring code re-releases:
+- Target endpoint locations are decoupled into `version.properties` (`targets.url.primary`, `targets.url.backup1`, etc.).
+- The client performs freshness checking against cached lists using a 24-hour interval threshold alongside conditional HTTP headers (`If-None-Match` / `If-Modified-Since`).
+- Mirror failover is strict: if the primary source (`https://explodenot.com/nardol/target.tsv`) is unreachable or returns an HTTP error, secondary backup URLs are sequentially attempted before falling back to local cache or the offline bundled fallback list.
+
+## 7. Java Native Access & Terminal Provider Deprecation Handling (v2.1.0)
+Starting in modern OpenJDK releases (Java 22+), direct calls to native methods such as `System.loadLibrary` trigger restricted method warnings if native access is not granted.
+- Nardol configures `Enable-Native-Access: ALL-UNNAMED` in `shadowJar` manifests and passes `--enable-native-access=ALL-UNNAMED` in launcher scripts (`nardol`, `nardol.cmd`, `nrd`).
+- JLine terminal initialization prioritizes the modern JLine JNI terminal provider (`.jansi(false).jni(true)`), suppressing deprecated Jansi provider warnings with `org.jline.terminal.disableDeprecatedProviderWarning=true`.

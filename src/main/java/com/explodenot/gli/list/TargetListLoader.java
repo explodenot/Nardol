@@ -170,7 +170,7 @@ public final class TargetListLoader {
             byte[] bundledBytes = in.readAllBytes();
             TsvParser.ParseResult parsed = parseContent(new String(bundledBytes, StandardCharsets.UTF_8));
             warnings.addAll(parsed.errors());
-            return new LoadResult(parsed.groups(), "bundled fallback list", "v2.0.0", warnings);
+            return new LoadResult(parsed.groups(), "bundled fallback list", "v2.1.0", warnings);
         }
     }
 

@@ -58,7 +58,7 @@ class LegacyNamesTaskTest {
 
     @Test
     void testJarManifestAndEntries() throws IOException {
-        Path jarPath = Path.of("build/libs/nardol-2.0.0-all.jar");
+        Path jarPath = Path.of("build/libs/nardol-2.1.0-all.jar");
         if (!Files.exists(jarPath)) return;
 
         try (JarFile jar = new JarFile(jarPath.toFile())) {

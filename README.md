@@ -29,7 +29,7 @@ Light the beacons, see who answers.
 ╭──────────────────────────────── Summary ────────────────────────────────╮
 │ Reachability: 1/1 reachable · 1 degraded · 0 down
 │ Fastest: na-us-east-va (509.4 ms)   Slowest: na-us-east-va (509.4 ms)   Median of Medians: 509.4 ms
-│ List: bundled fallback list (v2.0.0) · Total probe time: 536 ms
+│ List: bundled fallback list (v2.1.0) · Total probe time: 536 ms
 ╰─────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -70,7 +70,7 @@ When an overseas application or API is sluggish, answering whether the issue ste
 ### 1. Download & Run
 Download the latest fat jar from GitHub Releases:
 ```bash
-java -jar nardol-2.0.0-all.jar
+java -jar nardol-2.1.0-all.jar
 ```
 
 ### 2. Build from Source
@@ -78,7 +78,7 @@ java -jar nardol-2.0.0-all.jar
 git clone https://github.com/<OWNER>/<REPO>.git
 cd gli
 ./gradlew shadowJar
-java -jar build/libs/nardol-2.0.0-all.jar
+java -jar build/libs/nardol-2.1.0-all.jar
 ```
 
 ### 3. Launcher Scripts & PATH
