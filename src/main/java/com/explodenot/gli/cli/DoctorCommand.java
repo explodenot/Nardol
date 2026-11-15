@@ -20,7 +20,7 @@ public class DoctorCommand implements Callable<Integer> {
     @Override
     public Integer call() {
         Ansi ansi = new Ansi(ColorDepth.detect(null, false));
-        System.out.println(ansi.bold() + "=== globalping-lite Environment Doctor ===" + ansi.reset());
+        System.out.println(ansi.bold() + "=== Nardol Environment Doctor ===" + ansi.reset());
 
         // Java runtime
         System.out.println("Java Runtime: " + System.getProperty("java.version") + " (" + System.getProperty("java.vendor") + ")");

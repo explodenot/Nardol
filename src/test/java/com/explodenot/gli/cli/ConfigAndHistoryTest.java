@@ -12,7 +12,7 @@ class ConfigAndHistoryTest {
 
     @Test
     void testConfigSetAndShow() throws Exception {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         int setCode = cmd.execute("config", "set", "samples", "5");
         assertThat(setCode).isEqualTo(ExitCodes.SUCCESS);
 
@@ -25,7 +25,7 @@ class ConfigAndHistoryTest {
 
     @Test
     void testHistoryCommandExecution() {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         StringWriter sw = new StringWriter();
         cmd.setOut(new PrintWriter(sw));
 

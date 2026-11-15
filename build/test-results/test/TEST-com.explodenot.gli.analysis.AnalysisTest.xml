@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.analysis.AnalysisTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:20:00.609Z" hostname="Viruchiths-Mac-mini.local" time="0.044">
+<testsuite name="com.explodenot.gli.analysis.AnalysisTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:00.362Z" hostname="Viruchiths-Mac-mini.local" time="0.008">
   <properties/>
-  <testcase name="testStatsSummary()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.04"/>
+  <testcase name="testStatsSummary()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.004"/>
   <testcase name="testBaselineComparison()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.001"/>
-  <testcase name="testStatsLoss()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.001"/>
+  <testcase name="testStatsLoss()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.0"/>
   <testcase name="testEfficiencyFloorAndAnycastDetection()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.001"/>
   <testcase name="testGeoDistanceKnownPair()" classname="com.explodenot.gli.analysis.AnalysisTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>

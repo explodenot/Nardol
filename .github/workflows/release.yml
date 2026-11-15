@@ -24,11 +24,11 @@ jobs:
       - name: Compute Checksum
         run: |
           cd build/libs
-          sha256sum gpl-*-all.jar > gpl-sha256.txt
+          sha256sum nardol-*-all.jar > nardol-sha256.txt
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/libs/gpl-*-all.jar
-            build/libs/gpl-sha256.txt
+            build/libs/nardol-*-all.jar
+            build/libs/nardol-sha256.txt

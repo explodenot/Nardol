@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.list.ListExtendedTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:20:01.935Z" hostname="Viruchiths-Mac-mini.local" time="0.012">
+<testsuite name="com.explodenot.gli.list.ListExtendedTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:01.430Z" hostname="Viruchiths-Mac-mini.local" time="0.009">
   <properties/>
-  <testcase name="testTargetListLoaderNetworkFallbackToBundled()" classname="com.explodenot.gli.list.ListExtendedTest" time="0.008"/>
+  <testcase name="testTargetListLoaderNetworkFallbackToBundled()" classname="com.explodenot.gli.list.ListExtendedTest" time="0.005"/>
   <testcase name="testTargetValidatorBoundaries()" classname="com.explodenot.gli.list.ListExtendedTest" time="0.001"/>
   <testcase name="testTargetListLoaderLocalFile()" classname="com.explodenot.gli.list.ListExtendedTest" time="0.001"/>
   <testcase name="testListCacheSaveAndLoad()" classname="com.explodenot.gli.list.ListExtendedTest" time="0.002"/>

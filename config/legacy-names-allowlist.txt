@@ -1,0 +1,16 @@
+# Legacy names allowlist for verifyNoLegacyNames task
+# Each non-comment line is treated as a regular expression pattern that is permitted to match.
+
+# Real third-party service mentioned in comparisons
+globalping\.io
+
+# GNU General Public License reference
+GNU General Public License
+
+# Testing and checking code that validates the regex or checks for old jar entries
+LegacyNamesTaskTest
+verifyNoLegacyNames
+Regex\(
+Pattern\.compile\(
+plantedFile
+hasOldPackage

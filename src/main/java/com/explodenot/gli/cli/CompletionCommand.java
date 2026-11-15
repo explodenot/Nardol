@@ -18,9 +18,9 @@ public class CompletionCommand implements Callable<Integer> {
         shell = shell.toLowerCase();
 
         String script = switch (shell) {
-            case "zsh" -> AutoComplete.bash("gpl", new picocli.CommandLine(new GplCommand()));
-            case "fish" -> "# Fish completion for gpl\ncomplete -c gpl -a 'run tui map report history list doctor completion config'";
-            default -> AutoComplete.bash("gpl", new picocli.CommandLine(new GplCommand()));
+            case "zsh" -> AutoComplete.bash("nardol", new picocli.CommandLine(new NardolCommand()));
+            case "fish" -> "# Fish completion for nardol\ncomplete -c nardol -a 'run tui map report history list doctor completion config'";
+            default -> AutoComplete.bash("nardol", new picocli.CommandLine(new NardolCommand()));
         };
 
         System.out.println(script);

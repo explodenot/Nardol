@@ -19,14 +19,14 @@ class PlatformTest {
     void testCacheDir() {
         Path p = Platform.cacheDir();
         assertThat(p).isNotNull();
-        assertThat(p.toString()).contains("globalping-lite");
+        assertThat(p.toString()).contains("nardol");
     }
 
     @Test
     void testConfigDir() {
         Path p = Platform.configDir();
         assertThat(p).isNotNull();
-        assertThat(p.toString()).contains("globalping-lite");
+        assertThat(p.toString()).contains("nardol");
     }
 
     @Test

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TargetListLoader {
-    public static final String DEFAULT_LIST_URL = "https://raw.githubusercontent.com/globalping-lite/targets/main/targets.tsv";
+    public static final String DEFAULT_LIST_URL = "https://raw.githubusercontent.com/nardol/targets/main/targets.tsv";
 
     public record LoadResult(
         List<RegionGroup> groups,
@@ -61,7 +61,7 @@ public final class TargetListLoader {
 
         // 2. Network update if allowed
         if (!offline && !noUpdate) {
-            String url = (remoteUrl != null && !remoteUrl.isBlank()) ? remoteUrl : System.getenv("GPL_LIST_URL");
+            String url = (remoteUrl != null && !remoteUrl.isBlank()) ? remoteUrl : System.getenv("NARDOL_LIST_URL");
             if (url == null || url.isBlank()) {
                 url = DEFAULT_LIST_URL;
             }

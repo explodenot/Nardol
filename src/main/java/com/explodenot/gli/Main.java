@@ -1,12 +1,12 @@
 package com.explodenot.gli;
 
 import com.explodenot.gli.cli.ExitCodes;
-import com.explodenot.gli.cli.GplCommand;
+import com.explodenot.gli.cli.NardolCommand;
 import picocli.CommandLine;
 
 public final class Main {
     public static void main(String[] args) {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         cmd.setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
             System.err.println("Error: " + ex.getMessage());
             if (parseResult.hasMatchedOption("--debug")) {

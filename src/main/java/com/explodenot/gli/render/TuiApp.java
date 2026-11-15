@@ -145,7 +145,7 @@ public final class TuiApp {
             default -> "Name";
         };
         String header = String.format(
-            "globalping-lite v%s · Reachable: %d/%d · Filter: %s · Sort: %s · View: %s",
+            "Nardol v%s · Reachable: %d/%d · Filter: %s · Sort: %s · View: %s",
             currentReport.toolVersion(),
             currentReport.reachableRegions(), currentReport.totalRegions(),
             continentFilter != null ? continentFilter : "All",

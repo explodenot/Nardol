@@ -14,6 +14,6 @@ public final class VersionProvider implements picocli.CommandLine.IVersionProvid
                 ver = props.getProperty("version", ver);
             }
         } catch (Exception ignored) {}
-        return new String[]{ "globalping-lite v" + ver };
+        return new String[]{ "Nardol v" + ver };
     }
 }

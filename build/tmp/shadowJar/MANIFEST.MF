@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Main-Class: com.explodenot.gli.Main
-Implementation-Title: globalping-lite
+Implementation-Title: nardol
 Implementation-Version: 2.0.0
 

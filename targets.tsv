@@ -1,4 +1,4 @@
-# globalping-lite target list (DRAFT - hosts not yet verified; see README)
+# nardol target list (DRAFT - hosts not yet verified; see README)
 # Format: TSV (real tab characters). Lines starting with '#' are comments.
 # Columns: region_id<TAB>continent<TAB>country<TAB>city<TAB>provider<TAB>host<TAB>port<TAB>lat<TAB>lon<TAB>tier
 # Rules:

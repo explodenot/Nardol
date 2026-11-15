@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.probe.FailureClassifierTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:20:01.963Z" hostname="Viruchiths-Mac-mini.local" time="0.014">
+<testsuite name="com.explodenot.gli.probe.FailureClassifierTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:01.454Z" hostname="Viruchiths-Mac-mini.local" time="0.015">
   <properties/>
-  <testcase name="testControlChecks()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.012"/>
+  <testcase name="testControlChecks()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.013"/>
   <testcase name="testClassifyTlsFailure()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.0"/>
   <testcase name="testClassifyRefused()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.0"/>
   <testcase name="testClassifyUnreachable()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.0"/>
-  <testcase name="testClassifyTimeout()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.001"/>
-  <testcase name="testClassifyUnknownHost()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.0"/>
+  <testcase name="testClassifyTimeout()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.0"/>
+  <testcase name="testClassifyUnknownHost()" classname="com.explodenot.gli.probe.FailureClassifierTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

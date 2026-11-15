@@ -59,12 +59,12 @@ tasks.jacocoTestReport {
 }
 
 tasks.shadowJar {
-    archiveBaseName.set("gpl")
+    archiveBaseName.set("nardol")
     archiveClassifier.set("all")
     manifest {
         attributes(
             "Main-Class" to "com.explodenot.gli.Main",
-            "Implementation-Title" to "globalping-lite",
+            "Implementation-Title" to "nardol",
             "Implementation-Version" to project.version
         )
     }
@@ -150,7 +150,69 @@ val jarSizeCheck by tasks.registering {
     }
 }
 
+val verifyNoLegacyNames by tasks.registering {
+    group = "verification"
+    description = "Scans all text files to ensure no forbidden legacy tokens remain"
+    doLast {
+        val allowlistFile = file("config/legacy-names-allowlist.txt")
+        val allowPatterns = if (allowlistFile.exists()) {
+            allowlistFile.readLines()
+                .map { it.trim() }
+                .filter { it.isNotEmpty() && !it.startsWith("#") }
+                .map { Regex(it, RegexOption.IGNORE_CASE) }
+        } else emptyList()
+
+        val forbiddenPatterns = listOf(
+            Regex("""globalping[-_ ]?lite""", RegexOption.IGNORE_CASE),
+            Regex("""com\.example\.gpl""", RegexOption.IGNORE_CASE),
+            Regex("""\bgpl\b""", RegexOption.IGNORE_CASE),
+            Regex("""\bGpl[A-Z]\w*"""),
+            Regex("""\bGPL_\w+""")
+        )
+
+        val violations = mutableListOf<String>()
+
+        projectDir.walkTopDown()
+            .filter { f ->
+                f.isFile &&
+                !f.path.contains("/build/") &&
+                !f.path.contains("/.gradle/") &&
+                !f.path.contains("/.git/") &&
+                !f.path.endsWith("/legacy-names-allowlist.txt") &&
+                !f.path.endsWith(".png") &&
+                !f.path.endsWith(".bin") &&
+                !f.path.endsWith(".key") &&
+                !f.path.endsWith(".sig") &&
+                !f.path.endsWith(".jar")
+            }
+            .forEach { file ->
+                try {
+                    file.readLines().forEachIndexed { lineIdx, line ->
+                        // Check if line matches an allowlisted pattern
+                        val isAllowed = allowPatterns.any { it.containsMatchIn(line) }
+                        if (!isAllowed) {
+                            for (p in forbiddenPatterns) {
+                                if (p.containsMatchIn(line)) {
+                                    violations.add("${file.relativeTo(projectDir)}:${lineIdx + 1}: found legacy pattern '${p.pattern}' in line: ${line.trim()}")
+                                }
+                            }
+                        }
+                    }
+                } catch (ignored: Exception) {}
+            }
+
+        if (violations.isNotEmpty()) {
+            System.err.println("Legacy name violations found (${violations.size}):")
+            violations.forEach { System.err.println("  $it") }
+            throw GradleException("verifyNoLegacyNames FAILED: legacy tokens detected! See output above.")
+        } else {
+            println("verifyNoLegacyNames PASSED: No forbidden legacy tokens found.")
+        }
+    }
+}
+
 tasks.check {
+    dependsOn(verifyNoLegacyNames)
     dependsOn(jarSizeCheck)
     dependsOn(dependencySizeReport)
 }

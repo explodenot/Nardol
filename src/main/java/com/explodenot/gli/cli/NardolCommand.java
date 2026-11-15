@@ -22,15 +22,15 @@ import java.util.*;
 import java.util.concurrent.Callable;
 
 @Command(
-    name = "gpl",
-    description = "Globalping-lite: Cross-platform reachability and latency probe to worldwide regions",
+    name = "nardol",
+    description = "Nardol: Light the beacons, see who answers (global reachability probe)",
     mixinStandardHelpOptions = true,
     versionProvider = VersionProvider.class,
     subcommands = {
-        GplCommand.RunSubcommand.class,
-        GplCommand.TuiSubcommand.class,
-        GplCommand.MapSubcommand.class,
-        GplCommand.ReportSubcommand.class,
+        NardolCommand.RunSubcommand.class,
+        NardolCommand.TuiSubcommand.class,
+        NardolCommand.MapSubcommand.class,
+        NardolCommand.ReportSubcommand.class,
         HistoryCommand.class,
         ListCommand.class,
         DoctorCommand.class,
@@ -38,7 +38,14 @@ import java.util.concurrent.Callable;
         ConfigCommand.class
     }
 )
-public class GplCommand implements Callable<Integer> {
+public class NardolCommand implements Callable<Integer> {
+
+    public static final String BANNER_TEXT = """
+         _  _   _   ___ ___   ___  _    \s
+        | \\| | /_\\ | _ \\   \\ / _ \\| |   \s
+        | .` |/ _ \\|   / |) | (_) | |__ \s
+        |_|\\_/_/ \\_\\_|_\\___/ \\___/|____|\s
+        Light the beacons, see who answers.""";
 
     @Option(names = {"--region"}, description = "Filter by region ID or continent (repeatable)")
     List<String> regions;
@@ -100,7 +107,7 @@ public class GplCommand implements Callable<Integer> {
     @Option(names = {"--verbose", "-v"}, description = "Verbose terminal output (p95, loss, cipher)")
     boolean verbose;
 
-    @Option(names = {"--quiet", "-q"}, description = "Quiet mode (no progress animation)")
+    @Option(names = {"--quiet", "-q"}, description = "Quiet mode (no progress animation, suppresses banner)")
     boolean quiet;
 
     @Option(names = {"--sort"}, description = "Sort by: name, latency, delta, efficiency")
@@ -126,6 +133,9 @@ public class GplCommand implements Callable<Integer> {
 
     @Option(names = {"--no-color"}, description = "Disable ANSI color output")
     boolean noColor;
+
+    @Option(names = {"--theme"}, description = "Color theme: default, beacon, mono, high-contrast, solarized, nord")
+    String themeName;
 
     @Option(names = {"--ascii"}, description = "Force ASCII glyphs instead of Unicode")
     boolean ascii;
@@ -159,6 +169,16 @@ public class GplCommand implements Callable<Integer> {
         return runProbes(false, false, null);
     }
 
+    public static void printBanner(PrintStream out, Ansi ansi, boolean quiet, boolean noColor) {
+        if (quiet) return;
+        boolean isTty = System.console() != null || TerminalHelper.getTerminal() != null;
+        if (!isTty) return;
+
+        Rgb ember = new Rgb(243, 156, 18); // Amber/orange accent
+        out.println(ansi.bold() + ansi.color(ember, BANNER_TEXT) + ansi.reset());
+        out.println();
+    }
+
     public Integer runProbes(boolean tuiMode, boolean mapMode, String reportHtmlFile) throws Exception {
         ConfigFile.Config cfg = ConfigFile.load();
 
@@ -166,8 +186,8 @@ public class GplCommand implements Callable<Integer> {
         int effectiveTimeoutMs = (timeoutMs != null) ? timeoutMs : (cfg.timeoutMs != null ? cfg.timeoutMs : 3000);
         int effectiveConcurrency = (concurrency != null) ? concurrency : (cfg.concurrency != null ? cfg.concurrency : 64);
         String effectiveMode = (mode != null) ? mode : (cfg.mode != null ? cfg.mode : "tcp");
-        Double effectiveLat = (userLat != null) ? userLat : cfg.lat;
-        Double effectiveLon = (userLon != null) ? userLon : cfg.lon;
+        Double effectiveLat = (userLat != null) ? userLat : (cfg.lat != null ? cfg.lat : parseEnvDouble("NARDOL_LAT"));
+        Double effectiveLon = (userLon != null) ? userLon : (cfg.lon != null ? cfg.lon : parseEnvDouble("NARDOL_LON"));
         boolean effectiveAscii = ascii || Boolean.TRUE.equals(cfg.ascii);
 
         ColorDepth depth = (noColor || "never".equalsIgnoreCase(colorMode))
@@ -177,14 +197,21 @@ public class GplCommand implements Callable<Integer> {
         Ansi ansi = new Ansi(depth);
         Glyphs glyphs = Glyphs.create(effectiveAscii);
 
+        boolean machineReadable = jsonOutput || ndjsonOutput || csvOutput;
+        PrintStream humanStream = machineReadable ? System.err : System.out;
+
+        if (!machineReadable && !tuiMode) {
+            printBanner(humanStream, ansi, quiet, noColor || depth == ColorDepth.NONE);
+        }
+
         // Control checks first
         ControlChecks.Diagnostic diag = ControlChecks.run();
-        if (diag.proxyDetected() && !jsonOutput && !ndjsonOutput && !csvOutput) {
+        if (diag.proxyDetected() && !machineReadable) {
             System.err.println(ansi.color(Rgb.YELLOW, glyphs.warning() + " " + diag.proxyWarning()));
         }
         if (!diag.passed() && !force) {
             System.err.println(ansi.color(Rgb.RED, glyphs.failed() + " Local connectivity looks broken (DNS and raw IP control checks failed)."));
-            System.err.println("Use --force to probe anyway, or run 'gpl doctor' to diagnose your connection.");
+            System.err.println("Use --force to probe anyway, or run 'nardol doctor' to diagnose your connection.");
             return ExitCodes.ALL_DOWN_OR_CONTROL_FAIL;
         }
 
@@ -199,7 +226,7 @@ public class GplCommand implements Callable<Integer> {
             return ExitCodes.INTERNAL_ERROR;
         }
 
-        if (!listRes.warnings().isEmpty() && !jsonOutput && !ndjsonOutput && !csvOutput) {
+        if (!listRes.warnings().isEmpty() && !machineReadable) {
             for (String w : listRes.warnings()) {
                 System.err.println(ansi.color(Rgb.YELLOW, "Notice: " + w));
             }
@@ -225,9 +252,6 @@ public class GplCommand implements Callable<Integer> {
         AddressFamily fam = AddressFamily.AUTO;
         if (ipv4) fam = AddressFamily.IPV4;
         else if (ipv6) fam = AddressFamily.IPV6;
-
-        boolean machineReadable = jsonOutput || ndjsonOutput || csvOutput;
-        PrintStream humanStream = machineReadable ? System.err : System.out;
 
         long startTime = System.currentTimeMillis();
         ProgressLine progress = new ProgressLine(ansi, glyphs, groups.size(), !machineReadable && !quiet, humanStream);
@@ -368,6 +392,16 @@ public class GplCommand implements Callable<Integer> {
         return ExitCodes.SUCCESS;
     }
 
+    private static Double parseEnvDouble(String env) {
+        String val = System.getenv(env);
+        if (val != null && !val.isBlank()) {
+            try {
+                return Double.parseDouble(val.trim());
+            } catch (Exception ignored) {}
+        }
+        return null;
+    }
+
     private List<RegionGroup> filterGroups(List<RegionGroup> groups) {
         List<RegionGroup> filtered = new ArrayList<>();
         for (RegionGroup g : groups) {
@@ -419,7 +453,7 @@ public class GplCommand implements Callable<Integer> {
     @Command(name = "run", description = "Probe and render report (default command)", mixinStandardHelpOptions = true)
     public static class RunSubcommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
-        GplCommand parent;
+        NardolCommand parent;
 
         @Override
         public Integer call() throws Exception {
@@ -430,7 +464,7 @@ public class GplCommand implements Callable<Integer> {
     @Command(name = "tui", description = "Live full-screen dashboard", mixinStandardHelpOptions = true)
     public static class TuiSubcommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
-        GplCommand parent;
+        NardolCommand parent;
 
         @Override
         public Integer call() throws Exception {
@@ -441,7 +475,7 @@ public class GplCommand implements Callable<Integer> {
     @Command(name = "map", description = "Terminal world map of reachability and latencies", mixinStandardHelpOptions = true)
     public static class MapSubcommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
-        GplCommand parent;
+        NardolCommand parent;
 
         @Override
         public Integer call() throws Exception {
@@ -452,7 +486,7 @@ public class GplCommand implements Callable<Integer> {
     @Command(name = "report", description = "Generate a self-contained offline HTML report", mixinStandardHelpOptions = true)
     public static class ReportSubcommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
-        GplCommand parent;
+        NardolCommand parent;
 
         @Option(names = {"--from-history"}, description = "Reuse results from most recent run in history")
         boolean fromHistory;

@@ -93,7 +93,7 @@ class ProbeTest {
 
     @Test
     void testProbeRunnerFallbackGroup() throws Exception {
-        Path tempDir = Files.createTempDirectory("gpl-test-history");
+        Path tempDir = Files.createTempDirectory("nardol-test-history");
         HistoryStore store = new HistoryStore(tempDir.resolve("history.jsonl"), 10);
 
         // Group where primary fails (port 1) and fallback succeeds (echoPort)

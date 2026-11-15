@@ -54,7 +54,7 @@ public final class HtmlReport {
             <head>
               <meta charset="utf-8">
               <meta name="viewport" content="width=device-width, initial-scale=1">
-              <title>globalping-lite Connectivity Report</title>
+              <title>Nardol Connectivity Report</title>
               <style>
                 :root {
                   --bg: #0f172a;
@@ -132,7 +132,7 @@ public final class HtmlReport {
             <body>
               <div class="container">
                 <header>
-                  <h1>Globalping Lite Reachability Report</h1>
+                  <h1>Nardol Reachability Report</h1>
                   <div class="subtitle">Generated: """);
         sb.append(escapeHtml(report.timestamp().toString()));
         sb.append(" · Mode: ").append(escapeHtml(report.probeMode()));
@@ -211,7 +211,7 @@ public final class HtmlReport {
                 </div>
               </div>
 
-              <script type="application/json" id="gpl-raw-json">
+              <script type="application/json" id="nardol-raw-json">
             """);
         sb.append(json);
         sb.append("""

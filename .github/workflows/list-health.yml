@@ -18,10 +18,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build GPL
+      - name: Build Nardol
         run: ./gradlew shadowJar --no-daemon
 
       - name: Probe All Targets
         run: |
-          java -jar build/libs/gpl-*-all.jar --json --timeout 5000 --samples 2 > results.json || true
+          java -jar build/libs/nardol-*-all.jar --json --timeout 5000 --samples 2 > results.json || true
           cat results.json | jq '.unreachableRegions, .degradedRegions'

@@ -49,95 +49,6 @@
     "allPublicMethods" : true
   },
   {
-    "name" : "com.explodenot.gli.cli.GplCommand",
-    "allDeclaredConstructors" : true,
-    "allPublicConstructors" : true,
-    "allDeclaredMethods" : true,
-    "allPublicMethods" : true,
-    "fields" : [
-      { "name" : "allCandidates" },
-      { "name" : "allowInsecureList" },
-      { "name" : "ascii" },
-      { "name" : "colorMode" },
-      { "name" : "compact" },
-      { "name" : "concurrency" },
-      { "name" : "csvOutput" },
-      { "name" : "debug" },
-      { "name" : "dualStack" },
-      { "name" : "excludes" },
-      { "name" : "explicitColorDepth" },
-      { "name" : "force" },
-      { "name" : "insecureSkipVerify" },
-      { "name" : "ipv4" },
-      { "name" : "ipv6" },
-      { "name" : "jsonOutput" },
-      { "name" : "listFile" },
-      { "name" : "listMirrors" },
-      { "name" : "listUrl" },
-      { "name" : "mode" },
-      { "name" : "ndjsonOutput" },
-      { "name" : "noColor" },
-      { "name" : "noHistory" },
-      { "name" : "noUpdate" },
-      { "name" : "offline" },
-      { "name" : "portOverride" },
-      { "name" : "preferIpv6" },
-      { "name" : "provider" },
-      { "name" : "quiet" },
-      { "name" : "regions" },
-      { "name" : "samples" },
-      { "name" : "sortOrder" },
-      { "name" : "timeoutMs" },
-      { "name" : "userLat" },
-      { "name" : "userLon" },
-      { "name" : "verbose" },
-      { "name" : "watchCount" },
-      { "name" : "watchIntervalSeconds" }
-    ]
-  },
-  {
-    "name" : "com.explodenot.gli.cli.GplCommand$MapSubcommand",
-    "allDeclaredConstructors" : true,
-    "allPublicConstructors" : true,
-    "allDeclaredMethods" : true,
-    "allPublicMethods" : true,
-    "fields" : [
-      { "name" : "parent" }
-    ]
-  },
-  {
-    "name" : "com.explodenot.gli.cli.GplCommand$ReportSubcommand",
-    "allDeclaredConstructors" : true,
-    "allPublicConstructors" : true,
-    "allDeclaredMethods" : true,
-    "allPublicMethods" : true,
-    "fields" : [
-      { "name" : "file" },
-      { "name" : "fromHistory" },
-      { "name" : "parent" }
-    ]
-  },
-  {
-    "name" : "com.explodenot.gli.cli.GplCommand$RunSubcommand",
-    "allDeclaredConstructors" : true,
-    "allPublicConstructors" : true,
-    "allDeclaredMethods" : true,
-    "allPublicMethods" : true,
-    "fields" : [
-      { "name" : "parent" }
-    ]
-  },
-  {
-    "name" : "com.explodenot.gli.cli.GplCommand$TuiSubcommand",
-    "allDeclaredConstructors" : true,
-    "allPublicConstructors" : true,
-    "allDeclaredMethods" : true,
-    "allPublicMethods" : true,
-    "fields" : [
-      { "name" : "parent" }
-    ]
-  },
-  {
     "name" : "com.explodenot.gli.cli.HistoryCommand",
     "allDeclaredConstructors" : true,
     "allPublicConstructors" : true,
@@ -184,6 +95,96 @@
     "allPublicMethods" : true,
     "fields" : [
       { "name" : "file" }
+    ]
+  },
+  {
+    "name" : "com.explodenot.gli.cli.NardolCommand",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "allCandidates" },
+      { "name" : "allowInsecureList" },
+      { "name" : "ascii" },
+      { "name" : "colorMode" },
+      { "name" : "compact" },
+      { "name" : "concurrency" },
+      { "name" : "csvOutput" },
+      { "name" : "debug" },
+      { "name" : "dualStack" },
+      { "name" : "excludes" },
+      { "name" : "explicitColorDepth" },
+      { "name" : "force" },
+      { "name" : "insecureSkipVerify" },
+      { "name" : "ipv4" },
+      { "name" : "ipv6" },
+      { "name" : "jsonOutput" },
+      { "name" : "listFile" },
+      { "name" : "listMirrors" },
+      { "name" : "listUrl" },
+      { "name" : "mode" },
+      { "name" : "ndjsonOutput" },
+      { "name" : "noColor" },
+      { "name" : "noHistory" },
+      { "name" : "noUpdate" },
+      { "name" : "offline" },
+      { "name" : "portOverride" },
+      { "name" : "preferIpv6" },
+      { "name" : "provider" },
+      { "name" : "quiet" },
+      { "name" : "regions" },
+      { "name" : "samples" },
+      { "name" : "sortOrder" },
+      { "name" : "themeName" },
+      { "name" : "timeoutMs" },
+      { "name" : "userLat" },
+      { "name" : "userLon" },
+      { "name" : "verbose" },
+      { "name" : "watchCount" },
+      { "name" : "watchIntervalSeconds" }
+    ]
+  },
+  {
+    "name" : "com.explodenot.gli.cli.NardolCommand$MapSubcommand",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "parent" }
+    ]
+  },
+  {
+    "name" : "com.explodenot.gli.cli.NardolCommand$ReportSubcommand",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "file" },
+      { "name" : "fromHistory" },
+      { "name" : "parent" }
+    ]
+  },
+  {
+    "name" : "com.explodenot.gli.cli.NardolCommand$RunSubcommand",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "parent" }
+    ]
+  },
+  {
+    "name" : "com.explodenot.gli.cli.NardolCommand$TuiSubcommand",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "parent" }
     ]
   },
   {

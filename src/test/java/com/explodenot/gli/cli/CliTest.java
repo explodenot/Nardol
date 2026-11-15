@@ -18,23 +18,23 @@ class CliTest {
     @Test
     void testVersionOutput() {
         StringWriter sw = new StringWriter();
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         cmd.setOut(new PrintWriter(sw));
 
         int code = cmd.execute("--version");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
-        assertThat(sw.toString()).contains("globalping-lite v2.0.0");
+        assertThat(sw.toString()).contains("Nardol v2.0.0");
     }
 
     @Test
     void testHelpOutput() {
         StringWriter sw = new StringWriter();
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         cmd.setOut(new PrintWriter(sw));
 
         int code = cmd.execute("--help");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
-        assertThat(sw.toString()).contains("Globalping-lite: Cross-platform reachability");
+        assertThat(sw.toString()).contains("Nardol: Light the beacons, see who answers");
         assertThat(sw.toString()).contains("Commands:");
         assertThat(sw.toString()).contains("run");
         assertThat(sw.toString()).contains("tui");
@@ -44,34 +44,34 @@ class CliTest {
 
     @Test
     void testDoctorCommand() {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         int code = cmd.execute("doctor");
         assertThat(code).isIn(ExitCodes.SUCCESS, ExitCodes.ALL_DOWN_OR_CONTROL_FAIL);
     }
 
     @Test
     void testListValidateSubcommand() throws Exception {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         int code = cmd.execute("list", "validate", "src/main/resources/targets.tsv");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
     }
 
     @Test
     void testListSourcesSubcommand() {
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         int code = cmd.execute("list", "sources");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
     }
 
     @Test
     void testHtmlReportGenerationOffline() throws Exception {
-        Path tempHtml = Files.createTempFile("gpl-report", ".html");
-        CommandLine cmd = new CommandLine(new GplCommand());
+        Path tempHtml = Files.createTempFile("nardol-report", ".html");
+        CommandLine cmd = new CommandLine(new NardolCommand());
         int code = cmd.execute("--offline", "--region", "na-us-east-va", "--samples", "1", "--timeout", "1000", "report", tempHtml.toString());
 
         assertThat(Files.exists(tempHtml)).isTrue();
         String content = Files.readString(tempHtml);
-        assertThat(content).contains("Globalping Lite Reachability Report");
+        assertThat(content).contains("Nardol Reachability Report");
         assertThat(content).contains("<svg class=\"world-map\"");
         assertThat(content).contains("application/json");
         Files.deleteIfExists(tempHtml);
@@ -86,7 +86,7 @@ class CliTest {
         try {
             System.setOut(new PrintStream(out));
             System.setErr(new PrintStream(err));
-            CommandLine cmd = new CommandLine(new GplCommand());
+            CommandLine cmd = new CommandLine(new NardolCommand());
 
             int code = cmd.execute("--json", "--offline", "--region", "na-us-east-va", "--samples", "1", "--timeout", "1000");
             String stdout = out.toString();
@@ -102,7 +102,7 @@ class CliTest {
     @Test
     void testCompletionGeneration() {
         StringWriter sw = new StringWriter();
-        CommandLine cmd = new CommandLine(new GplCommand());
+        CommandLine cmd = new CommandLine(new NardolCommand());
         cmd.setOut(new PrintWriter(sw));
 
         int code = cmd.execute("completion", "bash");

@@ -41,5 +41,5 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.java == '21'
         uses: actions/upload-artifact@v4
         with:
-          name: gpl-fatjar
-          path: build/libs/gpl-*-all.jar
+          name: nardol-fatjar
+          path: build/libs/nardol-*-all.jar

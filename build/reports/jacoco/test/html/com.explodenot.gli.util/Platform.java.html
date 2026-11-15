@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Platform.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.util</a> &gt; <span class="el_source">Platform.java</span></div><h1>Platform.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.util;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Platform.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nardol</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.util</a> &gt; <span class="el_source">Platform.java</span></div><h1>Platform.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.util;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -25,37 +25,37 @@ public final class Platform {
     public static Path cacheDir() {
 <span class="fc" id="L26">        String xdgCache = System.getenv(&quot;XDG_CACHE_HOME&quot;);</span>
 <span class="pc bpc" id="L27" title="3 of 4 branches missed.">        if (xdgCache != null &amp;&amp; !xdgCache.isBlank()) {</span>
-<span class="nc" id="L28">            return Path.of(xdgCache, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L28">            return Path.of(xdgCache, &quot;nardol&quot;);</span>
         }
 <span class="fc" id="L30">        String userHome = System.getProperty(&quot;user.home&quot;, &quot;.&quot;);</span>
 <span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (isMac()) {</span>
-<span class="fc" id="L32">            return Path.of(userHome, &quot;Library&quot;, &quot;Caches&quot;, &quot;globalping-lite&quot;);</span>
+<span class="fc" id="L32">            return Path.of(userHome, &quot;Library&quot;, &quot;Caches&quot;, &quot;nardol&quot;);</span>
 <span class="nc bnc" id="L33" title="All 2 branches missed.">        } else if (isWindows()) {</span>
 <span class="nc" id="L34">            String localAppData = System.getenv(&quot;LOCALAPPDATA&quot;);</span>
 <span class="nc bnc" id="L35" title="All 4 branches missed.">            if (localAppData != null &amp;&amp; !localAppData.isBlank()) {</span>
-<span class="nc" id="L36">                return Path.of(localAppData, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L36">                return Path.of(localAppData, &quot;nardol&quot;);</span>
             }
-<span class="nc" id="L38">            return Path.of(userHome, &quot;AppData&quot;, &quot;Local&quot;, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L38">            return Path.of(userHome, &quot;AppData&quot;, &quot;Local&quot;, &quot;nardol&quot;);</span>
         }
-<span class="nc" id="L40">        return Path.of(userHome, &quot;.cache&quot;, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L40">        return Path.of(userHome, &quot;.cache&quot;, &quot;nardol&quot;);</span>
     }
 
     public static Path configDir() {
 <span class="fc" id="L44">        String xdgConfig = System.getenv(&quot;XDG_CONFIG_HOME&quot;);</span>
 <span class="pc bpc" id="L45" title="3 of 4 branches missed.">        if (xdgConfig != null &amp;&amp; !xdgConfig.isBlank()) {</span>
-<span class="nc" id="L46">            return Path.of(xdgConfig, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L46">            return Path.of(xdgConfig, &quot;nardol&quot;);</span>
         }
 <span class="fc" id="L48">        String userHome = System.getProperty(&quot;user.home&quot;, &quot;.&quot;);</span>
 <span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (isMac()) {</span>
-<span class="fc" id="L50">            return Path.of(userHome, &quot;Library&quot;, &quot;Application Support&quot;, &quot;globalping-lite&quot;);</span>
+<span class="fc" id="L50">            return Path.of(userHome, &quot;Library&quot;, &quot;Application Support&quot;, &quot;nardol&quot;);</span>
 <span class="nc bnc" id="L51" title="All 2 branches missed.">        } else if (isWindows()) {</span>
 <span class="nc" id="L52">            String appData = System.getenv(&quot;APPDATA&quot;);</span>
 <span class="nc bnc" id="L53" title="All 4 branches missed.">            if (appData != null &amp;&amp; !appData.isBlank()) {</span>
-<span class="nc" id="L54">                return Path.of(appData, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L54">                return Path.of(appData, &quot;nardol&quot;);</span>
             }
-<span class="nc" id="L56">            return Path.of(userHome, &quot;AppData&quot;, &quot;Roaming&quot;, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L56">            return Path.of(userHome, &quot;AppData&quot;, &quot;Roaming&quot;, &quot;nardol&quot;);</span>
         }
-<span class="nc" id="L58">        return Path.of(userHome, &quot;.config&quot;, &quot;globalping-lite&quot;);</span>
+<span class="nc" id="L58">        return Path.of(userHome, &quot;.config&quot;, &quot;nardol&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

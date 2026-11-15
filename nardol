@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+JAR="$(find "$DIR/build/libs" -name "nardol-*-all.jar" 2>/dev/null | head -n 1)"
+if [ -z "$JAR" ]; then
+    echo "nardol jar not found. Building..." >&2
+    "$DIR/gradlew" -p "$DIR" shadowJar -q
+    JAR="$(find "$DIR/build/libs" -name "nardol-*-all.jar" 2>/dev/null | head -n 1)"
+fi
+exec java -jar "$JAR" "$@"

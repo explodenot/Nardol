@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetListLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.list</a> &gt; <span class="el_source">TargetListLoader.java</span></div><h1>TargetListLoader.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.list;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetListLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">nardol</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.list</a> &gt; <span class="el_source">TargetListLoader.java</span></div><h1>TargetListLoader.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.list;
 
 import com.explodenot.gli.model.RegionGroup;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TargetListLoader {
-    public static final String DEFAULT_LIST_URL = &quot;https://raw.githubusercontent.com/globalping-lite/targets/main/targets.tsv&quot;;
+    public static final String DEFAULT_LIST_URL = &quot;https://raw.githubusercontent.com/nardol/targets/main/targets.tsv&quot;;
 
 <span class="fc" id="L19">    public record LoadResult(</span>
         List&lt;RegionGroup&gt; groups,
@@ -61,7 +61,7 @@ public final class TargetListLoader {
 
         // 2. Network update if allowed
 <span class="pc bpc" id="L63" title="1 of 4 branches missed.">        if (!offline &amp;&amp; !noUpdate) {</span>
-<span class="pc bpc" id="L64" title="2 of 4 branches missed.">            String url = (remoteUrl != null &amp;&amp; !remoteUrl.isBlank()) ? remoteUrl : System.getenv(&quot;GPL_LIST_URL&quot;);</span>
+<span class="pc bpc" id="L64" title="2 of 4 branches missed.">            String url = (remoteUrl != null &amp;&amp; !remoteUrl.isBlank()) ? remoteUrl : System.getenv(&quot;NARDOL_LIST_URL&quot;);</span>
 <span class="pc bpc" id="L65" title="2 of 4 branches missed.">            if (url == null || url.isBlank()) {</span>
 <span class="nc" id="L66">                url = DEFAULT_LIST_URL;</span>
             }

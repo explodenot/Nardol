@@ -1,1 +1,1 @@
-rootProject.name = "gli"
+rootProject.name = "nardol"

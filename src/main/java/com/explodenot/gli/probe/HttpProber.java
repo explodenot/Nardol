@@ -54,7 +54,7 @@ public final class HttpProber implements Prober {
                 .uri(URI.create(url))
                 .method("HEAD", HttpRequest.BodyPublishers.noBody())
                 .timeout(timeout)
-                .header("User-Agent", "globalping-lite/2.0")
+                .header("User-Agent", "nardol/2.0")
                 .build();
 
             HttpResponse<Void> resp = client.send(req, HttpResponse.BodyHandlers.discarding());
@@ -78,7 +78,7 @@ public final class HttpProber implements Prober {
                     .uri(URI.create(url))
                     .GET()
                     .timeout(timeout)
-                    .header("User-Agent", "globalping-lite/2.0")
+                    .header("User-Agent", "nardol/2.0")
                     .header("Range", "bytes=0-0")
                     .build();
 
