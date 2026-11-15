@@ -695,7 +695,7 @@ Nardol maintains automated GitHub Actions pipelines located in `.github/workflow
 ```mermaid
 flowchart TD
     subgraph CI["ci.yml (Push / PR on main)"]
-        Matrix["Matrix: Ubuntu / macOS / Windows x Java 21 / 25"] --> Build["./gradlew build check"]
+        Matrix["Matrix: Ubuntu / macOS / Windows x Java 21 LTS"] --> Build["./gradlew build check"]
         Build --> Size["./gradlew dependencySizeReport jarSizeCheck"]
         Size --> Upload["Upload nardol-*-all.jar Artifact"]
     end
