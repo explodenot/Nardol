@@ -4,8 +4,8 @@
 
 Cross-platform Java 21 CLI and TUI reachability probe measuring real connectivity and latency from your machine to physically distributed, region-pinned unicast servers worldwide.
 
-[![CI Build](https://img.shields.io/github/actions/workflow/status/<OWNER>/<REPO>/ci.yml?branch=main&label=CI)](https://github.com/<OWNER>/<REPO>/actions)
-[![Release](https://img.shields.io/github/v/release/<OWNER>/<REPO>?label=release)](https://github.com/<OWNER>/<REPO>/releases)
+[![CI Build](https://img.shields.io/github/actions/workflow/status/explodenot/Nardol/ci.yml?branch=main&label=CI)](https://github.com/explodenot/Nardol/actions)
+[![Release](https://img.shields.io/github/v/release/explodenot/Nardol?label=release)](https://github.com/explodenot/Nardol/releases)
 [![Java 21+](https://img.shields.io/badge/Java-21%2B%20LTS-orange.svg)](https://openjdk.org/projects/jdk/21/)
 [![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows-blue.svg)](#quick-start)
 [![Jar Size](https://img.shields.io/badge/jar%20size-%3C%201.6%20MB-success.svg)](#quick-start)
@@ -75,7 +75,7 @@ java -jar nardol-2.1.0-all.jar
 
 ### 2. Build from Source
 ```bash
-git clone https://github.com/<OWNER>/<REPO>.git
+git clone https://github.com/explodenot/Nardol.git
 cd gli
 ./gradlew shadowJar
 java -jar build/libs/nardol-2.1.0-all.jar
