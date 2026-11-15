@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.probe.ProbersExtendedTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:01.626Z" hostname="Viruchiths-Mac-mini.local" time="0.11">
+<testsuite name="com.explodenot.gli.probe.ProbersExtendedTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:48.226Z" hostname="Viruchiths-Mac-mini.local" time="0.154">
   <properties/>
-  <testcase name="testTlsProberToKnownTlsServer()" classname="com.explodenot.gli.probe.ProbersExtendedTest" time="0.109"/>
+  <testcase name="testTlsProberToKnownTlsServer()" classname="com.explodenot.gli.probe.ProbersExtendedTest" time="0.153"/>
   <testcase name="testTlsProberConnectionRefused()" classname="com.explodenot.gli.probe.ProbersExtendedTest" time="0.0"/>
   <testcase name="testTlsProberInvalidHost()" classname="com.explodenot.gli.probe.ProbersExtendedTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>

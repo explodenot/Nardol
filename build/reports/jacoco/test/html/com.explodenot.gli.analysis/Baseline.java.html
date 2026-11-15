@@ -42,7 +42,7 @@ public final class Baseline {
 <span class="pc bpc" id="L42" title="2 of 6 branches missed.">        boolean candidateSwitched = currentHost != null &amp;&amp; lastHost != null &amp;&amp; !currentHost.equalsIgnoreCase(lastHost);</span>
 
         // Keep last 10 medians for sparklines
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        List&lt;Double&gt; sparklineMedians = medians.size() &gt; 10 ? medians.subList(medians.size() - 10, medians.size()) : medians;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        List&lt;Double&gt; sparklineMedians = medians.size() &gt; 10 ? medians.subList(medians.size() - 10, medians.size()) : medians;</span>
 
 <span class="fc" id="L47">        return new Comparison(baseMedian, deltaMs, deltaPct, candidateSwitched, sparklineMedians);</span>
     }

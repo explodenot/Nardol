@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.cli.ConfigAndHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:01.411Z" hostname="Viruchiths-Mac-mini.local" time="0.018">
+<testsuite name="com.explodenot.gli.cli.ConfigAndHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:48.014Z" hostname="Viruchiths-Mac-mini.local" time="0.012">
   <properties/>
-  <testcase name="testHistoryCommandExecution()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.008"/>
-  <testcase name="testConfigSetAndShow()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.01"/>
-  <system-out><![CDATA[?[1m=== History Records (6 total samples) ===?[0m
+  <testcase name="testHistoryCommandExecution()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.006"/>
+  <testcase name="testConfigSetAndShow()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.005"/>
+  <system-out><![CDATA[?[1m=== History Records (12 total samples) ===?[0m
 Timestamp            Region           Host                          Median     Status
+2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    279.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:35:47  na-us-east-va    dynamodb.us-east-1.amazonaws.com    502.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    265.0 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:34:24  na-us-east-va    dynamodb.us-east-1.amazonaws.com    301.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:33:46  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.4 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:33:18  na-us-east-va    dynamodb.us-east-1.amazonaws.com    509.0 ms ?[38;2;46;204;113mOK?[0m
 2026-11-15T13:33:01  na-us-east-va    dynamodb.us-east-1.amazonaws.com    276.6 ms ?[38;2;46;204;113mOK?[0m
 2026-11-15T13:33:00  na-us-east-va    dynamodb.us-east-1.amazonaws.com    285.5 ms ?[38;2;46;204;113mOK?[0m
 2026-11-15T13:32:48  na-us-east-va    dynamodb.us-east-1.amazonaws.com    295.3 ms ?[38;2;46;204;113mOK?[0m

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.explodenot.gli.cli.CliTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:33:00.370Z" hostname="Viruchiths-Mac-mini.local" time="1.04">
+<testsuite name="com.explodenot.gli.cli.CliTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:35:46.830Z" hostname="Viruchiths-Mac-mini.local" time="1.183">
   <properties/>
-  <testcase name="testListSourcesSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.065"/>
-  <testcase name="testListValidateSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.014"/>
-  <testcase name="testVersionOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.008"/>
-  <testcase name="testJsonOutputPipeClean()" classname="com.explodenot.gli.cli.CliTest" time="0.437"/>
-  <testcase name="testCompletionGeneration()" classname="com.explodenot.gli.cli.CliTest" time="0.028"/>
-  <testcase name="testHelpOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.026"/>
-  <testcase name="testHtmlReportGenerationOffline()" classname="com.explodenot.gli.cli.CliTest" time="0.429"/>
-  <testcase name="testDoctorCommand()" classname="com.explodenot.gli.cli.CliTest" time="0.028"/>
+  <testcase name="testListSourcesSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.013"/>
+  <testcase name="testListValidateSubcommand()" classname="com.explodenot.gli.cli.CliTest" time="0.011"/>
+  <testcase name="testVersionOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.007"/>
+  <testcase name="testJsonOutputPipeClean()" classname="com.explodenot.gli.cli.CliTest" time="0.643"/>
+  <testcase name="testCompletionGeneration()" classname="com.explodenot.gli.cli.CliTest" time="0.029"/>
+  <testcase name="testHelpOutput()" classname="com.explodenot.gli.cli.CliTest" time="0.02"/>
+  <testcase name="testHtmlReportGenerationOffline()" classname="com.explodenot.gli.cli.CliTest" time="0.438"/>
+  <testcase name="testDoctorCommand()" classname="com.explodenot.gli.cli.CliTest" time="0.02"/>
   <system-out><![CDATA[Default remote URL: https://raw.githubusercontent.com/nardol/targets/main/targets.tsv
 Cache location:     /Users/viruchith/Library/Caches/nardol
 Bundled resource:   /targets.tsv (Ed25519 signed)
@@ -638,7 +638,7 @@ complete -F _complete_nardol -o default nardol nardol.sh nardol.bash
 |_|\_/_/ \_\_|_\___/ \___/|____| 
 Light the beacons, see who answers.?[0m?[0m
 
-?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report2699245433189458741.html
+?[?25l?[38;2;52;152;219m⠋?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠙?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠹?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[38;2;52;152;219m⠸?[0m ?[1mProbing regions:?[0m 0/1 (0%)  ?[38;2;46;204;113m✔ 0?[0m  ?[38;2;241;196;15m▲ 0?[0m  ?[38;2;231;76;60m✖ 0?[0m  [0s]?[K?[?25hGenerated HTML report written to /var/folders/jr/wfk3nz_j6gq9wd2yyjrb48qh0000gn/T/nardol-report4461299514379321329.html
 ?[1m=== Nardol Environment Doctor ===?[0m
 Java Runtime: 21.0.13 (Amazon.com Inc.)
 Operating System: mac os x (aarch64)
