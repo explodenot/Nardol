@@ -175,16 +175,20 @@ val verifyNoLegacyNames by tasks.registering {
 
         projectDir.walkTopDown()
             .filter { f ->
+                val normPath = f.path.replace('\\', '/')
                 f.isFile &&
-                !f.path.contains("/build/") &&
-                !f.path.contains("/.gradle/") &&
-                !f.path.contains("/.git/") &&
-                !f.path.endsWith("/legacy-names-allowlist.txt") &&
-                !f.path.endsWith(".png") &&
-                !f.path.endsWith(".bin") &&
-                !f.path.endsWith(".key") &&
-                !f.path.endsWith(".sig") &&
-                !f.path.endsWith(".jar")
+                !normPath.contains("/build/") &&
+                !normPath.contains("/.gradle/") &&
+                !normPath.contains("/.git/") &&
+                !normPath.endsWith("/legacy-names-allowlist.txt") &&
+                !normPath.endsWith(".png") &&
+                !normPath.endsWith(".bin") &&
+                !normPath.endsWith(".key") &&
+                !normPath.endsWith(".sig") &&
+                !normPath.endsWith(".jar") &&
+                !normPath.endsWith(".zip") &&
+                !normPath.endsWith(".tar") &&
+                !normPath.endsWith(".class")
             }
             .forEach { file ->
                 try {
