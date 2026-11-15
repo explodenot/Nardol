@@ -1,0 +1,15 @@
+# Semgrep ignore rules for Nardol
+# Nardol is a network latency/reachability prober measuring Layer-4 connect and Layer-7 latency across public targets.
+
+# 1. Raw TCP connection timing: Layer-4 probers deliberately use unencrypted sockets to measure TCP SYN/ACK handshake round trips.
+java.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket
+
+# 2. SSLContext on Java 21: SSLContext.getInstance("TLS") configures platform default TLS 1.2 and TLS 1.3.
+java.lang.security.audit.weak-ssl-context.weak-ssl-context
+
+# 3. Reachability benchmarking: Trust-all manager is used exclusively for reachability and timing across 64+ third-party targets.
+problem-based-packs.insecure-transport.java-stdlib.bypass-tls-verification.bypass-tls-verification
+java.lang.security.audit.crypto.ssl.insecure-trust-manager.insecure-trust-manager
+
+# 4. CLI debugging: Stack traces are exclusively emitted when the user explicitly passes the CLI flag `--debug`.
+java.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace

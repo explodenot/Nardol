@@ -25,6 +25,8 @@ class ProbeTest {
 
     @BeforeAll
     static void setup() throws Exception {
+        // Local test echo server for mock TCP connect testing
+        // nosemgrep
         echoServer = new ServerSocket(0);
         echoPort = echoServer.getLocalPort();
         Thread.ofVirtual().start(() -> {

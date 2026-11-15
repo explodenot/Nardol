@@ -57,7 +57,8 @@ public final class ControlChecks {
         };
 
         for (RawTarget target : rawTargets) {
-            try (Socket socket = new Socket()) {
+            // Raw TCP SYN probe for pre-flight reachability testing
+            try (Socket socket = new Socket()) { // nosemgrep: java.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket
                 socket.connect(new InetSocketAddress(target.host(), target.port()), 1500);
                 rawIpOk = true;
                 break;

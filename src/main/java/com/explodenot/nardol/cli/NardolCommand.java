@@ -222,7 +222,7 @@ public class NardolCommand implements Callable<Integer> {
             listRes = loader.load(listFile, listUrl, listMirrors, noUpdate, offline, insecureSkipVerify, allowInsecureList);
         } catch (Exception e) {
             System.err.println(ansi.color(Rgb.RED, "Failed to load target list: " + e.getMessage()));
-            if (debug) e.printStackTrace();
+            if (debug) e.printStackTrace(); // nosemgrep: java.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace
             return ExitCodes.INTERNAL_ERROR;
         }
 

@@ -21,7 +21,8 @@ public final class TcpProber implements Prober {
 
         int timeoutMs = (int) Math.min(timeout.toMillis(), Integer.MAX_VALUE);
         long connectStart = System.nanoTime();
-        try (Socket socket = new Socket()) {
+        // Layer-4 TCP reachability & connect latency prober
+        try (Socket socket = new Socket()) { // nosemgrep: java.lang.security.audit.crypto.unencrypted-socket.unencrypted-socket
             socket.connect(new InetSocketAddress(resolved.address(), target.port()), timeoutMs);
             long connectEnd = System.nanoTime();
             double connectMs = (connectEnd - connectStart) / 1_000_000.0;

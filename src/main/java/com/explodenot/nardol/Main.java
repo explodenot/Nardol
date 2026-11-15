@@ -15,7 +15,7 @@ public final class Main {
         cmd.setExecutionExceptionHandler((ex, commandLine, parseResult) -> {
             System.err.println("Error: " + ex.getMessage());
             if (parseResult.hasMatchedOption("--debug")) {
-                ex.printStackTrace();
+                ex.printStackTrace(); // nosemgrep: java.lang.security.audit.active-debug-code-printstacktrace.active-debug-code-printstacktrace
             }
             return ExitCodes.INTERNAL_ERROR;
         });
