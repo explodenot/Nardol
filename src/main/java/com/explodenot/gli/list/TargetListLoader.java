@@ -14,7 +14,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class TargetListLoader {
-    public static final String DEFAULT_LIST_URL = "https://raw.githubusercontent.com/nardol/targets/main/targets.tsv";
+    public static final String DEFAULT_LIST_URL;
+    public static final List<String> DEFAULT_BACKUP_URLS;
+
+    static {
+        String primary = "https://explodenot.com/nardol/target.tsv";
+        List<String> backups = new ArrayList<>();
+        try (InputStream in = TargetListLoader.class.getResourceAsStream("/version.properties")) {
+            if (in != null) {
+                java.util.Properties props = new java.util.Properties();
+                props.load(in);
+                primary = props.getProperty("targets.url.primary", primary);
+                for (String key : props.stringPropertyNames()) {
+                    if (key.startsWith("targets.url.backup")) {
+                        String bUrl = props.getProperty(key);
+                        if (bUrl != null && !bUrl.isBlank()) {
+                            backups.add(bUrl.trim());
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+        DEFAULT_LIST_URL = primary;
+        DEFAULT_BACKUP_URLS = List.copyOf(backups);
+    }
 
     public record LoadResult(
         List<RegionGroup> groups,
@@ -70,6 +93,12 @@ public final class TargetListLoader {
             candidateUrls.add(url);
             if (mirrors != null) {
                 candidateUrls.addAll(mirrors);
+            }
+            // Add default backup sources configured in properties if not already present
+            for (String backup : DEFAULT_BACKUP_URLS) {
+                if (!candidateUrls.contains(backup)) {
+                    candidateUrls.add(backup);
+                }
             }
 
             ListCache.CachedEntry cached = cache.load();

@@ -144,7 +144,7 @@ cp nrd ~/.local/bin/nrd
 - **Self-Contained HTML Report (`nardol report <file.html>`)**: Offline single-file report with SVG maps.
 - **Machine-Readable Outputs**: Pipe-clean `--json`, `--ndjson`, and `--csv`.
 - **System Doctor (`nardol doctor`)**: Diagnoses local DNS, raw IPs, proxies, and terminal capabilities.
-- **Signed Remote Updates**: Ed25519-signed target list updates with offline bundled fallbacks.
+- **Signed Remote Updates**: Ed25519-signed target list updates checking primary (`https://explodenot.com/nardol/target.tsv`) and backup sources daily or on-demand, with offline bundled fallbacks.
 
 ---
 
@@ -231,7 +231,7 @@ Nardol stores configuration and cached data according to operating system standa
 | **Windows** | `%APPDATA%\nardol` | `%LOCALAPPDATA%\nardol` |
 
 ### Environment Variables
-- `NARDOL_LIST_URL`: Override the remote target list URL.
+- `NARDOL_LIST_URL`: Override the remote target list URL (defaults to primary `https://explodenot.com/nardol/target.tsv` with configurable backup mirrors in `version.properties`).
 - `NARDOL_LAT` / `NARDOL_LON`: Set your geographic coordinates for physics floor calculations.
 
 ---

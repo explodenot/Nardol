@@ -114,11 +114,17 @@ public class ListCommand implements Callable<Integer> {
         }
     }
 
-    @Command(name = "sources", description = "Show target list sources and cache location")
+    @Command(name = "sources", description = "Show target list sources and cache location", mixinStandardHelpOptions = true)
     public static class SourcesSubcommand implements Callable<Integer> {
         @Override
         public Integer call() {
-            System.out.println("Default remote URL: " + TargetListLoader.DEFAULT_LIST_URL);
+            System.out.println("Primary remote URL: " + TargetListLoader.DEFAULT_LIST_URL);
+            if (!TargetListLoader.DEFAULT_BACKUP_URLS.isEmpty()) {
+                System.out.println("Backup remote URLs:");
+                for (String b : TargetListLoader.DEFAULT_BACKUP_URLS) {
+                    System.out.println("  - " + b);
+                }
+            }
             System.out.println("Cache location:     " + com.explodenot.gli.util.Platform.cacheDir());
             System.out.println("Bundled resource:   /targets.tsv (Ed25519 signed)");
             return ExitCodes.SUCCESS;

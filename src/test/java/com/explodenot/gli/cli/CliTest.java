@@ -58,7 +58,9 @@ class CliTest {
 
     @Test
     void testListSourcesSubcommand() {
+        StringWriter sw = new StringWriter();
         CommandLine cmd = new CommandLine(new NardolCommand());
+        cmd.setOut(new PrintWriter(sw));
         int code = cmd.execute("list", "sources");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
     }

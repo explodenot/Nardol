@@ -31,6 +31,11 @@ public final class ListCache {
             if (hours < 24) return hours + "h old";
             return (hours / 24) + "d old";
         }
+
+        public boolean isOlderThanHours(long hoursThreshold) {
+            if (lastModified == null) return true;
+            return Duration.between(lastModified, Instant.now()).toHours() >= hoursThreshold;
+        }
     }
 
     public void save(byte[] content, String etag) {
