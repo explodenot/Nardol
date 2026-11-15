@@ -1,4 +1,4 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
 import picocli.AutoComplete;
 import picocli.CommandLine.Command;

@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
-group = "com.explodenot.gli"
+group = "com.explodenot.nardol"
 version = "2.1.0"
 
 val javaVersionStr = providers.gradleProperty("javaVersion").getOrElse("21")
@@ -24,7 +24,7 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass.set("com.explodenot.gli.Main")
+    mainClass.set("com.explodenot.nardol.Main")
 }
 
 repositories {
@@ -63,7 +63,7 @@ tasks.shadowJar {
     archiveClassifier.set("all")
     manifest {
         attributes(
-            "Main-Class" to "com.explodenot.gli.Main",
+            "Main-Class" to "com.explodenot.nardol.Main",
             "Implementation-Title" to "nardol",
             "Implementation-Version" to project.version,
             "Enable-Native-Access" to "ALL-UNNAMED"

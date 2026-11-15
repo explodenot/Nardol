@@ -1,4 +1,4 @@
-package com.explodenot.gli.analysis;
+package com.explodenot.nardol.analysis;
 
 import java.util.Collections;
 import java.util.List;

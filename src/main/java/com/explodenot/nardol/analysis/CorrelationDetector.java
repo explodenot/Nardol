@@ -1,6 +1,6 @@
-package com.explodenot.gli.analysis;
+package com.explodenot.nardol.analysis;
 
-import com.explodenot.gli.model.RegionResult;
+import com.explodenot.nardol.model.RegionResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;

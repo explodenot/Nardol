@@ -1,4 +1,4 @@
-package com.explodenot.gli.analysis;
+package com.explodenot.nardol.analysis;
 
 public final class Geo {
     private Geo() {}

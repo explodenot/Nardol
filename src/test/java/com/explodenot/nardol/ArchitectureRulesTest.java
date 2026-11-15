@@ -1,4 +1,4 @@
-package com.explodenot.gli;
+package com.explodenot.nardol;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,27 +14,27 @@ class ArchitectureRulesTest {
 
     @Test
     void testPackageDependencyRules() throws IOException {
-        Path root = Path.of("src/main/java/com/explodenot/gli");
+        Path root = Path.of("src/main/java/com/explodenot/nardol");
 
         // Rule 1: model depends on nothing internal
         checkPackageImports(root.resolve("model"), List.of(
-            "com.explodenot.gli.cli",
-            "com.explodenot.gli.probe",
-            "com.explodenot.gli.analysis",
-            "com.explodenot.gli.history",
-            "com.explodenot.gli.render",
-            "com.explodenot.gli.list"
+            "com.explodenot.nardol.cli",
+            "com.explodenot.nardol.probe",
+            "com.explodenot.nardol.analysis",
+            "com.explodenot.nardol.history",
+            "com.explodenot.nardol.render",
+            "com.explodenot.nardol.list"
         ));
 
         // Rule 2: render never calls probe
         checkPackageImports(root.resolve("render"), List.of(
-            "com.explodenot.gli.probe"
+            "com.explodenot.nardol.probe"
         ));
 
         // Rule 3: util depends on nothing in cli or render
         checkPackageImports(root.resolve("util"), List.of(
-            "com.explodenot.gli.cli",
-            "com.explodenot.gli.render"
+            "com.explodenot.nardol.cli",
+            "com.explodenot.nardol.render"
         ));
     }
 

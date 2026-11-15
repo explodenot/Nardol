@@ -1,6 +1,6 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
-import com.explodenot.gli.util.Platform;
+import com.explodenot.nardol.util.Platform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

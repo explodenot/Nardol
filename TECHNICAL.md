@@ -13,7 +13,7 @@ For high-level user orientation, quick start, and command cookbook, consult the 
 - **Run without install**: `./gradlew run --args="run --region Europe"`
 - **Test**: `./gradlew test` (fully offline, no external networks)
 - **Check Size Budget**: `./gradlew jarSizeCheck` (enforces `< 10 MB` hard limit, target `< 6 MB`; fat jar compiles to ~1.56 MB).
-- **Run Single Test**: `./gradlew test --tests com.explodenot.gli.probe.ProbeTest`
+- **Run Single Test**: `./gradlew test --tests com.explodenot.nardol.probe.ProbeTest`
 - **Verify Legacy Tokens**: `./gradlew verifyNoLegacyNames`
 
 ---
@@ -67,12 +67,12 @@ The project enforces strict separation of concerns:
 
 ```mermaid
 flowchart TB
-    P_CLI["com.explodenot.gli.cli"] --> P_PROBE["com.explodenot.gli.probe"]
-    P_CLI --> P_LIST["com.explodenot.gli.list"]
-    P_CLI --> P_ANALYSIS["com.explodenot.gli.analysis"]
-    P_CLI --> P_HISTORY["com.explodenot.gli.history"]
-    P_CLI --> P_RENDER["com.explodenot.gli.render"]
-    P_PROBE --> P_MODEL["com.explodenot.gli.model"]
+    P_CLI["com.explodenot.nardol.cli"] --> P_PROBE["com.explodenot.nardol.probe"]
+    P_CLI --> P_LIST["com.explodenot.nardol.list"]
+    P_CLI --> P_ANALYSIS["com.explodenot.nardol.analysis"]
+    P_CLI --> P_HISTORY["com.explodenot.nardol.history"]
+    P_CLI --> P_RENDER["com.explodenot.nardol.render"]
+    P_PROBE --> P_MODEL["com.explodenot.nardol.model"]
     P_ANALYSIS --> P_MODEL
     P_RENDER --> P_MODEL
     P_LIST --> P_MODEL
@@ -85,7 +85,7 @@ flowchart TB
 
 ```text
 gli/
-├── src/main/java/com/explodenot/gli/
+├── src/main/java/com/explodenot/nardol/
 │   ├── Main.java
 │   ├── analysis/
 │   │   ├── Baseline.java
@@ -548,7 +548,7 @@ flowchart LR
 1. Add an entry to `model/ProbeMode.java`.
 2. Implement `probe/Prober.java` (e.g. `UdpProber.java`).
 3. Wire the prober in `cli/NardolCommand.java` within `runProbes()`.
-4. Add unit tests in `src/test/java/com/explodenot/gli/probe/`.
+4. Add unit tests in `src/test/java/com/explodenot/nardol/probe/`.
 
 ### Adding a New Color Theme
 1. Open `render/Rgb.java` or `render/ReportRenderer.java`.

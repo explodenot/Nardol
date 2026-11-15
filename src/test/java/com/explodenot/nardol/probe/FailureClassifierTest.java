@@ -1,7 +1,7 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
-import com.explodenot.gli.model.AddressFamily;
-import com.explodenot.gli.model.ProbeOutcome;
+import com.explodenot.nardol.model.AddressFamily;
+import com.explodenot.nardol.model.ProbeOutcome;
 import org.junit.jupiter.api.Test;
 
 import java.net.ConnectException;

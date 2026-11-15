@@ -1,9 +1,9 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
-import com.explodenot.gli.model.AddressFamily;
-import com.explodenot.gli.model.ProbeOutcome;
-import com.explodenot.gli.model.Target;
-import com.explodenot.gli.model.Tier;
+import com.explodenot.nardol.model.AddressFamily;
+import com.explodenot.nardol.model.ProbeOutcome;
+import com.explodenot.nardol.model.Target;
+import com.explodenot.nardol.model.Tier;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;

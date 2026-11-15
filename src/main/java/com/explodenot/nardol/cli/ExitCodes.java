@@ -1,4 +1,4 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
 public final class ExitCodes {
     private ExitCodes() {}

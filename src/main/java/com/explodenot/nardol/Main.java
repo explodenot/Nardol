@@ -1,7 +1,7 @@
-package com.explodenot.gli;
+package com.explodenot.nardol;
 
-import com.explodenot.gli.cli.ExitCodes;
-import com.explodenot.gli.cli.NardolCommand;
+import com.explodenot.nardol.cli.ExitCodes;
+import com.explodenot.nardol.cli.NardolCommand;
 import picocli.CommandLine;
 
 public final class Main {

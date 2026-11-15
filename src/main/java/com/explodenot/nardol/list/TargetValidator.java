@@ -1,7 +1,7 @@
-package com.explodenot.gli.list;
+package com.explodenot.nardol.list;
 
-import com.explodenot.gli.model.Target;
-import com.explodenot.gli.model.Tier;
+import com.explodenot.nardol.model.Target;
+import com.explodenot.nardol.model.Tier;
 
 import java.util.regex.Pattern;
 

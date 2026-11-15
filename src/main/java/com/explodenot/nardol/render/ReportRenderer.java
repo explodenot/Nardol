@@ -1,7 +1,7 @@
-package com.explodenot.gli.render;
+package com.explodenot.nardol.render;
 
-import com.explodenot.gli.model.RegionResult;
-import com.explodenot.gli.model.RunReport;
+import com.explodenot.nardol.model.RegionResult;
+import com.explodenot.nardol.model.RunReport;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -120,7 +120,7 @@ public final class ReportRenderer {
                 // Protocol & Cipher if TLS mode or protocol reported
                 if (r.samples() != null && !r.samples().isEmpty()) {
                     var outcome = r.samples().get(0).outcome();
-                    if (outcome instanceof com.explodenot.gli.model.ProbeOutcome.Success succ) {
+                    if (outcome instanceof com.explodenot.nardol.model.ProbeOutcome.Success succ) {
                         if (succ.protocol() != null || succ.cipher() != null) {
                             String tlsInfo = " [" + (succ.protocol() != null ? succ.protocol() : "") +
                                              (succ.cipher() != null ? "/" + succ.cipher() : "") + "]";

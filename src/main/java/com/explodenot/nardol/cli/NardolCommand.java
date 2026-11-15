@@ -1,12 +1,12 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
-import com.explodenot.gli.analysis.CorrelationDetector;
-import com.explodenot.gli.analysis.Stats;
-import com.explodenot.gli.history.HistoryStore;
-import com.explodenot.gli.list.TargetListLoader;
-import com.explodenot.gli.model.*;
-import com.explodenot.gli.probe.*;
-import com.explodenot.gli.render.*;
+import com.explodenot.nardol.analysis.CorrelationDetector;
+import com.explodenot.nardol.analysis.Stats;
+import com.explodenot.nardol.history.HistoryStore;
+import com.explodenot.nardol.list.TargetListLoader;
+import com.explodenot.nardol.model.*;
+import com.explodenot.nardol.probe.*;
+import com.explodenot.nardol.render.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;

@@ -1,4 +1,4 @@
-package com.explodenot.gli.render;
+package com.explodenot.nardol.render;
 
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;

@@ -1,4 +1,4 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

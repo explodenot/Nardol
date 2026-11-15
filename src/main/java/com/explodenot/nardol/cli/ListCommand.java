@@ -1,9 +1,9 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
-import com.explodenot.gli.list.TargetListLoader;
-import com.explodenot.gli.list.TsvParser;
-import com.explodenot.gli.model.RegionGroup;
-import com.explodenot.gli.model.Target;
+import com.explodenot.nardol.list.TargetListLoader;
+import com.explodenot.nardol.list.TsvParser;
+import com.explodenot.nardol.model.RegionGroup;
+import com.explodenot.nardol.model.Target;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -125,7 +125,7 @@ public class ListCommand implements Callable<Integer> {
                     System.out.println("  - " + b);
                 }
             }
-            System.out.println("Cache location:     " + com.explodenot.gli.util.Platform.cacheDir());
+            System.out.println("Cache location:     " + com.explodenot.nardol.util.Platform.cacheDir());
             System.out.println("Bundled resource:   /targets.tsv (Ed25519 signed)");
             return ExitCodes.SUCCESS;
         }

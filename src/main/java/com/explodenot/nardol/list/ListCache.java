@@ -1,6 +1,6 @@
-package com.explodenot.gli.list;
+package com.explodenot.nardol.list;
 
-import com.explodenot.gli.util.Platform;
+import com.explodenot.nardol.util.Platform;
 
 import java.io.IOException;
 import java.nio.file.Files;

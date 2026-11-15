@@ -1,6 +1,6 @@
-package com.explodenot.gli.render;
+package com.explodenot.nardol.render;
 
-import com.explodenot.gli.model.RegionResult;
+import com.explodenot.nardol.model.RegionResult;
 
 import java.io.InputStream;
 import java.io.PrintStream;

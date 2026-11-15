@@ -1,10 +1,10 @@
-package com.explodenot.gli.history;
+package com.explodenot.nardol.history;
 
-import com.explodenot.gli.analysis.Baseline;
-import com.explodenot.gli.model.AddressFamily;
-import com.explodenot.gli.model.RegionResult;
-import com.explodenot.gli.model.RunReport;
-import com.explodenot.gli.util.Platform;
+import com.explodenot.nardol.analysis.Baseline;
+import com.explodenot.nardol.model.AddressFamily;
+import com.explodenot.nardol.model.RegionResult;
+import com.explodenot.nardol.model.RunReport;
+import com.explodenot.nardol.util.Platform;
 import com.google.gson.Gson;
 
 import java.io.*;

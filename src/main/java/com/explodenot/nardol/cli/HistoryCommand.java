@@ -1,9 +1,9 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
-import com.explodenot.gli.history.HistoryStore;
-import com.explodenot.gli.render.Ansi;
-import com.explodenot.gli.render.ColorDepth;
-import com.explodenot.gli.render.Rgb;
+import com.explodenot.nardol.history.HistoryStore;
+import com.explodenot.nardol.render.Ansi;
+import com.explodenot.nardol.render.ColorDepth;
+import com.explodenot.nardol.render.Rgb;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 

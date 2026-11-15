@@ -1,4 +1,4 @@
-package com.explodenot.gli.render;
+package com.explodenot.nardol.render;
 
 public record Rgb(int r, int g, int b) {
     public static final Rgb GREEN = new Rgb(46, 204, 113);

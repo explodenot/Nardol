@@ -1,9 +1,9 @@
-package com.explodenot.gli.list;
+package com.explodenot.nardol.list;
 
-import com.explodenot.gli.model.Region;
-import com.explodenot.gli.model.RegionGroup;
-import com.explodenot.gli.model.Target;
-import com.explodenot.gli.model.Tier;
+import com.explodenot.nardol.model.Region;
+import com.explodenot.nardol.model.RegionGroup;
+import com.explodenot.nardol.model.Target;
+import com.explodenot.nardol.model.Tier;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

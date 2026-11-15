@@ -1,8 +1,8 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
-import com.explodenot.gli.model.AddressFamily;
-import com.explodenot.gli.model.ProbeOutcome;
-import com.explodenot.gli.model.Target;
+import com.explodenot.nardol.model.AddressFamily;
+import com.explodenot.nardol.model.ProbeOutcome;
+import com.explodenot.nardol.model.Target;
 
 import javax.net.ssl.*;
 import java.net.InetSocketAddress;

@@ -1,11 +1,11 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
-import com.explodenot.gli.probe.ControlChecks;
-import com.explodenot.gli.render.Ansi;
-import com.explodenot.gli.render.ColorDepth;
-import com.explodenot.gli.render.Rgb;
-import com.explodenot.gli.render.TerminalHelper;
-import com.explodenot.gli.util.Platform;
+import com.explodenot.nardol.probe.ControlChecks;
+import com.explodenot.nardol.render.Ansi;
+import com.explodenot.nardol.render.ColorDepth;
+import com.explodenot.nardol.render.Rgb;
+import com.explodenot.nardol.render.TerminalHelper;
+import com.explodenot.nardol.util.Platform;
 import org.jline.terminal.Terminal;
 import picocli.CommandLine.Command;
 

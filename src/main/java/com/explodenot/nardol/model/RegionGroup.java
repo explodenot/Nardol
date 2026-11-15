@@ -1,4 +1,4 @@
-package com.explodenot.gli.model;
+package com.explodenot.nardol.model;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
-import com.explodenot.gli.history.HistoryStore;
-import com.explodenot.gli.model.*;
+import com.explodenot.nardol.history.HistoryStore;
+import com.explodenot.nardol.model.*;
 import com.sun.net.httpserver.HttpServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

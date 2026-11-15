@@ -1,11 +1,11 @@
-package com.explodenot.gli.probe;
+package com.explodenot.nardol.probe;
 
-import com.explodenot.gli.analysis.Baseline;
-import com.explodenot.gli.analysis.Efficiency;
-import com.explodenot.gli.analysis.Geo;
-import com.explodenot.gli.analysis.Stats;
-import com.explodenot.gli.history.HistoryStore;
-import com.explodenot.gli.model.*;
+import com.explodenot.nardol.analysis.Baseline;
+import com.explodenot.nardol.analysis.Efficiency;
+import com.explodenot.nardol.analysis.Geo;
+import com.explodenot.nardol.analysis.Stats;
+import com.explodenot.nardol.history.HistoryStore;
+import com.explodenot.nardol.model.*;
 
 import java.time.Duration;
 import java.time.Instant;

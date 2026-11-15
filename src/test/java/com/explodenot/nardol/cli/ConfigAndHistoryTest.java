@@ -1,4 +1,4 @@
-package com.explodenot.gli.cli;
+package com.explodenot.nardol.cli;
 
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;

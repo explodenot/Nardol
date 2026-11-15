@@ -1,6 +1,6 @@
-package com.explodenot.gli.list;
+package com.explodenot.nardol.list;
 
-import com.explodenot.gli.model.RegionGroup;
+import com.explodenot.nardol.model.RegionGroup;
 
 import java.io.File;
 import java.io.IOException;

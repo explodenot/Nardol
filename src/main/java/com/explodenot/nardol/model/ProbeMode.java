@@ -1,4 +1,4 @@
-package com.explodenot.gli.model;
+package com.explodenot.nardol.model;
 
 public enum ProbeMode {
     TCP,

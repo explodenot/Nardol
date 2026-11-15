@@ -1,7 +1,7 @@
-package com.explodenot.gli.render;
+package com.explodenot.nardol.render;
 
-import com.explodenot.gli.model.RegionResult;
-import com.explodenot.gli.model.RunReport;
+import com.explodenot.nardol.model.RegionResult;
+import com.explodenot.nardol.model.RunReport;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

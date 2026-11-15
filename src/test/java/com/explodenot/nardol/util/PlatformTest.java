@@ -1,4 +1,4 @@
-package com.explodenot.gli.util;
+package com.explodenot.nardol.util;
 
 import org.junit.jupiter.api.Test;
 
