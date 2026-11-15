@@ -584,3 +584,128 @@ flowchart LR
 - Immutable records for all data models.
 - Sealed interfaces for closed polymorphism (`ProbeOutcome`).
 - Zero telemetry, zero external network calls during test execution.
+
+---
+
+## 26. Target List Cryptography, Hosting & Maintenance
+
+### What is the `targets.tsv.sig` file?
+`targets.tsv.sig` is an immutable, raw binary 64-byte Ed25519 digital signature of the canonical `targets.tsv` file.
+- It proves cryptographic authenticity and content integrity: no third party or proxy can tamper with, redirect, or inject arbitrary target hostnames into the list downloaded by Nardol clients.
+- If a downloaded list is modified by even a single byte or character, the Ed25519 signature verification fails immediately.
+
+### How does signature verification work?
+1. **Public Key**: The corresponding public key (`targets-public.key`, 44-byte X.509 ASN.1 SubjectPublicKeyInfo) is bundled directly into the application JAR at `/targets-public.key`.
+2. **Private Key**: The Ed25519 private key (`tools/keys/ed25519-private.key`) is maintained offline / out-of-band by the project maintainers and is never shipped in distributed binaries.
+3. **Verification Flow**:
+   - When `RemoteFetcher` downloads `targets.tsv` from a remote URL, it concurrently downloads `${url}.sig` (and falls back to `${url}.sha256` if configured).
+   - `SignatureVerifier.verify(byte[] data, byte[] signatureBytes)` invokes Java's native `Signature.getInstance("Ed25519")` with the bundled public key.
+   - If verification succeeds, the new target list is saved to local cache (`~/.cache/nardol/targets.tsv`).
+   - If verification fails, Nardol rejects the remote payload, prints an integrity warning, and falls back to the previous verified cache or bundled offline list (unless `--insecure-skip-verify` is explicitly supplied).
+
+### What needs to be hosted?
+For client auto-updates and on-demand updates (`nardol list update`) to function, host the following files together on an HTTPS web server or CDN (such as `https://explodenot.com/nardol/` or GitHub raw content mirrors):
+
+| File | MIME Type | Purpose |
+|---|---|---|
+| `targets.tsv` | `text/tab-separated-values` or `text/plain` | The tab-delimited target endpoints |
+| `targets.tsv.sig` | `application/octet-stream` | Raw 64-byte Ed25519 binary signature |
+| `targets.tsv.sha256` | `text/plain` | Standard SHA-256 checksum file (hex digest + filename) |
+
+HTTP servers hosting these assets should return standard caching headers (`ETag` and `Last-Modified`) to allow Nardol to make lightweight conditional `304 Not Modified` checks during daily runs.
+
+### What should be done after modifying `targets.tsv`?
+Whenever any row or field in `targets.tsv` is added, updated, or removed, execute the following steps in order:
+
+```bash
+# 1. Lint and validate the target list schema, coordinates, and unicast rules
+./nardol list validate targets.tsv
+
+# 2. Sync to resources so the bundled fallback list is kept up to date
+cp targets.tsv src/main/resources/targets.tsv
+
+# 3. Re-sign the target list with the Ed25519 signing tool
+java tools/SignListTool.java src/main/resources/targets.tsv
+
+# 4. Recompute the SHA-256 checksums
+shasum -a 256 src/main/resources/targets.tsv | awk '{print $1 "  targets.tsv"}' > src/main/resources/targets.tsv.sha256
+cp src/main/resources/targets.tsv.sha256 targets.tsv.sha256
+
+# 5. Run the test suite to ensure parser and signature assertions pass
+./gradlew check
+
+# 6. Upload targets.tsv, targets.tsv.sig, and targets.tsv.sha256 to your hosting server (e.g. explodenot.com/nardol/)
+```
+
+---
+
+## 27. CI & Automated List Health Monitoring
+
+Nardol maintains automated GitHub Actions pipelines located in `.github/workflows/`:
+
+```mermaid
+flowchart TD
+    subgraph CI["ci.yml (Push / PR on main)"]
+        Matrix["Matrix: Ubuntu / macOS / Windows x Java 21 / 25"] --> Build["./gradlew build check"]
+        Build --> Size["./gradlew dependencySizeReport jarSizeCheck"]
+        Size --> Upload["Upload nardol-*-all.jar Artifact"]
+    end
+    subgraph Health["list-health.yml (Daily 04:00 UTC)"]
+        DailyCron["Cron: 0 4 * * *"] --> BuildProber["./gradlew shadowJar"]
+        BuildProber --> RunHealthCheck["Probe all 64 regions (--json --timeout 5000)"]
+        RunHealthCheck --> JqReport["Parse unreachable / degraded count"]
+    end
+    subgraph Rel["release.yml (Tag v*)"]
+        TagPush["Push tag v*"] --> BuildRel["./gradlew build check shadowJar"]
+        BuildRel --> Checksum["Compute sha256sum"]
+        Checksum --> GHRelease["softprops/action-gh-release"]
+    end
+```
+
+### Daily List Health Check (`list-health.yml`)
+- **Trigger**: Runs every morning at **04:00 UTC** (`0 4 * * *`) and on manual `workflow_dispatch`.
+- **Function**: Builds the fat jar and executes `java -jar nardol-all.jar --json --timeout 5000 --samples 2`.
+- **Purpose**: Detects defunct cloud endpoints, decommissioned university servers, IP blocks, or persistent routing degradations across the global candidate pool before end users experience probe failures.
+- **Action on Failure**: If any endpoint is permanently decommissioned, maintainers can swap the endpoint in `targets.tsv` and re-sign it. Clients will automatically receive the updated list on their next daily check.
+
+---
+
+## 28. Release Instructions & Commands
+
+Follow this checklist to prepare and publish a new official NARDOL release:
+
+### 1. Pre-Release Verification
+Ensure all static analysis, unit tests, and size budgets pass cleanly:
+```bash
+# Verify semgrep SAST rules (must be 0 findings)
+semgrep scan --config auto
+
+# Clean build, test, and budget check
+./gradlew clean check shadowJar
+
+# Verify binary execution and version output
+./nardol --version
+./nardol doctor
+```
+
+### 2. Update Documentation and Versioning
+1. Bump version in `build.gradle.kts` (`version = "X.Y.Z"`).
+2. Bump version in `src/main/resources/version.properties` (`version=X.Y.Z`).
+3. Add release summary in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/).
+4. Update fat jar filenames in `README.md` (`nardol-X.Y.Z-all.jar`).
+5. Update test assertions in `src/test/java/com/explodenot/nardol/cli/CliTest.java` and `LegacyNamesTaskTest.java`.
+
+### 3. Commit and Tag
+```bash
+git add -A
+git commit -m "chore: release vX.Y.Z"
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+git push origin main
+git push origin vX.Y.Z
+```
+
+### 4. Automated Release Pipeline
+Pushing the `v*` tag triggers [.github/workflows/release.yml](.github/workflows/release.yml), which:
+1. Builds `nardol-X.Y.Z-all.jar`.
+2. Generates `nardol-sha256.txt` with SHA-256 checksums.
+3. Automatically publishes the GitHub Release with the jar and checksums attached.
