@@ -17,12 +17,25 @@ public class SignListTool {
         Path privKeyFile = keyDir.resolve("ed25519-private.key");
 
         KeyPair kp;
-        if (!Files.exists(privKeyFile)) {
+        String envKeyBase64 = System.getenv("NARDOL_ED25519_PRIVATE_KEY");
+
+        if (envKeyBase64 != null && !envKeyBase64.isBlank()) {
+            byte[] privBytes = Base64.getDecoder().decode(envKeyBase64.trim());
+            java.security.KeyFactory kf = java.security.KeyFactory.getInstance("Ed25519");
+            PrivateKey priv = kf.generatePrivate(new java.security.spec.PKCS8EncodedKeySpec(privBytes));
+            PublicKey pub = Files.exists(pubKeyFile)
+                ? kf.generatePublic(new java.security.spec.X509EncodedKeySpec(Files.readAllBytes(pubKeyFile)))
+                : null;
+            kp = new KeyPair(pub, priv);
+            System.out.println("Using Ed25519 private key from NARDOL_ED25519_PRIVATE_KEY environment variable.");
+        } else if (!Files.exists(privKeyFile)) {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed25519");
             kp = kpg.generateKeyPair();
             Files.write(privKeyFile, kp.getPrivate().getEncoded());
             Files.write(pubKeyFile, kp.getPublic().getEncoded());
             System.out.println("Generated new Ed25519 keypair.");
+            System.out.println("Base64 Private Key (save as NARDOL_ED25519_PRIVATE_KEY in GitHub Secrets if needed):");
+            System.out.println(Base64.getEncoder().encodeToString(kp.getPrivate().getEncoded()));
         } else {
             java.security.KeyFactory kf = java.security.KeyFactory.getInstance("Ed25519");
             PrivateKey priv = kf.generatePrivate(new java.security.spec.PKCS8EncodedKeySpec(Files.readAllBytes(privKeyFile)));

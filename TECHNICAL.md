@@ -625,6 +625,7 @@ Whenever any row or field in `targets.tsv` is added, updated, or removed, execut
 cp targets.tsv src/main/resources/targets.tsv
 
 # 3. Re-sign the target list with the Ed25519 signing tool
+# (Uses local tools/keys/ed25519-private.key or NARDOL_ED25519_PRIVATE_KEY env var)
 java tools/SignListTool.java src/main/resources/targets.tsv
 
 # 4. Recompute the SHA-256 checksums
@@ -636,6 +637,38 @@ cp src/main/resources/targets.tsv.sha256 targets.tsv.sha256
 
 # 6. Upload targets.tsv, targets.tsv.sig, and targets.tsv.sha256 to your hosting server (e.g. explodenot.com/nardol/)
 ```
+
+### Managing GitHub Secrets & CI Key Setup
+
+To keep the Ed25519 private key completely out of the git repository while still enabling automated CI signing or release workflows:
+
+#### 1. Configuring the Private Key Secret in GitHub
+1. Navigate to your repository on GitHub: **Settings** -> **Secrets and variables** -> **Actions**.
+2. Click **New repository secret**.
+3. Create the secret:
+   - **Name**: `NARDOL_ED25519_PRIVATE_KEY`
+   - **Secret**: The base64-encoded PKCS#8 private key string output by `SignListTool`. You can view your local base64 private key at any time by running:
+     ```bash
+     base64 < tools/keys/ed25519-private.key | tr -d '\n'
+     ```
+4. Click **Add secret**.
+
+#### 2. Using the Secret in GitHub Actions
+In automated workflows that sign updated target lists, pass the secret as an environment variable:
+```yaml
+      - name: Sign Target List
+        env:
+          NARDOL_ED25519_PRIVATE_KEY: ${{ secrets.NARDOL_ED25519_PRIVATE_KEY }}
+        run: |
+          java tools/SignListTool.java src/main/resources/targets.tsv
+```
+`SignListTool` automatically detects `NARDOL_ED25519_PRIVATE_KEY` if present in the environment and decodes the PKCS#8 key directly in memory without writing it to disk.
+
+#### 3. Summary of Required GitHub Secrets
+| Secret Name | Purpose | Required For |
+|---|---|---|
+| `NARDOL_ED25519_PRIVATE_KEY` | Base64-encoded Ed25519 PKCS#8 private key | Target list update/signing scripts |
+| `GITHUB_TOKEN` | Built-in GitHub Actions token (automatic) | Publishing releases in `release.yml` |
 
 ---
 

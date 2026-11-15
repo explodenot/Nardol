@@ -33,3 +33,10 @@ Thumbs.db
 # Local tool caches and outputs
 local.properties
 .history/
+
+# Private Cryptographic Keys & Secrets
+tools/keys/
+*.key
+*.pem
+*.p12
+*.keystore
