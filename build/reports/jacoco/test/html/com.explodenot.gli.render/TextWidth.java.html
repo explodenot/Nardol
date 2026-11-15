@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextWidth.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">TextWidth.java</span></div><h1>TextWidth.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+public final class TextWidth {
+    private TextWidth() {}
+
+    /**
+     * Compute display columns for a string, accounting for ANSI escapes and East Asian wide characters.
+     */
+    public static int displayWidth(String s) {
+<span class="pc bpc" id="L10" title="2 of 4 branches missed.">        if (s == null || s.isEmpty()) return 0;</span>
+<span class="fc" id="L11">        int width = 0;</span>
+<span class="fc" id="L12">        boolean inAnsi = false;</span>
+
+<span class="fc bfc" id="L14" title="All 2 branches covered.">        for (int i = 0; i &lt; s.length(); ) {</span>
+<span class="fc" id="L15">            int cp = s.codePointAt(i);</span>
+<span class="fc" id="L16">            i += Character.charCount(cp);</span>
+
+<span class="fc bfc" id="L18" title="All 2 branches covered.">            if (cp == 0x1B) { // ESC</span>
+<span class="fc" id="L19">                inAnsi = true;</span>
+<span class="fc" id="L20">                continue;</span>
+            }
+<span class="fc bfc" id="L22" title="All 2 branches covered.">            if (inAnsi) {</span>
+<span class="pc bpc" id="L23" title="2 of 8 branches missed.">                if ((cp &gt;= 'A' &amp;&amp; cp &lt;= 'Z') || (cp &gt;= 'a' &amp;&amp; cp &lt;= 'z')) {</span>
+<span class="fc" id="L24">                    inAnsi = false;</span>
+                }
+                continue;
+            }
+
+<span class="fc" id="L29">            width += charDisplayWidth(cp);</span>
+<span class="fc" id="L30">        }</span>
+<span class="fc" id="L31">        return width;</span>
+    }
+
+    public static int charDisplayWidth(int cp) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (Character.isISOControl(cp)) return 0;</span>
+        // East Asian Wide / Fullwidth characters and common emojis
+<span class="pc bpc" id="L37" title="27 of 42 branches missed.">        if ((cp &gt;= 0x1100 &amp;&amp; cp &lt;= 0x115F) ||</span>
+            (cp &gt;= 0x2E80 &amp;&amp; cp &lt;= 0xA4CF &amp;&amp; cp != 0x303F) ||
+            (cp &gt;= 0xAC00 &amp;&amp; cp &lt;= 0xD7A3) ||
+            (cp &gt;= 0xF900 &amp;&amp; cp &lt;= 0xFAFF) ||
+            (cp &gt;= 0xFE10 &amp;&amp; cp &lt;= 0xFE19) ||
+            (cp &gt;= 0xFE30 &amp;&amp; cp &lt;= 0xFE6F) ||
+            (cp &gt;= 0xFF00 &amp;&amp; cp &lt;= 0xFF60) ||
+            (cp &gt;= 0xFFE0 &amp;&amp; cp &lt;= 0xFFE6) ||
+            (cp &gt;= 0x1F300 &amp;&amp; cp &lt;= 0x1F64F) ||
+            (cp &gt;= 0x1F900 &amp;&amp; cp &lt;= 0x1F9FF)) {
+<span class="fc" id="L47">            return 2;</span>
+        }
+<span class="fc" id="L49">        return 1;</span>
+    }
+
+    public static String padRight(String s, int targetWidth) {
+<span class="nc" id="L53">        int w = displayWidth(s);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (w &gt;= targetWidth) return s;</span>
+<span class="nc" id="L55">        return s + &quot; &quot;.repeat(targetWidth - w);</span>
+    }
+
+    public static String padLeft(String s, int targetWidth) {
+<span class="nc" id="L59">        int w = displayWidth(s);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (w &gt;= targetWidth) return s;</span>
+<span class="nc" id="L61">        return &quot; &quot;.repeat(targetWidth - w) + s;</span>
+    }
+
+    public static String truncate(String s, int maxWidth) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (displayWidth(s) &lt;= maxWidth) return s;</span>
+<span class="nc" id="L66">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L67">        int currentWidth = 0;</span>
+<span class="nc" id="L68">        boolean inAnsi = false;</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (int i = 0; i &lt; s.length(); ) {</span>
+<span class="nc" id="L71">            int cp = s.codePointAt(i);</span>
+<span class="nc" id="L72">            i += Character.charCount(cp);</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">            if (cp == 0x1B) {</span>
+<span class="nc" id="L75">                inAnsi = true;</span>
+<span class="nc" id="L76">                sb.appendCodePoint(cp);</span>
+<span class="nc" id="L77">                continue;</span>
+            }
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (inAnsi) {</span>
+<span class="nc" id="L80">                sb.appendCodePoint(cp);</span>
+<span class="nc bnc" id="L81" title="All 8 branches missed.">                if ((cp &gt;= 'A' &amp;&amp; cp &lt;= 'Z') || (cp &gt;= 'a' &amp;&amp; cp &lt;= 'z')) {</span>
+<span class="nc" id="L82">                    inAnsi = false;</span>
+                }
+                continue;
+            }
+
+<span class="nc" id="L87">            int w = charDisplayWidth(cp);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            if (currentWidth + w &gt; maxWidth) break;</span>
+<span class="nc" id="L89">            sb.appendCodePoint(cp);</span>
+<span class="nc" id="L90">            currentWidth += w;</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc" id="L92">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

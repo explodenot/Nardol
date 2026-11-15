@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.list</a> &gt; <span class="el_source">TargetValidator.java</span></div><h1>TargetValidator.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.list;
+
+import com.explodenot.gli.model.Target;
+import com.explodenot.gli.model.Tier;
+
+import java.util.regex.Pattern;
+
+public final class TargetValidator {
+    private TargetValidator() {}
+
+<span class="fc" id="L11">    private static final Pattern REGION_ID_PATTERN = Pattern.compile(&quot;^[a-z0-9_-]{2,32}$&quot;);</span>
+<span class="fc" id="L12">    private static final Pattern HOSTNAME_PATTERN = Pattern.compile(&quot;^[a-zA-Z0-9.-]{3,253}$&quot;);</span>
+
+<span class="fc" id="L14">    public record ValidationResult(boolean valid, String error) {</span>
+        public static ValidationResult ok() {
+<span class="fc" id="L16">            return new ValidationResult(true, null);</span>
+        }
+        public static ValidationResult fail(String error) {
+<span class="fc" id="L19">            return new ValidationResult(false, error);</span>
+        }
+    }
+
+    public static ValidationResult validate(
+        String regionId,
+        String continent,
+        String country,
+        String city,
+        String provider,
+        String host,
+        int port,
+        double lat,
+        double lon,
+        String tier
+    ) {
+<span class="fc bfc" id="L35" title="All 4 branches covered.">        if (regionId == null || !REGION_ID_PATTERN.matcher(regionId.trim()).matches()) {</span>
+<span class="fc" id="L36">            return ValidationResult.fail(&quot;Invalid region_id: &quot; + regionId);</span>
+        }
+<span class="pc bpc" id="L38" title="2 of 6 branches missed.">        if (continent == null || continent.isBlank() || continent.length() &gt; 64) {</span>
+<span class="fc" id="L39">            return ValidationResult.fail(&quot;Invalid continent: &quot; + continent);</span>
+        }
+<span class="pc bpc" id="L41" title="2 of 6 branches missed.">        if (country == null || country.isBlank() || country.length() &gt; 64) {</span>
+<span class="fc" id="L42">            return ValidationResult.fail(&quot;Invalid country: &quot; + country);</span>
+        }
+<span class="pc bpc" id="L44" title="2 of 6 branches missed.">        if (city == null || city.isBlank() || city.length() &gt; 64) {</span>
+<span class="fc" id="L45">            return ValidationResult.fail(&quot;Invalid city: &quot; + city);</span>
+        }
+<span class="pc bpc" id="L47" title="2 of 6 branches missed.">        if (provider == null || provider.isBlank() || provider.length() &gt; 64) {</span>
+<span class="fc" id="L48">            return ValidationResult.fail(&quot;Invalid provider: &quot; + provider);</span>
+        }
+<span class="pc bpc" id="L50" title="1 of 4 branches missed.">        if (host == null || !HOSTNAME_PATTERN.matcher(host.trim()).matches()) {</span>
+<span class="fc" id="L51">            return ValidationResult.fail(&quot;Invalid host: &quot; + host);</span>
+        }
+<span class="fc bfc" id="L53" title="All 4 branches covered.">        if (port &lt; 1 || port &gt; 65535) {</span>
+<span class="fc" id="L54">            return ValidationResult.fail(&quot;Invalid port: &quot; + port);</span>
+        }
+<span class="fc bfc" id="L56" title="All 4 branches covered.">        if (lat &lt; -90.0 || lat &gt; 90.0) {</span>
+<span class="fc" id="L57">            return ValidationResult.fail(&quot;Invalid latitude: &quot; + lat);</span>
+        }
+<span class="pc bpc" id="L59" title="1 of 4 branches missed.">        if (lon &lt; -180.0 || lon &gt; 180.0) {</span>
+<span class="fc" id="L60">            return ValidationResult.fail(&quot;Invalid longitude: &quot; + lon);</span>
+        }
+        try {
+<span class="fc" id="L63">            Tier.fromString(tier);</span>
+<span class="fc" id="L64">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L65">            return ValidationResult.fail(e.getMessage());</span>
+<span class="fc" id="L66">        }</span>
+
+        // Host cannot contain suspicious path / control chars
+<span class="pc bpc" id="L69" title="4 of 8 branches missed.">        if (host.contains(&quot;/&quot;) || host.contains(&quot;\\&quot;) || host.contains(&quot;\n&quot;) || host.contains(&quot;\r&quot;)) {</span>
+<span class="nc" id="L70">            return ValidationResult.fail(&quot;Host contains invalid characters: &quot; + host);</span>
+        }
+
+<span class="fc" id="L73">        return ValidationResult.ok();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

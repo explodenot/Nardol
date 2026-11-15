@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RemoteFetcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.list</a> &gt; <span class="el_source">RemoteFetcher.java</span></div><h1>RemoteFetcher.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.list;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+public interface RemoteFetcher {
+<span class="nc" id="L12">    record FetchResult(</span>
+        int statusCode,
+        byte[] body,
+        String etag
+    ) {}
+
+    FetchResult fetch(String url, String ifNoneMatchEtag, Duration timeout, boolean allowInsecure) throws IOException, InterruptedException;
+
+<span class="fc" id="L20">    RemoteFetcher DEFAULT = new RemoteFetcher() {</span>
+<span class="fc" id="L21">        private final HttpClient client = HttpClient.newBuilder()</span>
+<span class="fc" id="L22">            .connectTimeout(Duration.ofSeconds(4))</span>
+<span class="fc" id="L23">            .followRedirects(HttpClient.Redirect.NORMAL)</span>
+<span class="fc" id="L24">            .build();</span>
+
+        @Override
+        public FetchResult fetch(String url, String ifNoneMatchEtag, Duration timeout, boolean allowInsecure) throws IOException, InterruptedException {
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">            if (!allowInsecure &amp;&amp; !url.startsWith(&quot;https://&quot;)) {</span>
+<span class="fc" id="L29">                throw new IllegalArgumentException(&quot;Insecure HTTP list URL rejected: &quot; + url + &quot; (use --allow-insecure-list to override)&quot;);</span>
+            }
+
+<span class="nc" id="L32">            HttpRequest.Builder reqBuilder = HttpRequest.newBuilder()</span>
+<span class="nc" id="L33">                .uri(URI.create(url))</span>
+<span class="nc" id="L34">                .timeout(timeout)</span>
+<span class="nc" id="L35">                .GET();</span>
+
+<span class="nc bnc" id="L37" title="All 4 branches missed.">            if (ifNoneMatchEtag != null &amp;&amp; !ifNoneMatchEtag.isBlank()) {</span>
+<span class="nc" id="L38">                reqBuilder.header(&quot;If-None-Match&quot;, ifNoneMatchEtag);</span>
+            }
+
+<span class="nc" id="L41">            HttpResponse&lt;byte[]&gt; resp = client.send(reqBuilder.build(), HttpResponse.BodyHandlers.ofByteArray());</span>
+<span class="nc" id="L42">            String etag = resp.headers().firstValue(&quot;ETag&quot;).orElse(null);</span>
+<span class="nc" id="L43">            return new FetchResult(resp.statusCode(), resp.body(), etag);</span>
+        }
+    };
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

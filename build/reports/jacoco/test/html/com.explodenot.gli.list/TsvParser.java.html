@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TsvParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.list</a> &gt; <span class="el_source">TsvParser.java</span></div><h1>TsvParser.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.list;
+
+import com.explodenot.gli.model.Region;
+import com.explodenot.gli.model.RegionGroup;
+import com.explodenot.gli.model.Target;
+import com.explodenot.gli.model.Tier;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class TsvParser {
+    private TsvParser() {}
+
+    public static final int MAX_FILE_SIZE_BYTES = 512 * 1024; // 512 KB
+    public static final int MAX_LINES = 5000;
+
+<span class="fc" id="L22">    public record ParseResult(</span>
+        List&lt;RegionGroup&gt; groups,
+        int totalLines,
+        int validTargets,
+        int invalidLines,
+        List&lt;String&gt; errors
+    ) {}
+
+    public static ParseResult parse(String content) throws IOException {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (content.getBytes().length &gt; MAX_FILE_SIZE_BYTES) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;Target list exceeds maximum size limit of 512 KB&quot;);</span>
+        }
+
+<span class="fc" id="L35">        Map&lt;String, List&lt;Target&gt;&gt; regionMap = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L36">        Map&lt;String, Region&gt; metadataMap = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L37">        List&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L39">        int lineCount = 0;</span>
+<span class="fc" id="L40">        int validCount = 0;</span>
+<span class="fc" id="L41">        int invalidCount = 0;</span>
+
+<span class="fc" id="L43">        try (BufferedReader reader = new BufferedReader(new StringReader(content))) {</span>
+            String line;
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L46">                lineCount++;</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">                if (lineCount &gt; MAX_LINES) {</span>
+<span class="nc" id="L48">                    throw new IllegalArgumentException(&quot;Target list exceeds maximum line limit of &quot; + MAX_LINES);</span>
+                }
+
+<span class="fc" id="L51">                String trimmed = line.trim();</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">                if (trimmed.isEmpty() || trimmed.startsWith(&quot;#&quot;)) {</span>
+<span class="fc" id="L53">                    continue;</span>
+                }
+
+<span class="fc" id="L56">                String[] cols = line.split(&quot;\t&quot;, -1);</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                if (cols.length &lt; 10) {</span>
+<span class="nc" id="L58">                    invalidCount++;</span>
+<span class="nc" id="L59">                    errors.add(&quot;Line &quot; + lineCount + &quot;: expected 10 tab-separated columns, found &quot; + cols.length);</span>
+<span class="nc" id="L60">                    continue;</span>
+                }
+
+<span class="fc" id="L63">                String regionId = cols[0].trim();</span>
+<span class="fc" id="L64">                String continent = cols[1].trim();</span>
+<span class="fc" id="L65">                String country = cols[2].trim();</span>
+<span class="fc" id="L66">                String city = cols[3].trim();</span>
+<span class="fc" id="L67">                String provider = cols[4].trim();</span>
+<span class="fc" id="L68">                String host = cols[5].trim();</span>
+                int port;
+                double lat;
+                double lon;
+                try {
+<span class="fc" id="L73">                    port = Integer.parseInt(cols[6].trim());</span>
+<span class="fc" id="L74">                    lat = Double.parseDouble(cols[7].trim());</span>
+<span class="fc" id="L75">                    lon = Double.parseDouble(cols[8].trim());</span>
+<span class="nc" id="L76">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L77">                    invalidCount++;</span>
+<span class="nc" id="L78">                    errors.add(&quot;Line &quot; + lineCount + &quot;: invalid numeric port or lat/lon: &quot; + e.getMessage());</span>
+<span class="nc" id="L79">                    continue;</span>
+<span class="fc" id="L80">                }</span>
+<span class="fc" id="L81">                String tierStr = cols[9].trim();</span>
+
+<span class="fc" id="L83">                TargetValidator.ValidationResult v = TargetValidator.validate(</span>
+                    regionId, continent, country, city, provider, host, port, lat, lon, tierStr
+                );
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">                if (!v.valid()) {</span>
+<span class="fc" id="L88">                    invalidCount++;</span>
+<span class="fc" id="L89">                    errors.add(&quot;Line &quot; + lineCount + &quot;: &quot; + v.error());</span>
+<span class="fc" id="L90">                    continue;</span>
+                }
+
+<span class="fc" id="L93">                Tier tier = Tier.fromString(tierStr);</span>
+<span class="fc" id="L94">                Target target = new Target(regionId, continent, country, city, provider, host, port, lat, lon, tier);</span>
+
+<span class="fc" id="L96">                regionMap.computeIfAbsent(regionId, k -&gt; new ArrayList&lt;&gt;()).add(target);</span>
+<span class="fc" id="L97">                metadataMap.putIfAbsent(regionId, new Region(regionId, continent, country, city, lat, lon));</span>
+<span class="fc" id="L98">                validCount++;</span>
+<span class="fc" id="L99">            }</span>
+        }
+
+<span class="fc" id="L102">        List&lt;RegionGroup&gt; groups = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (Map.Entry&lt;String, List&lt;Target&gt;&gt; entry : regionMap.entrySet()) {</span>
+<span class="fc" id="L104">            Region reg = metadataMap.get(entry.getKey());</span>
+<span class="fc" id="L105">            groups.add(new RegionGroup(reg, entry.getValue()));</span>
+<span class="fc" id="L106">        }</span>
+
+<span class="fc" id="L108">        return new ParseResult(groups, lineCount, validCount, invalidCount, errors);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

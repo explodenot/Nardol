@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CorrelationDetector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.analysis</a> &gt; <span class="el_source">CorrelationDetector.java</span></div><h1>CorrelationDetector.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.analysis;
+
+import com.explodenot.gli.model.RegionResult;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public final class CorrelationDetector {
+    private CorrelationDetector() {}
+
+    private static final double CONTINENT_DEGRADED_THRESHOLD = 0.40; // 40%
+
+    public static List&lt;String&gt; detect(List&lt;RegionResult&gt; results) {
+<span class="fc" id="L16">        List&lt;String&gt; alerts = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L17" title="2 of 4 branches missed.">        if (results == null || results.isEmpty()) return alerts;</span>
+
+<span class="fc" id="L19">        Map&lt;String, List&lt;RegionResult&gt;&gt; byContinent = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        for (RegionResult r : results) {</span>
+<span class="fc" id="L21">            byContinent.computeIfAbsent(r.region().continent(), k -&gt; new ArrayList&lt;&gt;()).add(r);</span>
+<span class="fc" id="L22">        }</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (Map.Entry&lt;String, List&lt;RegionResult&gt;&gt; entry : byContinent.entrySet()) {</span>
+<span class="fc" id="L25">            String continent = entry.getKey();</span>
+<span class="fc" id="L26">            List&lt;RegionResult&gt; continentResults = entry.getValue();</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">            if (continentResults.size() &lt; 2) continue;</span>
+
+<span class="nc" id="L29">            long degradedCount = continentResults.stream()</span>
+<span class="nc" id="L30">                .filter(RegionResult::isDegraded)</span>
+<span class="nc" id="L31">                .count();</span>
+
+<span class="nc" id="L33">            double ratio = (double) degradedCount / continentResults.size();</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (ratio &gt;= CONTINENT_DEGRADED_THRESHOLD) {</span>
+<span class="nc" id="L35">                alerts.add(String.format(</span>
+                    &quot;Heuristic Alert: %s-bound paths degraded (%d/%d regions degraded vs baseline): &quot; +
+                    &quot;possible shared upstream routing or submarine cable issue (cannot prove causation).&quot;,
+<span class="nc" id="L38">                    continent, degradedCount, continentResults.size()</span>
+                ));
+            }
+<span class="nc" id="L41">        }</span>
+
+<span class="fc" id="L43">        return alerts;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

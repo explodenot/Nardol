@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rgb.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">Rgb.java</span></div><h1>Rgb.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+<span class="fc" id="L3">public record Rgb(int r, int g, int b) {</span>
+<span class="fc" id="L4">    public static final Rgb GREEN = new Rgb(46, 204, 113);</span>
+<span class="fc" id="L5">    public static final Rgb YELLOW = new Rgb(241, 196, 15);</span>
+<span class="fc" id="L6">    public static final Rgb ORANGE = new Rgb(230, 126, 34);</span>
+<span class="fc" id="L7">    public static final Rgb RED = new Rgb(231, 76, 60);</span>
+<span class="fc" id="L8">    public static final Rgb CYAN = new Rgb(52, 152, 219);</span>
+<span class="fc" id="L9">    public static final Rgb GRAY = new Rgb(127, 140, 141);</span>
+<span class="fc" id="L10">    public static final Rgb DARK_GRAY = new Rgb(80, 80, 80);</span>
+<span class="fc" id="L11">    public static final Rgb WHITE = new Rgb(236, 240, 241);</span>
+
+    public static Rgb interpolate(Rgb c1, Rgb c2, double fraction) {
+<span class="nc" id="L14">        fraction = Math.clamp(fraction, 0.0, 1.0);</span>
+<span class="nc" id="L15">        int r = (int) Math.round(c1.r + (c2.r - c1.r) * fraction);</span>
+<span class="nc" id="L16">        int g = (int) Math.round(c1.g + (c2.g - c1.g) * fraction);</span>
+<span class="nc" id="L17">        int b = (int) Math.round(c1.b + (c2.b - c1.b) * fraction);</span>
+<span class="nc" id="L18">        return new Rgb(r, g, b);</span>
+    }
+
+    public static Rgb forLatency(double latencyMs) {
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (latencyMs &lt;= 50.0) {</span>
+<span class="nc" id="L23">            return interpolate(GREEN, YELLOW, latencyMs / 50.0);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        } else if (latencyMs &lt;= 150.0) {</span>
+<span class="nc" id="L25">            return interpolate(YELLOW, ORANGE, (latencyMs - 50.0) / 100.0);</span>
+        } else {
+<span class="nc" id="L27">            return interpolate(ORANGE, RED, Math.min((latencyMs - 150.0) / 150.0, 1.0));</span>
+        }
+    }
+
+    public int toAnsi256() {
+        // Standard 6x6x6 color cube
+<span class="nc" id="L33">        int ri = (int) Math.round(r * 5.0 / 255.0);</span>
+<span class="nc" id="L34">        int gi = (int) Math.round(g * 5.0 / 255.0);</span>
+<span class="nc" id="L35">        int bi = (int) Math.round(b * 5.0 / 255.0);</span>
+<span class="nc" id="L36">        return 16 + (36 * ri) + (6 * gi) + bi;</span>
+    }
+
+    public int toAnsi16() {
+<span class="nc bnc" id="L40" title="All 6 branches missed.">        if (r &gt; 180 &amp;&amp; g &lt; 100 &amp;&amp; b &lt; 100) return 31; // red</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (g &gt; 180 &amp;&amp; r &lt; 100) return 32; // green</span>
+<span class="nc bnc" id="L42" title="All 6 branches missed.">        if (r &gt; 180 &amp;&amp; g &gt; 150 &amp;&amp; b &lt; 100) return 33; // yellow</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (b &gt; 180) return 34; // blue</span>
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        if (r &gt; 150 &amp;&amp; b &gt; 150) return 35; // magenta</span>
+<span class="nc bnc" id="L45" title="All 4 branches missed.">        if (g &gt; 150 &amp;&amp; b &gt; 150) return 36; // cyan</span>
+<span class="nc" id="L46">        return 37; // white</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

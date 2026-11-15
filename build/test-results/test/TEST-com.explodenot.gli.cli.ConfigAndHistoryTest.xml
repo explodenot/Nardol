@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.explodenot.gli.cli.ConfigAndHistoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-15T13:20:01.922Z" hostname="Viruchiths-Mac-mini.local" time="0.012">
+  <properties/>
+  <testcase name="testHistoryCommandExecution()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.007"/>
+  <testcase name="testConfigSetAndShow()" classname="com.explodenot.gli.cli.ConfigAndHistoryTest" time="0.005"/>
+  <system-out><![CDATA[?[1m=== History Records (21 total samples) ===?[0m
+Timestamp            Region           Host                          Median     Status
+2026-11-15T13:20:01  na-us-east-va    dynamodb.us-east-1.amazonaws.com    262.6 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:20:01  na-us-east-va    dynamodb.us-east-1.amazonaws.com    532.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:19:16  na-us-east-va    dynamodb.us-east-1.amazonaws.com    240.9 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:19:15  na-us-east-va    dynamodb.us-east-1.amazonaws.com    498.9 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:19:04  na-us-east-va    dynamodb.us-east-1.amazonaws.com    280.2 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:19:04  na-us-east-va    dynamodb.us-east-1.amazonaws.com    269.1 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:18:55  na-us-east-va    dynamodb.us-east-1.amazonaws.com    280.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:18:55  na-us-east-va    dynamodb.us-east-1.amazonaws.com    561.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:18:03  na-us-east-va    dynamodb.us-east-1.amazonaws.com    275.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:18:03  na-us-east-va    dynamodb.us-east-1.amazonaws.com    293.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:17:34  na-us-east-va    dynamodb.us-east-1.amazonaws.com    277.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:17:34  na-us-east-va    dynamodb.us-east-1.amazonaws.com    510.7 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:17:03  na-us-east-va    dynamodb.us-east-1.amazonaws.com    271.0 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:17:03  na-us-east-va    dynamodb.us-east-1.amazonaws.com    317.4 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:16:29  na-us-east-va    dynamodb.us-east-1.amazonaws.com    280.3 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:16:29  na-us-east-va    dynamodb.us-east-1.amazonaws.com    266.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:16:19  na-us-east-va    dynamodb.us-east-1.amazonaws.com    274.1 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:16:18  na-us-east-va    dynamodb.us-east-1.amazonaws.com    542.0 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:15:56  na-us-east-va    dynamodb.us-east-1.amazonaws.com    332.5 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:15:40  na-us-east-va    dynamodb.us-east-1.amazonaws.com    322.9 ms ?[38;2;46;204;113mOK?[0m
+2026-11-15T13:15:34  na-us-east-va    dynamodb.us-east-1.amazonaws.com    309.3 ms ?[38;2;46;204;113mOK?[0m
+Updated samples = 5
+Configuration reset to defaults.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

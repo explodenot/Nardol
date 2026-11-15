@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistoryCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.cli</a> &gt; <span class="el_source">HistoryCommand.java</span></div><h1>HistoryCommand.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.cli;
+
+import com.explodenot.gli.history.HistoryStore;
+import com.explodenot.gli.render.Ansi;
+import com.explodenot.gli.render.ColorDepth;
+import com.explodenot.gli.render.Rgb;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+
+import java.io.PrintStream;
+import java.util.List;
+import java.util.concurrent.Callable;
+
+@Command(name = &quot;history&quot;, description = &quot;Summaries, trends, and export of past probe runs&quot;, mixinStandardHelpOptions = true)
+<span class="fc" id="L15">public class HistoryCommand implements Callable&lt;Integer&gt; {</span>
+
+    @Option(names = {&quot;--export&quot;}, description = &quot;Export format (json or csv)&quot;)
+    private String exportFormat;
+
+    @Option(names = {&quot;--compare&quot;}, description = &quot;Compare recent runs&quot;)
+    private boolean compare;
+
+    @Override
+    public Integer call() {
+<span class="fc" id="L25">        HistoryStore store = new HistoryStore();</span>
+<span class="fc" id="L26">        List&lt;HistoryStore.HistoryEntry&gt; entries = store.loadEntries();</span>
+
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (entries.isEmpty()) {</span>
+<span class="nc" id="L29">            System.err.println(&quot;No history entries found.&quot;);</span>
+<span class="nc" id="L30">            return ExitCodes.SUCCESS;</span>
+        }
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (&quot;json&quot;.equalsIgnoreCase(exportFormat)) {</span>
+<span class="nc" id="L34">            com.google.gson.Gson gson = new com.google.gson.GsonBuilder().setPrettyPrinting().create();</span>
+<span class="nc" id="L35">            System.out.println(gson.toJson(entries));</span>
+<span class="nc" id="L36">            return ExitCodes.SUCCESS;</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        } else if (&quot;csv&quot;.equalsIgnoreCase(exportFormat)) {</span>
+<span class="nc" id="L38">            System.out.println(&quot;timestamp,tool_version,region_id,winning_host,median_ms,p95_ms,loss_pct,reachable,address_family&quot;);</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            for (HistoryStore.HistoryEntry e : entries) {</span>
+<span class="nc" id="L40">                System.out.printf(&quot;%s,%s,%s,%s,%.2f,%.2f,%.1f,%b,%s%n&quot;,</span>
+<span class="nc" id="L41">                    e.timestamp(), e.toolVersion(), e.regionId(),</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">                    e.winningHost() != null ? e.winningHost() : &quot;&quot;,</span>
+<span class="nc" id="L43">                    e.medianMs(), e.p95Ms(), e.lossPercent(), e.reachable(), e.addressFamily()</span>
+                );
+<span class="nc" id="L45">            }</span>
+<span class="nc" id="L46">            return ExitCodes.SUCCESS;</span>
+        }
+
+<span class="fc" id="L49">        Ansi ansi = new Ansi(ColorDepth.detect(null, false));</span>
+<span class="fc" id="L50">        System.out.println(ansi.bold() + &quot;=== History Records (&quot; + entries.size() + &quot; total samples) ===&quot; + ansi.reset());</span>
+<span class="fc" id="L51">        System.out.printf(&quot;%-20s %-16s %-25s %10s %10s%n&quot;, &quot;Timestamp&quot;, &quot;Region&quot;, &quot;Host&quot;, &quot;Median&quot;, &quot;Status&quot;);</span>
+<span class="fc" id="L52">        int count = 0;</span>
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">        for (int i = entries.size() - 1; i &gt;= 0 &amp;&amp; count &lt; 25; i--, count++) {</span>
+<span class="fc" id="L54">            HistoryStore.HistoryEntry e = entries.get(i);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            String status = e.reachable() ? ansi.color(Rgb.GREEN, &quot;OK&quot;) : ansi.color(Rgb.RED, &quot;DOWN&quot;);</span>
+<span class="fc" id="L56">            System.out.printf(&quot;%-20s %-16s %-25s %8.1f ms %s%n&quot;,</span>
+<span class="fc" id="L57">                e.timestamp().substring(0, Math.min(19, e.timestamp().length())),</span>
+<span class="fc" id="L58">                e.regionId(),</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                e.winningHost() != null ? e.winningHost() : &quot;none&quot;,</span>
+<span class="fc" id="L60">                e.medianMs(),</span>
+                status
+            );
+        }
+<span class="fc" id="L64">        return ExitCodes.SUCCESS;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

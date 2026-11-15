@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReportRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">ReportRenderer.java</span></div><h1>ReportRenderer.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+import com.explodenot.gli.model.RegionResult;
+import com.explodenot.gli.model.RunReport;
+
+import java.io.PrintStream;
+import java.util.*;
+
+public final class ReportRenderer {
+    private final Ansi ansi;
+    private final Glyphs glyphs;
+    private final PrintStream out;
+
+<span class="nc" id="L14">    public ReportRenderer(Ansi ansi, Glyphs glyphs, PrintStream out) {</span>
+<span class="nc" id="L15">        this.ansi = ansi;</span>
+<span class="nc" id="L16">        this.glyphs = glyphs;</span>
+<span class="nc" id="L17">        this.out = out;</span>
+<span class="nc" id="L18">    }</span>
+
+    public void render(RunReport report, int termWidth, boolean verbose, boolean compact) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (report.results().isEmpty()) {</span>
+<span class="nc" id="L22">            out.println(ansi.color(Rgb.YELLOW, &quot;No regions probed.&quot;));</span>
+<span class="nc" id="L23">            return;</span>
+        }
+
+        // Group results by continent
+<span class="nc" id="L27">        Map&lt;String, List&lt;RegionResult&gt;&gt; byContinent = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        for (RegionResult r : report.results()) {</span>
+<span class="nc" id="L29">            byContinent.computeIfAbsent(r.region().continent(), k -&gt; new ArrayList&lt;&gt;()).add(r);</span>
+<span class="nc" id="L30">        }</span>
+
+<span class="nc" id="L32">        out.println();</span>
+        // Render continent groups
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (Map.Entry&lt;String, List&lt;RegionResult&gt;&gt; entry : byContinent.entrySet()) {</span>
+<span class="nc" id="L35">            String continent = entry.getKey();</span>
+<span class="nc" id="L36">            List&lt;RegionResult&gt; list = entry.getValue();</span>
+
+            // Continent Header
+<span class="nc" id="L39">            out.println(ansi.bold() + ansi.color(Rgb.CYAN, &quot;─── &quot; + continent + &quot; (&quot; + list.size() + &quot;) ───&quot;) + ansi.reset());</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            for (RegionResult r : list) {</span>
+<span class="nc" id="L42">                renderRegionRow(r, termWidth, verbose, compact);</span>
+<span class="nc" id="L43">            }</span>
+<span class="nc" id="L44">            out.println();</span>
+<span class="nc" id="L45">        }</span>
+
+        // Summary Box
+<span class="nc" id="L48">        renderSummary(report, termWidth);</span>
+<span class="nc" id="L49">    }</span>
+
+    private void renderRegionRow(RegionResult r, int termWidth, boolean verbose, boolean compact) {
+        String statusGlyph;
+        Rgb statusColor;
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (!r.reachable()) {</span>
+<span class="nc" id="L55">            statusGlyph = glyphs.failed();</span>
+<span class="nc" id="L56">            statusColor = Rgb.RED;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        } else if (r.isDegraded()) {</span>
+<span class="nc" id="L58">            statusGlyph = glyphs.degraded();</span>
+<span class="nc" id="L59">            statusColor = Rgb.YELLOW;</span>
+        } else {
+<span class="nc" id="L61">            statusGlyph = glyphs.ok();</span>
+<span class="nc" id="L62">            statusColor = Rgb.GREEN;</span>
+        }
+
+<span class="nc" id="L65">        String location = r.region().city() + &quot;, &quot; + r.region().country();</span>
+<span class="nc" id="L66">        String targetInfo = &quot;&quot;;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (r.winningTarget() != null) {</span>
+<span class="nc" id="L68">            targetInfo = r.winningTarget().provider() + &quot; (&quot; + r.winningTarget().host() + &quot;)&quot;;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        } else if (r.primaryFailureMessage() != null) {</span>
+<span class="nc" id="L70">            targetInfo = r.primaryFailureMessage();</span>
+        }
+
+<span class="nc" id="L73">        StringBuilder row = new StringBuilder();</span>
+<span class="nc" id="L74">        row.append(ansi.color(statusColor, TextWidth.padRight(statusGlyph, 3)));</span>
+<span class="nc" id="L75">        row.append(ansi.bold()).append(TextWidth.padRight(location, 22)).append(ansi.reset());</span>
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (r.reachable()) {</span>
+<span class="nc" id="L78">            String med = String.format(&quot;%6.1f ms&quot;, r.medianMs());</span>
+<span class="nc" id="L79">            row.append(ansi.color(Rgb.forLatency(r.medianMs()), med)).append(&quot; &quot;);</span>
+
+            // Latency Bar (e.g. 10 chars max)
+<span class="nc" id="L82">            int barLen = (int) Math.clamp(Math.round(r.medianMs() / 25.0), 1, 12);</span>
+<span class="nc" id="L83">            String bar = &quot;█&quot;.repeat(barLen);</span>
+<span class="nc" id="L84">            row.append(ansi.color(Rgb.forLatency(r.medianMs()), TextWidth.padRight(bar, 13)));</span>
+
+            // Efficiency
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (r.efficiencyPercent() != null) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                if (r.likelyAnycast()) {</span>
+<span class="nc" id="L89">                    row.append(ansi.color(Rgb.ORANGE, &quot; [anycast?]&quot;));</span>
+                } else {
+<span class="nc" id="L91">                    String effStr = String.format(&quot; %3.0f%% eff&quot;, r.efficiencyPercent());</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                    row.append(ansi.color(r.efficiencyPercent() &gt;= 25 ? Rgb.GREEN : Rgb.YELLOW, effStr));</span>
+<span class="nc" id="L93">                }</span>
+            } else {
+<span class="nc" id="L95">                row.append(&quot;          &quot;);</span>
+            }
+
+            // Delta
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (r.baselineDeltaMs() != null) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                String arrow = (r.baselineDeltaMs() &gt; 0) ? glyphs.upArrow() : glyphs.downArrow();</span>
+<span class="nc bnc" id="L101" title="All 4 branches missed.">                Rgb deltaCol = (r.baselineDeltaMs() &gt; 20) ? Rgb.RED : (r.baselineDeltaMs() &lt; -20 ? Rgb.GREEN : Rgb.GRAY);</span>
+<span class="nc" id="L102">                String deltaStr = String.format(&quot; %s%+5.1fms&quot;, arrow, r.baselineDeltaMs());</span>
+<span class="nc" id="L103">                row.append(ansi.color(deltaCol, deltaStr));</span>
+<span class="nc" id="L104">            } else {</span>
+<span class="nc" id="L105">                row.append(&quot;         &quot;);</span>
+            }
+
+            // Sparkline
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (!r.recentHistoryMedians().isEmpty()) {</span>
+<span class="nc" id="L110">                String spark = Sparkline.render(r.recentHistoryMedians(), glyphs);</span>
+<span class="nc" id="L111">                row.append(&quot; &quot;).append(ansi.color(Rgb.CYAN, spark));</span>
+            }
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (verbose) {</span>
+<span class="nc" id="L115">                String p95 = String.format(&quot; p95:%4.0fms&quot;, r.p95Ms());</span>
+<span class="nc" id="L116">                String loss = String.format(&quot; loss:%2.0f%%&quot;, r.lossPercent());</span>
+<span class="nc" id="L117">                row.append(ansi.dim()).append(p95).append(loss).append(ansi.reset());</span>
+<span class="nc" id="L118">                row.append(&quot; &quot;).append(ansi.dim()).append(targetInfo).append(ansi.reset());</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            } else if (!compact) {</span>
+<span class="nc" id="L120">                row.append(&quot; &quot;).append(ansi.dim()).append(TextWidth.truncate(targetInfo, 25)).append(ansi.reset());</span>
+            }
+<span class="nc" id="L122">        } else {</span>
+<span class="nc" id="L123">            row.append(ansi.color(Rgb.RED, &quot;     DOWN   &quot;));</span>
+<span class="nc" id="L124">            row.append(ansi.dim()).append(TextWidth.truncate(targetInfo, 35)).append(ansi.reset());</span>
+        }
+
+<span class="nc" id="L127">        out.println(TextWidth.truncate(row.toString(), termWidth));</span>
+<span class="nc" id="L128">    }</span>
+
+    private void renderSummary(RunReport rep, int termWidth) {
+<span class="nc" id="L131">        out.println(ansi.bold() + &quot;╭──────────────────────────────── Summary ────────────────────────────────╮&quot; + ansi.reset());</span>
+<span class="nc" id="L132">        String statLine = String.format(</span>
+            &quot;│ Reachability: %s reachable · %s degraded · %s down&quot;,
+<span class="nc" id="L134">            ansi.color(Rgb.GREEN, rep.reachableRegions() + &quot;/&quot; + rep.totalRegions()),</span>
+<span class="nc" id="L135">            ansi.color(Rgb.YELLOW, String.valueOf(rep.degradedRegions())),</span>
+<span class="nc" id="L136">            ansi.color(Rgb.RED, String.valueOf(rep.unreachableRegions()))</span>
+        );
+<span class="nc" id="L138">        out.println(statLine);</span>
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (rep.fastestMedianMs() != null) {</span>
+<span class="nc" id="L141">            out.printf(</span>
+                &quot;│ Fastest: %s (%.1f ms)   Slowest: %s (%.1f ms)   Median of Medians: %.1f ms%n&quot;,
+<span class="nc" id="L143">                rep.fastestRegionId(), rep.fastestMedianMs(),</span>
+<span class="nc" id="L144">                rep.slowestRegionId(), rep.slowestMedianMs(),</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                rep.medianOfMediansMs() != null ? rep.medianOfMediansMs() : 0.0</span>
+            );
+        }
+
+<span class="nc" id="L149">        out.printf(</span>
+            &quot;│ List: %s (%s) · Total probe time: %d ms%n&quot;,
+<span class="nc" id="L151">            rep.listSource(), rep.listAge(), rep.durationMs()</span>
+        );
+
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (!rep.correlatedDegradationAlerts().isEmpty()) {</span>
+<span class="nc" id="L155">            out.println(&quot;│ &quot; + ansi.color(Rgb.ORANGE, &quot;Correlated Degradation Warnings:&quot;));</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            for (String alert : rep.correlatedDegradationAlerts()) {</span>
+<span class="nc" id="L157">                out.println(&quot;│   &quot; + ansi.color(Rgb.YELLOW, glyphs.warning() + &quot; &quot; + alert));</span>
+<span class="nc" id="L158">            }</span>
+        }
+
+<span class="nc" id="L161">        out.println(ansi.bold() + &quot;╰─────────────────────────────────────────────────────────────────────────╯&quot; + ansi.reset());</span>
+<span class="nc" id="L162">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

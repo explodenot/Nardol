@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColorDepth.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">ColorDepth.java</span></div><h1>ColorDepth.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+<span class="fc" id="L3">public enum ColorDepth {</span>
+<span class="fc" id="L4">    TRUECOLOR,</span>
+<span class="fc" id="L5">    ANSI256,</span>
+<span class="fc" id="L6">    ANSI16,</span>
+<span class="fc" id="L7">    NONE;</span>
+
+    public static ColorDepth detect(String explicit, boolean noColorFlag) {
+<span class="pc bpc" id="L10" title="2 of 4 branches missed.">        if (noColorFlag || System.getenv(&quot;NO_COLOR&quot;) != null) {</span>
+<span class="nc" id="L11">            return NONE;</span>
+        }
+
+<span class="pc bpc" id="L14" title="3 of 4 branches missed.">        if (explicit != null &amp;&amp; !explicit.isBlank()) {</span>
+<span class="nc bnc" id="L15" title="All 5 branches missed.">            return switch (explicit.trim().toLowerCase()) {</span>
+<span class="nc" id="L16">                case &quot;truecolor&quot;, &quot;24bit&quot; -&gt; TRUECOLOR;</span>
+<span class="nc" id="L17">                case &quot;256&quot;, &quot;ansi256&quot; -&gt; ANSI256;</span>
+<span class="nc" id="L18">                case &quot;16&quot;, &quot;ansi16&quot; -&gt; ANSI16;</span>
+<span class="nc" id="L19">                case &quot;none&quot; -&gt; NONE;</span>
+<span class="nc" id="L20">                default -&gt; TRUECOLOR;</span>
+            };
+        }
+
+<span class="fc" id="L24">        String colorterm = System.getenv(&quot;COLORTERM&quot;);</span>
+<span class="pc bpc" id="L25" title="5 of 6 branches missed.">        if (colorterm != null &amp;&amp; (colorterm.contains(&quot;truecolor&quot;) || colorterm.contains(&quot;24bit&quot;))) {</span>
+<span class="nc" id="L26">            return TRUECOLOR;</span>
+        }
+
+<span class="fc" id="L29">        String term = System.getenv(&quot;TERM&quot;);</span>
+<span class="pc bpc" id="L30" title="4 of 8 branches missed.">        if (term != null &amp;&amp; (term.contains(&quot;256color&quot;) || term.contains(&quot;kitty&quot;) || term.contains(&quot;alacritty&quot;))) {</span>
+<span class="nc" id="L31">            return ANSI256;</span>
+        }
+
+<span class="fc" id="L34">        return TRUECOLOR; // Modern terminals default to 24-bit RGB</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

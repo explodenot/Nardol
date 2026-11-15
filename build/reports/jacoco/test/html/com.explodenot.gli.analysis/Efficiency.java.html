@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Efficiency.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.analysis</a> &gt; <span class="el_source">Efficiency.java</span></div><h1>Efficiency.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.analysis;
+
+public final class Efficiency {
+    private Efficiency() {}
+
+    // Speed of light in fiber optic glass is ~200 km per ms (200,000 km/s)
+    public static final double FIBER_SPEED_KM_PER_MS = 200.0;
+
+    public static final double EXCELLENT_THRESHOLD = 50.0;
+    public static final double GOOD_THRESHOLD = 25.0;
+    public static final double DEGRADED_THRESHOLD = 10.0;
+
+<span class="fc" id="L13">    public record Result(</span>
+        double physicsFloorMs,
+        double efficiencyPercent,
+        boolean likelyAnycast,
+        Grade grade
+    ) {}
+
+<span class="fc" id="L20">    public enum Grade {</span>
+<span class="fc" id="L21">        EXCELLENT,</span>
+<span class="fc" id="L22">        GOOD,</span>
+<span class="fc" id="L23">        DEGRADED,</span>
+<span class="fc" id="L24">        SUSPICIOUS_DETOUR,</span>
+<span class="fc" id="L25">        LIKELY_ANYCAST</span>
+    }
+
+    public static Result calculate(double distanceKm, double measuredMedianMs) {
+        // Round-trip theoretical floor: 2 * distance / 200 km/ms
+<span class="fc" id="L30">        double floorMs = (2.0 * distanceKm) / FIBER_SPEED_KM_PER_MS;</span>
+<span class="fc" id="L31">        floorMs = Stats.round(floorMs);</span>
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (measuredMedianMs &lt;= 0.0) {</span>
+<span class="nc" id="L34">            return new Result(floorMs, 0.0, false, Grade.SUSPICIOUS_DETOUR);</span>
+        }
+
+        // If measured RTT is below theoretical physics floor (with 1ms margin for local rounding), it's likely anycast/CDN
+<span class="fc bfc" id="L38" title="All 4 branches covered.">        if (distanceKm &gt; 200.0 &amp;&amp; measuredMedianMs &lt; (floorMs * 0.85)) {</span>
+<span class="fc" id="L39">            return new Result(floorMs, 0.0, true, Grade.LIKELY_ANYCAST);</span>
+        }
+
+<span class="fc" id="L42">        double eff = (floorMs / measuredMedianMs) * 100.0;</span>
+<span class="fc" id="L43">        eff = Stats.round(Math.min(eff, 100.0));</span>
+
+        Grade grade;
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (eff &gt;= EXCELLENT_THRESHOLD) {</span>
+<span class="fc" id="L47">            grade = Grade.EXCELLENT;</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        } else if (eff &gt;= GOOD_THRESHOLD) {</span>
+<span class="nc" id="L49">            grade = Grade.GOOD;</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        } else if (eff &gt;= DEGRADED_THRESHOLD) {</span>
+<span class="nc" id="L51">            grade = Grade.DEGRADED;</span>
+        } else {
+<span class="fc" id="L53">            grade = Grade.SUSPICIOUS_DETOUR;</span>
+        }
+
+<span class="fc" id="L56">        return new Result(floorMs, eff, false, grade);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

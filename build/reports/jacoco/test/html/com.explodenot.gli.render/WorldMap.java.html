@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorldMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">WorldMap.java</span></div><h1>WorldMap.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+import com.explodenot.gli.model.RegionResult;
+
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.*;
+import java.util.zip.InflaterInputStream;
+
+public final class WorldMap {
+    private static final int MASK_WIDTH = 360;
+    private static final int MASK_HEIGHT = 180;
+<span class="nc" id="L13">    private static final boolean[][] LAND_GRID = new boolean[MASK_HEIGHT][MASK_WIDTH];</span>
+
+    static {
+<span class="nc" id="L16">        try (InputStream in = WorldMap.class.getResourceAsStream(&quot;/world-mask.bin&quot;)) {</span>
+<span class="nc bnc" id="L17" title="All 2 branches missed.">            if (in != null) {</span>
+<span class="nc" id="L18">                try (InflaterInputStream iis = new InflaterInputStream(in)) {</span>
+<span class="nc" id="L19">                    byte[] decompressed = iis.readAllBytes();</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">                    for (int y = 0; y &lt; MASK_HEIGHT; y++) {</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">                        for (int x = 0; x &lt; MASK_WIDTH; x++) {</span>
+<span class="nc" id="L22">                            int byteIdx = y * ((MASK_WIDTH + 7) / 8) + (x / 8);</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">                            if (byteIdx &lt; decompressed.length) {</span>
+<span class="nc" id="L24">                                int bit = (decompressed[byteIdx] &gt;&gt; (7 - (x % 8))) &amp; 1;</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                                LAND_GRID[y][x] = (bit == 1);</span>
+                            }
+                        }
+                    }
+                }
+            }
+<span class="nc" id="L31">        } catch (Exception ignored) {}</span>
+<span class="nc" id="L32">    }</span>
+
+    private final Ansi ansi;
+    private final Glyphs glyphs;
+    private final boolean ascii;
+
+<span class="nc" id="L38">    public WorldMap(Ansi ansi, Glyphs glyphs, boolean ascii) {</span>
+<span class="nc" id="L39">        this.ansi = ansi;</span>
+<span class="nc" id="L40">        this.glyphs = glyphs;</span>
+<span class="nc" id="L41">        this.ascii = ascii;</span>
+<span class="nc" id="L42">    }</span>
+
+    public void render(List&lt;RegionResult&gt; results, Double userLat, Double userLon, int termWidth, int termHeight, PrintStream out) {
+<span class="nc" id="L45">        int width = Math.min(Math.max(termWidth - 4, 40), 120);</span>
+<span class="nc" id="L46">        int height = Math.min(Math.max(termHeight - 8, 15), 40);</span>
+
+        // Precompute marker positions
+<span class="nc" id="L49">        Map&lt;String, RegionResult&gt; markerMap = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        for (RegionResult r : results) {</span>
+<span class="nc" id="L51">            int mx = lonToX(r.region().lon(), width);</span>
+<span class="nc" id="L52">            int my = latToY(r.region().lat(), height);</span>
+<span class="nc" id="L53">            markerMap.put(mx + &quot;,&quot; + my, r);</span>
+<span class="nc" id="L54">        }</span>
+
+<span class="nc" id="L56">        String userCoord = null;</span>
+<span class="nc bnc" id="L57" title="All 4 branches missed.">        if (userLat != null &amp;&amp; userLon != null) {</span>
+<span class="nc" id="L58">            userCoord = lonToX(userLon, width) + &quot;,&quot; + latToY(userLat, height);</span>
+        }
+
+<span class="nc" id="L61">        out.println(ansi.bold() + &quot;╭&quot; + &quot;─&quot;.repeat(width) + &quot;╮&quot; + ansi.reset());</span>
+
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (int y = 0; y &lt; height; y++) {</span>
+<span class="nc" id="L64">            StringBuilder line = new StringBuilder(&quot;│&quot;);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            for (int x = 0; x &lt; width; x++) {</span>
+<span class="nc" id="L66">                String coord = x + &quot;,&quot; + y;</span>
+<span class="nc bnc" id="L67" title="All 4 branches missed.">                if (userCoord != null &amp;&amp; userCoord.equals(coord)) {</span>
+<span class="nc" id="L68">                    line.append(ansi.color(Rgb.CYAN, ansi.bold() + &quot;@&quot; + ansi.reset()));</span>
+<span class="nc" id="L69">                    continue;</span>
+                }
+
+<span class="nc" id="L72">                RegionResult r = markerMap.get(coord);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if (r != null) {</span>
+<span class="nc bnc" id="L74" title="All 4 branches missed.">                    Rgb col = !r.reachable() ? Rgb.RED : (r.isDegraded() ? Rgb.YELLOW : Rgb.GREEN);</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">                    String m = !r.reachable() ? glyphs.failed() : (r.isDegraded() ? glyphs.degraded() : glyphs.bullet());</span>
+<span class="nc" id="L76">                    line.append(ansi.color(col, m));</span>
+<span class="nc" id="L77">                    continue;</span>
+                }
+
+                // Sample land mask
+<span class="nc" id="L81">                boolean isLand = sampleLand(x, y, width, height);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                if (isLand) {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">                    if (ascii) {</span>
+<span class="nc" id="L84">                        line.append(ansi.dim() + &quot;.&quot; + ansi.reset());</span>
+                    } else {
+<span class="nc" id="L86">                        line.append(ansi.dim() + &quot;·&quot; + ansi.reset());</span>
+                    }
+                } else {
+<span class="nc" id="L89">                    line.append(&quot; &quot;);</span>
+                }
+            }
+<span class="nc" id="L92">            line.append(&quot;│&quot;);</span>
+<span class="nc" id="L93">            out.println(line);</span>
+        }
+
+<span class="nc" id="L96">        out.println(ansi.bold() + &quot;╰&quot; + &quot;─&quot;.repeat(width) + &quot;╯&quot; + ansi.reset());</span>
+<span class="nc" id="L97">        out.println(&quot;  Legend: &quot; +</span>
+<span class="nc" id="L98">            ansi.color(Rgb.GREEN, glyphs.bullet() + &quot; Normal  &quot;) +</span>
+<span class="nc" id="L99">            ansi.color(Rgb.YELLOW, glyphs.degraded() + &quot; Degraded  &quot;) +</span>
+<span class="nc" id="L100">            ansi.color(Rgb.RED, glyphs.failed() + &quot; Down  &quot;) +</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            (userCoord != null ? ansi.color(Rgb.CYAN, &quot;@ You&quot;) : &quot;&quot;)</span>
+        );
+<span class="nc" id="L103">    }</span>
+
+    private boolean sampleLand(int x, int y, int width, int height) {
+<span class="nc" id="L106">        int gx = (int) Math.round((double) x / width * (MASK_WIDTH - 1));</span>
+<span class="nc" id="L107">        int gy = (int) Math.round((double) y / height * (MASK_HEIGHT - 1));</span>
+<span class="nc" id="L108">        gx = Math.clamp(gx, 0, MASK_WIDTH - 1);</span>
+<span class="nc" id="L109">        gy = Math.clamp(gy, 0, MASK_HEIGHT - 1);</span>
+<span class="nc" id="L110">        return LAND_GRID[gy][gx];</span>
+    }
+
+    private int lonToX(double lon, int width) {
+        // -180..180 -&gt; 0..width-1
+<span class="nc" id="L115">        double norm = (lon + 180.0) / 360.0;</span>
+<span class="nc" id="L116">        return (int) Math.clamp(Math.round(norm * (width - 1)), 0, width - 1);</span>
+    }
+
+    private int latToY(double lat, int height) {
+        // 90..-90 -&gt; 0..height-1
+<span class="nc" id="L121">        double norm = (90.0 - lat) / 180.0;</span>
+<span class="nc" id="L122">        return (int) Math.clamp(Math.round(norm * (height - 1)), 0, height - 1);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

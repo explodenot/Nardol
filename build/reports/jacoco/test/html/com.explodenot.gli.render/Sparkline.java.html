@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sparkline.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gli</a> &gt; <a href="index.source.html" class="el_package">com.explodenot.gli.render</a> &gt; <span class="el_source">Sparkline.java</span></div><h1>Sparkline.java</h1><pre class="source lang-java linenums">package com.explodenot.gli.render;
+
+import java.util.List;
+
+public final class Sparkline {
+    private Sparkline() {}
+
+    public static String render(List&lt;Double&gt; values, Glyphs glyphs) {
+<span class="pc bpc" id="L9" title="2 of 4 branches missed.">        if (values == null || values.isEmpty()) return &quot;&quot;;</span>
+<span class="fc" id="L10">        String chars = glyphs.sparklineChars();</span>
+<span class="pc bpc" id="L11" title="1 of 2 branches missed.">        if (chars.isEmpty()) return &quot;&quot;;</span>
+
+<span class="fc" id="L13">        double min = Double.MAX_VALUE;</span>
+<span class="fc" id="L14">        double max = -Double.MAX_VALUE;</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        for (double v : values) {</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">            if (v &lt; min) min = v;</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">            if (v &gt; max) max = v;</span>
+<span class="fc" id="L18">        }</span>
+
+<span class="fc" id="L20">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L21">        int levels = chars.length();</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        for (double v : values) {</span>
+            int idx;
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            if (max == min) {</span>
+<span class="nc" id="L25">                idx = levels / 2;</span>
+            } else {
+<span class="fc" id="L27">                idx = (int) Math.round(((v - min) / (max - min)) * (levels - 1));</span>
+            }
+<span class="fc" id="L29">            idx = Math.clamp(idx, 0, levels - 1);</span>
+<span class="fc" id="L30">            sb.append(chars.charAt(idx));</span>
+<span class="fc" id="L31">        }</span>
+<span class="fc" id="L32">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

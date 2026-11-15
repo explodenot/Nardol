@@ -1,0 +1,28 @@
+# Third-Party Notices and Licences
+
+This project ("globalping-lite" v2, artifact `com.explodenot.gli`) bundles or links the following third-party components:
+
+1. **Picocli**
+   - Homepage: https://picocli.info/
+   - License: Apache License 2.0
+   - Copyright (c) Remko Popma
+
+2. **JLine 3 & JLine Jansi Provider**
+   - Homepage: https://github.com/jline/jline3
+   - License: BSD 3-Clause License
+   - Copyright (c) 2002-2023, the original author or authors.
+
+3. **Jansi**
+   - Homepage: https://fusesource.github.io/jansi/
+   - License: Apache License 2.0
+   - Copyright (c) 2009-2023 FuseSource Corp.
+
+4. **Google Gson**
+   - Homepage: https://github.com/google/gson
+   - License: Apache License 2.0
+   - Copyright (c) Google LLC
+
+5. **World Land Mask Map Data**
+   - Source: Natural Earth (public domain) / geo-boundaries-world-110m
+   - Format: Compressed rasterized equirectangular 1-degree boolean grid (`world-mask.bin`, <2 KB compressed)
+   - License: Public Domain (CC0 / Natural Earth Terms of Use)
