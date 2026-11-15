@@ -1,4 +1,35 @@
+# Gradle build artifacts and caches
 build/
 .gradle/
-.DS_Store
+
+# Java and Class files
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
 *.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# Local tool caches and outputs
+local.properties
+.history/
