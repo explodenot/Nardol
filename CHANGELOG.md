@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Robust Multi-Provider Pre-Flight Control Checks**:
   - Pre-flight DNS checks resolve across multiple major public resolvers (Cloudflare, Google, Quad9, Cisco Umbrella).
   - Pre-flight raw IP reachability expanded across Cloudflare, Google, Quad9 (`9.9.9.9`), and Cisco Umbrella (`208.67.222.222`) over ports 53 and 443, with dual-stack IPv6 probes (`2606:4700:4700::1111`, `2001:4860:4860::8888`, `2620:fe::fe`, `2620:119:35::35`).
+- **Security Key Management & Git History Hygiene**:
+  - Completely purged private key artifacts from git commit history via `git filter-branch` and garbage collection.
+  - Added repository-wide `.gitignore` protection for `tools/keys/` and `*.key`.
+  - Upgraded target signing workflow to use externalized environment secrets (`NARDOL_PRIVATE_KEY_BASE64` or `tools/keys/ed25519-private.key`).
+  - Generated fresh, cryptographically isolated Ed25519 keypair and re-signed default `targets.tsv.sig`.
+  - Added GitHub Actions Secrets setup instructions to `TECHNICAL.md`.
 - **Bogon & Private IP Protection**:
   - Added strict SSRF and LAN isolation preventing targets or resolved destinations from probing private, loopback, link-local (cloud metadata `169.254.169.254`), CGNAT, or reserved bogon IPs.
   - Rejection of bogon IP literals in `TargetValidator` and classification as `ProbeOutcome.Failure.Blocked`.

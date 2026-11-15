@@ -264,7 +264,7 @@ The canonical list resides at `src/main/resources/targets.tsv`.
 
 - **The List is Data, Never Code**: All fields are strictly validated against length, numeric, and character set bounds. Content is never passed to shell interpreters or reflection.
 - **Bogon & Private Network Isolation**: Prevents Server-Side Request Forgery (SSRF) and LAN scanning by rejecting target definitions or DNS resolutions pointing to private subnets (RFC 1918, RFC 6598 CGNAT, RFC 3927 link-local/cloud metadata, RFC 4193 IPv6 ULA, and documentation prefixes).
-- **Ed25519 Signatures**: Remote list updates must verify against a bundled Ed25519 public key or matching SHA-256 checksum.
+- **Ed25519 Signatures & Key Hygiene**: Remote list updates verify against a bundled Ed25519 public key or matching SHA-256 checksum. Private signing keys are isolated in GitHub Secrets (`NARDOL_PRIVATE_KEY_BASE64`) and strictly excluded from git tracking.
 - **Supply Chain Security**: All CI/CD workflows pin action dependencies to immutable 40-character commit SHAs.
 - **XSS-Safe HTML**: All dynamic strings in HTML reports are thoroughly escaped.
 - **Zero Telemetry**: Nardol transmits zero analytics, tracking, or crash reports. Network calls are strictly limited to target endpoints and the specified list URL.
