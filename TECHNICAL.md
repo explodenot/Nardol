@@ -187,8 +187,8 @@ gli/
 | `RunReport` | model | Overall probe execution report | `RegionResult` | `CliTest` |
 | `Target` | model | Specific server host endpoint record | `Tier` | `ListTest` |
 | `Tier` | model | PRIMARY or FALLBACK enum | None | `ListTest` |
-| `ControlChecks` | probe | Pre-flight DNS, raw IP, and proxy checks | Socket | `FailureClassifierTest`|
-| `FailureClassifier`| probe | Maps JDK network exceptions to sealed types | `ProbeOutcome` | `FailureClassifierTest`|
+| `ControlChecks` | probe | Pre-flight DNS (Cloudflare, Google, Quad9, Umbrella), raw IP, and proxy checks | Socket | `FailureClassifierTest`|
+| `FailureClassifier`| probe | Maps JDK network exceptions to sealed types & filters bogon/private IPs | `ProbeOutcome` | `FailureClassifierTest`|
 | `HttpProber` | probe | HTTP HEAD & Range GET prober | HttpClient | `ProbeTest` |
 | `ProbeRunner` | probe | Virtual thread executor and concurrency gate | `Prober`, Semaphore | `ProbeTest` |
 | `Prober` | probe | Interface for protocol probe executors | `Target`, `ProbeOutcome` | `ProbeTest` |

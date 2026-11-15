@@ -143,8 +143,9 @@ cp nrd ~/.local/bin/nrd
 - **World Map (`nardol map`)**: Terminal world outline rendered from a compact embedded land mask.
 - **Self-Contained HTML Report (`nardol report <file.html>`)**: Offline single-file report with SVG maps.
 - **Machine-Readable Outputs**: Pipe-clean `--json`, `--ndjson`, and `--csv`.
-- **System Doctor (`nardol doctor`)**: Diagnoses local DNS, raw IPs, proxies, and terminal capabilities.
+- **System Doctor (`nardol doctor`)**: Diagnoses local DNS (Cloudflare, Google, Quad9, Cisco Umbrella), raw IPs across IPv4 and IPv6, proxies, and terminal capabilities.
 - **Signed Remote Updates**: Ed25519-signed target list updates checking primary (`https://explodenot.com/nardol/target.tsv`) and backup sources daily or on-demand, with offline bundled fallbacks.
+- **SSRF & Bogon Protection**: Prevents probing loopback, local network, cloud metadata (`169.254.169.254`), or private address spaces.
 
 ---
 
@@ -262,7 +263,9 @@ The canonical list resides at `src/main/resources/targets.tsv`.
 ## Security and Privacy
 
 - **The List is Data, Never Code**: All fields are strictly validated against length, numeric, and character set bounds. Content is never passed to shell interpreters or reflection.
+- **Bogon & Private Network Isolation**: Prevents Server-Side Request Forgery (SSRF) and LAN scanning by rejecting target definitions or DNS resolutions pointing to private subnets (RFC 1918, RFC 6598 CGNAT, RFC 3927 link-local/cloud metadata, RFC 4193 IPv6 ULA, and documentation prefixes).
 - **Ed25519 Signatures**: Remote list updates must verify against a bundled Ed25519 public key or matching SHA-256 checksum.
+- **Supply Chain Security**: All CI/CD workflows pin action dependencies to immutable 40-character commit SHAs.
 - **XSS-Safe HTML**: All dynamic strings in HTML reports are thoroughly escaped.
 - **Zero Telemetry**: Nardol transmits zero analytics, tracking, or crash reports. Network calls are strictly limited to target endpoints and the specified list URL.
 

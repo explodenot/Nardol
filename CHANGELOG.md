@@ -20,6 +20,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Enhanced Verbose Mode (`-v` / `--verbose`)**:
   - Full propagation of `--verbose` to `run` subcommand (`nardol run -v`).
   - Detailed telemetry rows rendering p95 latency, jitter stddev, loss %, and TLS version & cipher suite (e.g. `[TLSv1.3/TLS_AES_128_GCM_SHA256]`).
+  - Detailed fallback diagnostics in verbose mode displaying the primary failure reason when switched to fallback candidates.
+- **Robust Multi-Provider Pre-Flight Control Checks**:
+  - Pre-flight DNS checks resolve across multiple major public resolvers (Cloudflare, Google, Quad9, Cisco Umbrella).
+  - Pre-flight raw IP reachability expanded across Cloudflare, Google, Quad9 (`9.9.9.9`), and Cisco Umbrella (`208.67.222.222`) over ports 53 and 443, with dual-stack IPv6 probes (`2606:4700:4700::1111`, `2001:4860:4860::8888`, `2620:fe::fe`, `2620:119:35::35`).
+- **Bogon & Private IP Protection**:
+  - Added strict SSRF and LAN isolation preventing targets or resolved destinations from probing private, loopback, link-local (cloud metadata `169.254.169.254`), CGNAT, or reserved bogon IPs.
+  - Rejection of bogon IP literals in `TargetValidator` and classification as `ProbeOutcome.Failure.Blocked`.
+- **Automated Workflow Hardening**:
+  - Converted target list health check (`list-health.yml`) to run daily at 04:00 UTC.
+  - Pinned all GitHub Actions steps in CI, release, and health check workflows to immutable 40-character commit SHAs.
+  - Configured `.semgrepignore` and source-level suppressions for static application security testing (SAST).
 
 ### Fixed
 - **Java 22+ Restricted Method Warnings**:
@@ -27,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `"Enable-Native-Access" to "ALL-UNNAMED"` in jar manifest and launcher scripts.
 - **JLine Deprecated Provider Warning**:
   - Suppressed deprecated provider log warnings via `System.setProperty("org.jline.terminal.disableDeprecatedProviderWarning", "true")`.
+- **Package Refactoring**:
+  - Fully refactored project package namespaces from `com.explodenot.gli` to `com.explodenot.nardol`.
 
 ---
 
