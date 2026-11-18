@@ -107,6 +107,38 @@ public final class WorldMap {
         );
     }
 
+    public static String generateSvgLandPath(double svgWidth, double svgHeight) {
+        StringBuilder path = new StringBuilder();
+        double scaleX = svgWidth / (double) MASK_WIDTH;
+        double scaleY = svgHeight / (double) MASK_HEIGHT;
+
+        for (int y = 0; y < MASK_HEIGHT; y++) {
+            int spanStart = -1;
+            for (int x = 0; x < MASK_WIDTH; x++) {
+                if (LAND_GRID[y][x]) {
+                    if (spanStart == -1) spanStart = x;
+                } else {
+                    if (spanStart != -1) {
+                        double sx = spanStart * scaleX;
+                        double sw = (x - spanStart) * scaleX;
+                        double sy = y * scaleY;
+                        double sh = scaleY;
+                        path.append(String.format(java.util.Locale.US, "M%.1f,%.1fh%.1fv%.1fh-%.1fz", sx, sy, sw, sh, sw));
+                        spanStart = -1;
+                    }
+                }
+            }
+            if (spanStart != -1) {
+                double sx = spanStart * scaleX;
+                double sw = (MASK_WIDTH - spanStart) * scaleX;
+                double sy = y * scaleY;
+                double sh = scaleY;
+                path.append(String.format(java.util.Locale.US, "M%.1f,%.1fh%.1fv%.1fh-%.1fz", sx, sy, sw, sh, sw));
+            }
+        }
+        return path.toString();
+    }
+
     private boolean sampleLand(int x, int y, int width, int height) {
         int gx = (int) Math.round((double) x / width * (MASK_WIDTH - 1));
         int gy = (int) Math.round((double) y / height * (MASK_HEIGHT - 1));

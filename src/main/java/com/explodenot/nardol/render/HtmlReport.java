@@ -15,6 +15,7 @@ public final class HtmlReport {
     public static String generate(RunReport report) {
         String json = GSON.toJson(report);
 
+        String landPath = WorldMap.generateSvgLandPath(1000.0, 500.0);
         StringBuilder rows = new StringBuilder();
         StringBuilder svgMarkers = new StringBuilder();
 
@@ -178,9 +179,12 @@ public final class HtmlReport {
                   <div class="card-title" style="margin-bottom: 12px;">Global Map View</div>
                   <svg class="world-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
                     <rect width="1000" height="500" fill="#0d1117" />
+                    <!-- World Land Mask -->
+                    <path d=\"""" + landPath + """
+" fill="#1c2536" />
                     <!-- Equirectangular grid lines -->
-                    <line x1="0" y1="250" x2="1000" y2="250" stroke="#21262d" stroke-width="1" stroke-dasharray="4" />
-                    <line x1="500" y1="0" x2="500" y2="500" stroke="#21262d" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="0" y1="250" x2="1000" y2="250" stroke="#2a3547" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="500" y1="0" x2="500" y2="500" stroke="#2a3547" stroke-width="1" stroke-dasharray="4" />
                     <!-- Region Markers -->
 """);
         sb.append(svgMarkers);
