@@ -110,4 +110,18 @@ class CliTest {
         int code = cmd.execute("completion", "bash");
         assertThat(code).isEqualTo(ExitCodes.SUCCESS);
     }
+
+    @Test
+    void testClearCacheOption() {
+        CommandLine cmd = new CommandLine(new NardolCommand());
+        int code = cmd.execute("--clear-cache", "--offline", "--region", "na-us-east-va", "--samples", "1", "--timeout", "1000");
+        assertThat(code).isIn(ExitCodes.SUCCESS, ExitCodes.ALL_DOWN_OR_CONTROL_FAIL);
+    }
+
+    @Test
+    void testHistoryClearSubcommand() {
+        CommandLine cmd = new CommandLine(new NardolCommand());
+        int code = cmd.execute("history", "--clear");
+        assertThat(code).isEqualTo(ExitCodes.SUCCESS);
+    }
 }

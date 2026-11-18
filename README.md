@@ -182,6 +182,7 @@ cp nrd ~/.local/bin/nrd
 | `--ascii` | Force ASCII glyphs instead of Unicode |
 | `--no-color` | Disable ANSI color codes (also honors `NO_COLOR`) |
 | `--offline` | Operate offline using cached/bundled target lists |
+| `--clear-cache` | Clear local cache (targets list and history) before running a fresh probe |
 
 ---
 
@@ -208,6 +209,10 @@ cp nrd ~/.local/bin/nrd
 
 # 7. Diagnose local network and environment settings
 ./nardol doctor
+
+# 8. Clear stored probe history or run a fresh probe without previous cache
+./nardol history --clear
+./nardol run --clear-cache
 
 # 8. Compare IPv4 vs IPv6 performance
 ./nardol run --dual-stack --region na-us-east-va
