@@ -4,6 +4,7 @@ import com.explodenot.nardol.model.RegionResult;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.zip.InflaterInputStream;
 
@@ -42,6 +43,10 @@ public final class WorldMap {
     }
 
     public void render(List<RegionResult> results, Double userLat, Double userLon, int termWidth, int termHeight, PrintStream out) {
+        render(results, userLat, userLon, termWidth, termHeight, new PrintWriter(out, true));
+    }
+
+    public void render(List<RegionResult> results, Double userLat, Double userLon, int termWidth, int termHeight, java.io.PrintWriter out) {
         int width = Math.min(Math.max(termWidth - 4, 40), 120);
         int height = Math.min(Math.max(termHeight - 8, 15), 40);
 

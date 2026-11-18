@@ -63,4 +63,17 @@ class RenderTest {
         assertThat(escaped).contains("&amp;");
         assertThat(escaped).contains("&quot;");
     }
+
+    @Test
+    void testWorldMapRenderWithPrintWriter() {
+        java.io.StringWriter sw = new java.io.StringWriter();
+        java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+        WorldMap map = new WorldMap(new Ansi(ColorDepth.NONE), Glyphs.create(true), true);
+        map.render(List.of(), null, null, 80, 20, pw);
+        pw.flush();
+        String output = sw.toString();
+        assertThat(output).contains("╭");
+        assertThat(output).contains("╰");
+        assertThat(output).contains("Legend:");
+    }
 }

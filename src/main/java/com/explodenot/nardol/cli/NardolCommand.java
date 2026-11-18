@@ -360,7 +360,7 @@ public class NardolCommand implements Callable<Integer> {
             org.jline.terminal.Terminal t = TerminalHelper.getTerminal();
             if (t != null) {
                 WorldMap wm = new WorldMap(ansi, glyphs, effectiveAscii);
-                TuiApp app = new TuiApp(t, ansi, glyphs, wm, report, () -> {
+                TuiApp app = new TuiApp(t, ansi, glyphs, wm, report, verbose, () -> {
                     try {
                         runProbes(true, false, null);
                     } catch (Exception ignored) {}
@@ -626,8 +626,12 @@ public class NardolCommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
         NardolCommand parent;
 
+        @Option(names = {"--verbose", "-v"}, description = "Verbose terminal output (p95, loss, cipher)")
+        boolean verbose;
+
         @Override
         public Integer call() throws Exception {
+            if (verbose) parent.verbose = true;
             return parent.runProbes(true, false, null);
         }
     }
