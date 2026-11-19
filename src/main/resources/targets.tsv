@@ -125,8 +125,8 @@ af-ke-nairobi	Africa	KE	Nairobi	edu	www.uonbi.ac.ke	443	-1.29	36.82	primary
 af-ke-nairobi	Africa	KE	Nairobi	edu	www.strathmore.edu	443	-1.29	36.82	fallback
 af-ng-lagos	Africa	NG	Lagos	edu	www.unilag.edu.ng	443	6.52	3.38	primary
 af-ng-lagos	Africa	NG	Lagos	edu	www.covenantuniversity.edu.ng	443	6.52	3.38	fallback
-af-eg-cairo	Africa	EG	Cairo	edu	te.eg	443	30.04	31.24	primary
-af-eg-cairo	Africa	EG	Cairo	edu	sis.gov.eg	443	30.04	31.24	fallback
+af-eg-cairo	Africa	EG	Cairo	isp	te.eg	443	30.04	31.24	primary
+af-eg-cairo	Africa	EG	Cairo	gov	sis.gov.eg	443	30.04	31.24	fallback
 af-gh-accra	Africa	GH	Accra	edu	www.ug.edu.gh	443	5.60	-0.19	primary
 as-in-mumbai	Asia	IN	Mumbai	aws	dynamodb.ap-south-1.amazonaws.com	443	19.08	72.88	primary
 as-in-mumbai	Asia	IN	Mumbai	oci	objectstorage.ap-mumbai-1.oraclecloud.com	443	19.08	72.88	fallback
@@ -152,8 +152,8 @@ as-id-jakarta	Asia	ID	Jakarta	aws	dynamodb.ap-southeast-3.amazonaws.com	443	-6.2
 as-id-jakarta	Asia	ID	Jakarta	edu	www.ui.ac.id	443	-6.21	106.85	fallback
 as-my-kualalumpur	Asia	MY	Kuala Lumpur	aws	dynamodb.ap-southeast-5.amazonaws.com	443	3.14	101.69	primary
 as-my-kualalumpur	Asia	MY	Kuala Lumpur	edu	www.um.edu.my	443	3.14	101.69	fallback
-as-th-bangkok	Asia	TH	Bangkok	edu	www.chula.ac.th	443	13.76	100.50	primary
-as-th-bangkok	Asia	TH	Bangkok	edu	www.ku.ac.th	443	13.76	100.50	fallback
+as-th-bangkok	Asia	TH	Bangkok	edu	mirror.kku.ac.th	443	13.76	100.50	primary
+as-th-bangkok	Asia	TH	Bangkok	edu	mirrors.psu.ac.th	443	13.76	100.50	fallback
 as-hk-hongkong	Asia	HK	Hong Kong	aws	dynamodb.ap-east-1.amazonaws.com	443	22.32	114.17	primary
 as-hk-hongkong	Asia	HK	Hong Kong	edu	www.hku.hk	443	22.32	114.17	fallback
 as-hk-hongkong	Asia	HK	Hong Kong	edu	www.cuhk.edu.hk	443	22.32	114.17	fallback
