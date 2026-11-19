@@ -125,8 +125,8 @@ af-ke-nairobi	Africa	KE	Nairobi	edu	www.uonbi.ac.ke	443	-1.29	36.82	primary
 af-ke-nairobi	Africa	KE	Nairobi	edu	www.strathmore.edu	443	-1.29	36.82	fallback
 af-ng-lagos	Africa	NG	Lagos	edu	www.unilag.edu.ng	443	6.52	3.38	primary
 af-ng-lagos	Africa	NG	Lagos	edu	www.covenantuniversity.edu.ng	443	6.52	3.38	fallback
-af-eg-cairo	Africa	EG	Cairo	edu	www.cu.edu.eg	443	30.04	31.24	primary
-af-eg-cairo	Africa	EG	Cairo	edu	www.aucegypt.edu	443	30.04	31.24	fallback
+af-eg-cairo	Africa	EG	Cairo	edu	te.eg	443	30.04	31.24	primary
+af-eg-cairo	Africa	EG	Cairo	edu	sis.gov.eg	443	30.04	31.24	fallback
 af-gh-accra	Africa	GH	Accra	edu	www.ug.edu.gh	443	5.60	-0.19	primary
 as-in-mumbai	Asia	IN	Mumbai	aws	dynamodb.ap-south-1.amazonaws.com	443	19.08	72.88	primary
 as-in-mumbai	Asia	IN	Mumbai	oci	objectstorage.ap-mumbai-1.oraclecloud.com	443	19.08	72.88	fallback
