@@ -32,12 +32,25 @@ public final class TuiApp {
         RunReport initialReport,
         Runnable rerunAction
     ) {
+        this(terminal, ansi, glyphs, worldMap, initialReport, false, rerunAction);
+    }
+
+    public TuiApp(
+        Terminal terminal,
+        Ansi ansi,
+        Glyphs glyphs,
+        WorldMap worldMap,
+        RunReport initialReport,
+        boolean initialVerbose,
+        Runnable rerunAction
+    ) {
         this.terminal = terminal;
         this.ansi = ansi;
         this.glyphs = glyphs;
         this.worldMap = worldMap;
         this.currentReport = initialReport;
         this.results = new ArrayList<>(initialReport.results());
+        this.verbose = initialVerbose;
         this.rerunAction = rerunAction;
     }
 
@@ -145,17 +158,18 @@ public final class TuiApp {
             default -> "Name";
         };
         String header = String.format(
-            "Nardol v%s · Reachable: %d/%d · Filter: %s · Sort: %s · View: %s",
+            "Nardol v%s · Reachable: %d/%d · Filter: %s · Sort: %s · View: %s%s",
             currentReport.toolVersion(),
             currentReport.reachableRegions(), currentReport.totalRegions(),
             continentFilter != null ? continentFilter : "All",
             sortName,
-            showingMap ? "Map" : "Table"
+            showingMap ? "Map" : "Table",
+            verbose ? " · Verbose" : ""
         );
         writer.println(ansi.bold() + ansi.colorBg(Rgb.DARK_GRAY, TextWidth.padRight(" " + header, width)) + ansi.reset());
 
         if (showingMap) {
-            worldMap.render(results, currentReport.userLat(), currentReport.userLon(), width, height - 3, System.out);
+            worldMap.render(results, currentReport.userLat(), currentReport.userLon(), width, height - 3, writer);
         } else {
             renderTable(writer, width, height - 3);
         }
@@ -189,12 +203,79 @@ public final class TuiApp {
             Rgb col = !r.reachable() ? Rgb.RED : (r.isDegraded() ? Rgb.YELLOW : Rgb.GREEN);
 
             String city = TextWidth.padRight(r.region().city() + ", " + r.region().country(), 22);
-            String med = r.reachable() ? String.format("%6.1f ms", r.medianMs()) : "  DOWN   ";
-            String eff = r.efficiencyPercent() != null ? String.format("%3.0f%% eff", r.efficiencyPercent()) : "        ";
-            String host = r.winningTarget() != null ? r.winningTarget().host() : (r.primaryFailureMessage() != null ? r.primaryFailureMessage() : "");
+            String targetInfo = "";
+            if (r.winningTarget() != null) {
+                targetInfo = r.winningTarget().provider() + " (" + r.winningTarget().host() + ")";
+                if (r.candidateSwitched() && r.primaryFailureMessage() != null) {
+                    targetInfo += " [switched: " + r.primaryFailureMessage() + "]";
+                }
+            } else if (r.primaryFailureMessage() != null) {
+                targetInfo = r.primaryFailureMessage();
+            }
 
-            String row = ansi.color(col, status) + " " + city + " " + ansi.color(Rgb.forLatency(r.medianMs()), med) + " " + eff + " " + ansi.dim() + host + ansi.reset();
-            writer.println(TextWidth.truncate(row, width));
+            StringBuilder row = new StringBuilder();
+            row.append(ansi.color(col, TextWidth.padRight(status, 2)));
+            row.append(city).append(" ");
+
+            if (r.reachable()) {
+                String med = String.format("%6.1f ms", r.medianMs());
+                row.append(ansi.color(Rgb.forLatency(r.medianMs()), med)).append(" ");
+
+                int barLen = Math.clamp((int) Math.round(r.medianMs() / 25.0), 1, 10);
+                String bar = "█".repeat(barLen);
+                row.append(ansi.color(Rgb.forLatency(r.medianMs()), TextWidth.padRight(bar, 11)));
+
+                if (r.efficiencyPercent() != null) {
+                    if (r.likelyAnycast()) {
+                        row.append(ansi.color(Rgb.ORANGE, " [anycast?]"));
+                    } else {
+                        String effStr = String.format(" %3.0f%% eff", r.efficiencyPercent());
+                        row.append(ansi.color(r.efficiencyPercent() >= 25 ? Rgb.GREEN : Rgb.YELLOW, effStr));
+                    }
+                } else {
+                    row.append("          ");
+                }
+
+                if (r.baselineDeltaMs() != null) {
+                    String arrow = (r.baselineDeltaMs() > 0) ? glyphs.upArrow() : glyphs.downArrow();
+                    Rgb deltaCol = (r.baselineDeltaMs() > 20) ? Rgb.RED : (r.baselineDeltaMs() < -20 ? Rgb.GREEN : Rgb.GRAY);
+                    String deltaStr = String.format(" %s%+5.1fms", arrow, r.baselineDeltaMs());
+                    row.append(ansi.color(deltaCol, deltaStr));
+                } else {
+                    row.append("         ");
+                }
+
+                if (!r.recentHistoryMedians().isEmpty()) {
+                    String spark = Sparkline.render(r.recentHistoryMedians(), glyphs);
+                    row.append(" ").append(ansi.color(Rgb.CYAN, spark));
+                }
+
+                if (verbose) {
+                    String p95 = String.format(" p95:%4.0fms", r.p95Ms());
+                    String jitter = String.format(" jit:%3.0fms", r.jitterMs());
+                    String loss = String.format(" loss:%2.0f%%", r.lossPercent());
+                    row.append(ansi.dim()).append(p95).append(jitter).append(loss).append(ansi.reset());
+
+                    if (r.samples() != null && !r.samples().isEmpty()) {
+                        var outcome = r.samples().get(0).outcome();
+                        if (outcome instanceof com.explodenot.nardol.model.ProbeOutcome.Success succ) {
+                            if (succ.protocol() != null || succ.cipher() != null) {
+                                String tlsInfo = " [" + (succ.protocol() != null ? succ.protocol() : "") +
+                                                 (succ.cipher() != null ? "/" + succ.cipher() : "") + "]";
+                                row.append(ansi.color(Rgb.CYAN, tlsInfo));
+                            }
+                        }
+                    }
+                    row.append(" ").append(ansi.dim()).append(targetInfo).append(ansi.reset());
+                } else {
+                    row.append(" ").append(ansi.dim()).append(TextWidth.truncate(targetInfo, 25)).append(ansi.reset());
+                }
+            } else {
+                row.append(ansi.color(Rgb.RED, "     DOWN   "));
+                row.append(ansi.dim()).append(TextWidth.truncate(targetInfo, 35)).append(ansi.reset());
+            }
+
+            writer.println(TextWidth.truncate(row.toString(), width));
         }
     }
 }

@@ -117,4 +117,10 @@ public final class HistoryStore {
 
         return Baseline.compare(currentHost, currentMedian, records);
     }
+
+    public synchronized void clear() {
+        try {
+            Files.deleteIfExists(historyFile);
+        } catch (IOException ignored) {}
+    }
 }

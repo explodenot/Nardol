@@ -66,4 +66,11 @@ public final class ListCache {
             return null;
         }
     }
+
+    public void clear() {
+        try {
+            Files.deleteIfExists(cacheDir.resolve("targets.tsv"));
+            Files.deleteIfExists(cacheDir.resolve("targets.etag"));
+        } catch (IOException ignored) {}
+    }
 }

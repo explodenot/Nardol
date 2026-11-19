@@ -29,7 +29,7 @@ Light the beacons, see who answers.
 ╭──────────────────────────────── Summary ────────────────────────────────╮
 │ Reachability: 1/1 reachable · 1 degraded · 0 down
 │ Fastest: na-us-east-va (509.4 ms)   Slowest: na-us-east-va (509.4 ms)   Median of Medians: 509.4 ms
-│ List: bundled fallback list (v2.1.0) · Total probe time: 536 ms
+│ List: bundled fallback list (v2.2.0) · Total probe time: 536 ms
 ╰─────────────────────────────────────────────────────────────────────────╯
 ```
 
@@ -70,7 +70,7 @@ When an overseas application or API is sluggish, answering whether the issue ste
 ### 1. Download & Run
 Download the latest fat jar from GitHub Releases:
 ```bash
-java -jar nardol-2.1.0-all.jar
+java -jar nardol-2.2.0-all.jar
 ```
 
 ### 2. Build from Source
@@ -78,7 +78,7 @@ java -jar nardol-2.1.0-all.jar
 git clone https://github.com/explodenot/Nardol.git
 cd gli
 ./gradlew shadowJar
-java -jar build/libs/nardol-2.1.0-all.jar
+java -jar build/libs/nardol-2.2.0-all.jar
 ```
 
 ### 3. Launcher Scripts & PATH
@@ -182,6 +182,7 @@ cp nrd ~/.local/bin/nrd
 | `--ascii` | Force ASCII glyphs instead of Unicode |
 | `--no-color` | Disable ANSI color codes (also honors `NO_COLOR`) |
 | `--offline` | Operate offline using cached/bundled target lists |
+| `--clear-cache` | Clear local cache (targets list and history) before running a fresh probe |
 
 ---
 
@@ -208,6 +209,10 @@ cp nrd ~/.local/bin/nrd
 
 # 7. Diagnose local network and environment settings
 ./nardol doctor
+
+# 8. Clear stored probe history or run a fresh probe without previous cache
+./nardol history --clear
+./nardol run --clear-cache
 
 # 8. Compare IPv4 vs IPv6 performance
 ./nardol run --dual-stack --region na-us-east-va

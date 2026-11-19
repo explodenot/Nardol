@@ -164,6 +164,9 @@ public class NardolCommand implements Callable<Integer> {
     @Option(names = {"--allow-insecure-list"}, description = "Allow non-HTTPS target list URLs")
     boolean allowInsecureList;
 
+    @Option(names = {"--clear-cache"}, description = "Clear local cache (targets list and history) before running")
+    boolean clearCache;
+
     @Override
     public Integer call() throws Exception {
         return runProbes(false, false, null);
@@ -202,6 +205,14 @@ public class NardolCommand implements Callable<Integer> {
 
         if (!machineReadable && !tuiMode) {
             printBanner(humanStream, ansi, quiet, noColor || depth == ColorDepth.NONE);
+        }
+
+        if (clearCache) {
+            new com.explodenot.nardol.history.HistoryStore().clear();
+            new com.explodenot.nardol.list.ListCache().clear();
+            if (!machineReadable) {
+                System.out.println(ansi.color(Rgb.GREEN, glyphs.ok() + " Local cache cleared (targets and history)."));
+            }
         }
 
         // Control checks first
@@ -306,7 +317,7 @@ public class NardolCommand implements Callable<Integer> {
         RunReport report = new RunReport(
             "2.0",
             Instant.now(),
-            "2.1.0",
+            "2.2.0",
             effectiveMode,
             effectiveSamples,
             effectiveTimeoutMs,
@@ -360,7 +371,7 @@ public class NardolCommand implements Callable<Integer> {
             org.jline.terminal.Terminal t = TerminalHelper.getTerminal();
             if (t != null) {
                 WorldMap wm = new WorldMap(ansi, glyphs, effectiveAscii);
-                TuiApp app = new TuiApp(t, ansi, glyphs, wm, report, () -> {
+                TuiApp app = new TuiApp(t, ansi, glyphs, wm, report, verbose, () -> {
                     try {
                         runProbes(true, false, null);
                     } catch (Exception ignored) {}
@@ -572,6 +583,9 @@ public class NardolCommand implements Callable<Integer> {
         @Option(names = {"--allow-insecure-list"}, description = "Allow non-HTTPS target list URLs")
         boolean allowInsecureList;
 
+        @Option(names = {"--clear-cache"}, description = "Clear local cache (targets list and history) before running")
+        boolean clearCache;
+
         @Override
         public Integer call() throws Exception {
             mergeIntoParent();
@@ -618,6 +632,7 @@ public class NardolCommand implements Callable<Integer> {
             if (offline) parent.offline = true;
             if (insecureSkipVerify) parent.insecureSkipVerify = true;
             if (allowInsecureList) parent.allowInsecureList = true;
+            if (clearCache) parent.clearCache = true;
         }
     }
 
@@ -626,8 +641,12 @@ public class NardolCommand implements Callable<Integer> {
         @picocli.CommandLine.ParentCommand
         NardolCommand parent;
 
+        @Option(names = {"--verbose", "-v"}, description = "Verbose terminal output (p95, loss, cipher)")
+        boolean verbose;
+
         @Override
         public Integer call() throws Exception {
+            if (verbose) parent.verbose = true;
             return parent.runProbes(true, false, null);
         }
     }

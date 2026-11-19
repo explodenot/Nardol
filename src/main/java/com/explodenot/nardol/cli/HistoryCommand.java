@@ -20,9 +20,19 @@ public class HistoryCommand implements Callable<Integer> {
     @Option(names = {"--compare"}, description = "Compare recent runs")
     private boolean compare;
 
+    @Option(names = {"--clear"}, description = "Clear all stored historical runs")
+    private boolean clear;
+
     @Override
     public Integer call() {
         HistoryStore store = new HistoryStore();
+
+        if (clear) {
+            store.clear();
+            System.out.println("Historical probe runs cleared successfully.");
+            return ExitCodes.SUCCESS;
+        }
+
         List<HistoryStore.HistoryEntry> entries = store.loadEntries();
 
         if (entries.isEmpty()) {
