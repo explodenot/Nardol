@@ -317,7 +317,7 @@ public class NardolCommand implements Callable<Integer> {
         RunReport report = new RunReport(
             "2.0",
             Instant.now(),
-            "2.1.0",
+            "2.2.0",
             effectiveMode,
             effectiveSamples,
             effectiveTimeoutMs,

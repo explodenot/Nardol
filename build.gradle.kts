@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.explodenot.nardol"
-version = "2.1.0"
+version = "2.2.0"
 
 val javaVersionStr = providers.gradleProperty("javaVersion").getOrElse("21")
 val javaVersion = JavaLanguageVersion.of(javaVersionStr.toInt())

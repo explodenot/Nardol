@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.2.0] - 2026-11-19
+
+### Added
+- **Fresh Run Cache Control**:
+  - `--clear-cache` flag for CLI invocations (`nardol` / `nardol run`) to bypass cached lists and history for clean runs.
+  - Subcommand `nardol history --clear` to clear saved measurement history on demand.
+  - Implemented `ListCache.clear()` and `HistoryStore.clear()`.
+- **TUI Verbose Mode**:
+  - Added `-v` / `--verbose` flag support to interactive TUI (`nardol tui -v`).
+  - Integrated detailed round-trip telemetry (loss %, jitter stddev, p95 latency) in TUI display tables.
+
+### Fixed
+- **TUI Toggle Map (`M`) Rendering**:
+  - Fixed map view not displaying in the terminal by overloading `WorldMap.render` with a `PrintWriter` directed into JLine's alternate screen buffer.
+- **HTML Report Map Rendering**:
+  - Added vector land geometry generator `WorldMap.generateSvgLandPath(1000.0, 500.0)` enabling HTML reports to render offline world maps without broken external assets.
+
+### Changed
+- **Target List Updates (`targets.tsv`)**:
+  - Formatted, normalized, and validated endpoints across 64 global regions with 0 errors.
+  - Updated mirrors and provider endpoints for Cairo, Bangkok, Dallas, Perth, and Auckland.
+  - Re-signed bundled resource with Ed25519 signatures and SHA-256 checksums.
+
 ## [2.1.0] - 2026-11-15
 
 ### Added
