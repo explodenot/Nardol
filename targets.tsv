@@ -19,9 +19,8 @@ na-us-east-nj	North America	US	Newark	linode	speedtest.newark.linode.com	443	40.
 na-us-east-nj	North America	US	Newark	digitalocean	speedtest-nyc1.digitalocean.com	443	40.73	-74.17	fallback
 na-us-east-oh	North America	US	Columbus	aws	dynamodb.us-east-2.amazonaws.com	443	39.96	-83.00	primary
 na-us-east-oh	North America	US	Columbus	edu	www.osu.edu	443	39.96	-83.00	fallback
-na-us-central-tx	North America	US	Dallas	linode	speedtest.dallas.linode.com	443	32.78	-96.80	primary
-na-us-central-tx	North America	US	Dallas	vultr	dal-us-ping.vultr.com	443	32.78	-96.80	fallback
-na-us-central-tx	North America	US	Dallas	edu	www.utexas.edu	443	32.78	-96.80	fallback
+na-us-central-tx	North America	US	Dallas	linode	bigquerydatatransfer.us-south1.rep.googleapis.com	443	32.78	-96.80	primary
+na-us-central-tx	North America	US	Dallas	vultr	tx-us-ping.vultr.com	443	32.78	-96.80	fallback
 na-us-central-il	North America	US	Chicago	oci	objectstorage.us-chicago-1.oraclecloud.com	443	41.88	-87.63	primary
 na-us-central-il	North America	US	Chicago	vultr	chi-us-ping.vultr.com	443	41.88	-87.63	fallback
 na-us-central-il	North America	US	Chicago	edu	www.uchicago.edu	443	41.88	-87.63	fallback
