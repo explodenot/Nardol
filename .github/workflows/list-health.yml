@@ -23,5 +23,43 @@ jobs:
 
       - name: Probe All Targets
         run: |
-          java -jar build/libs/nardol-*-all.jar --json --timeout 5000 --samples 2 > results.json || true
-          cat results.json | jq '.unreachableRegions, .degradedRegions'
+          JAR=$(find build/libs -name "nardol-*-all.jar" | head -n 1)
+          # Produce human-readable text report
+          java -jar "$JAR" run --no-color --timeout 5000 --samples 2 > results.txt || true
+          # Produce structured JSON report
+          java -jar "$JAR" run --json --timeout 5000 --samples 2 > results.json || true
+
+      - name: Display Summary and Diagnostics
+        run: |
+          echo "### Targets List Health Check Results" >> $GITHUB_STEP_SUMMARY
+          if [ -s results.json ]; then
+            UNREACHABLE=$(jq '.unreachableRegions' results.json)
+            DEGRADED=$(jq '.degradedRegions' results.json)
+            TOTAL=$(jq '.totalRegions' results.json)
+            REACHABLE=$(jq '.reachableRegions' results.json)
+            echo "- **Total Regions**: $TOTAL" >> $GITHUB_STEP_SUMMARY
+            echo "- **Reachable**: $REACHABLE" >> $GITHUB_STEP_SUMMARY
+            echo "- **Degraded**: $DEGRADED" >> $GITHUB_STEP_SUMMARY
+            echo "- **Unreachable**: $UNREACHABLE" >> $GITHUB_STEP_SUMMARY
+            echo "<details><summary>Unreachable & Degraded Regions JSON</summary>" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo '```json' >> $GITHUB_STEP_SUMMARY
+            jq '{unreachableRegions, degradedRegions}' results.json >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "</details>" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "<details><summary>Full Plaintext Output (results.txt)</summary>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
+          cat results.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          cat results.txt
+
+      - name: Upload Health Check Results
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: targets-health-results
+          path: |
+            results.txt
+            results.json
